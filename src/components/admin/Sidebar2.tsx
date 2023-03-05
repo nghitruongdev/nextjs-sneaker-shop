@@ -19,7 +19,7 @@ import {
 // Here we have used react-icons package for the icons
 import { FaBell } from 'react-icons/fa'
 import { AiOutlineTeam, AiOutlineHome } from 'react-icons/ai'
-import { BsFolder2, BsCalendarCheck } from 'react-icons/bs'
+import { BsFolder, BsCalendar } from 'react-icons/bs'
 import { FiMenu } from 'react-icons/fi'
 import { RiFlashlightFill } from 'react-icons/ri'
 
@@ -33,23 +33,13 @@ export default function Sidebar2() {
       minH="100vh"
     >
       <SidebarContent display={{ base: 'none', md: 'unset' }} />
-      <Drawer
-        isOpen={isOpen}
-        onClose={onClose}
-        placement="left"
-      >
+      <Drawer isOpen={isOpen} onClose={onClose} placement="left">
         <DrawerOverlay />
         <DrawerContent>
-          <SidebarContent
-            w="full"
-            borderRight="none"
-          />
+          <SidebarContent w="full" borderRight="none" />
         </DrawerContent>
       </Drawer>
-      <Box
-        ml={{ base: 0, md: 60 }}
-        transition=".3s ease"
-      >
+      <Box ml={{ base: 0, md: 60 }} transition=".3s ease">
         <Flex
           as="header"
           align="center"
@@ -71,11 +61,7 @@ export default function Sidebar2() {
           />
 
           <Flex align="center">
-            <Icon
-              color="gray.500"
-              as={FaBell}
-              cursor="pointer"
-            />
+            <Icon color="gray.500" as={FaBell} cursor="pointer" />
             <Avatar
               ml="4"
               size="sm"
@@ -100,16 +86,10 @@ export default function Sidebar2() {
           >
             <Stack spacing={8}>
               <Box>
-                <Heading
-                  color="blue.400"
-                  fontSize="3xl"
-                >
+                <Heading color="blue.400" fontSize="3xl">
                   Point of sale
                 </Heading>
-                <Text
-                  fontSize="md"
-                  color="gray.500"
-                >
+                <Text fontSize="md" color="gray.500">
                   Manage your inventory and sale effeciently.
                 </Text>
               </Box>
@@ -163,16 +143,8 @@ const SidebarContent = ({ ...props }: BoxProps) => (
     w="60"
     {...props}
   >
-    <Flex
-      px="4"
-      py="5"
-      align="center"
-    >
-      <Icon
-        as={RiFlashlightFill}
-        h={8}
-        w={8}
-      />
+    <Flex px="4" py="5" align="center">
+      <Icon as={RiFlashlightFill} h={8} w={8} />
       <Text
         fontSize="2xl"
         ml="2"
@@ -191,8 +163,8 @@ const SidebarContent = ({ ...props }: BoxProps) => (
     >
       <NavItem icon={AiOutlineHome}>Dashboard</NavItem>
       <NavItem icon={AiOutlineTeam}>Team</NavItem>
-      <NavItem icon={BsFolder2}>Projects</NavItem>
-      <NavItem icon={BsCalendarCheck}>Calendar</NavItem>
+      <NavItem icon={BsFolder}>Projects</NavItem>
+      <NavItem icon={BsCalendar}>Calendar</NavItem>
     </Flex>
   </Box>
 )
