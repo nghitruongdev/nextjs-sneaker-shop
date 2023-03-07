@@ -4,6 +4,7 @@ import { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { ReactElement, ReactNode } from 'react'
+import theme from '../theme'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -16,9 +17,12 @@ type AppPropsWithLayout = AppProps & {
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page)
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <Head>
-        <link rel="icon" href="/naruto.ico" />
+        <link
+          rel="icon"
+          href="/naruto.ico"
+        />
       </Head>
       {getLayout(<Component {...pageProps} />)}
     </ChakraProvider>

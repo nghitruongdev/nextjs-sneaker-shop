@@ -1,17 +1,51 @@
-import AdminLayout from '@/components/layout/AdminLayout'
 import { NextPageWithLayout } from '@/pages/_app'
-import { ReactElement } from 'react'
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+  Text,
+  Select,
+  Flex,
+} from '@chakra-ui/react'
+import useSWR from 'swr'
+import { Box } from '@chakra-ui/react'
+import { getAdminLayout } from '../../../components/layout/admin/AdminLayout'
+import OrderTable from '@/components/admin/order/OrderTable'
+
+type Data = {
+  id: number
+  name: string
+}
 
 const OrderPage: NextPageWithLayout = () => {
+  // const fetcher = (url: string) => fetch(url).then((res) => res.json())
+  // const url = `${process.env.REST_API_BASEPATH}/orders`
+  // const { data, error } = useSWR<Data>(url, fetcher)
+
+  // if (error) return <div>Failed to load data</div>
+  // if (!data) return <div>Loading...</div>
+
+  const headers = ['id', 'Sub totals', 'Place at', 'status']
+  const data = {
+    id: 1,
+    subTotals: 1000,
+    time: new Date().getTime(),
+    status: 'SUCCESS',
+  }
+
   return (
     <>
-      <section>This is order page</section>
+      <OrderTable headers={headers} data={data} />
     </>
   )
 }
 
-OrderPage.getLayout = (page: ReactElement) => {
-  return <AdminLayout>{page}</AdminLayout>
-}
+OrderPage.getLayout = getAdminLayout
 
 export default OrderPage
