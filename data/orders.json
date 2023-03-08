@@ -1,0 +1,19 @@
+{
+  "_embedded": {
+    "orders": []
+  },
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/api/orders"
+    },
+    "profile": {
+      "href": "http://localhost:8080/api/profile/orders"
+    }
+  },
+  "page": {
+    "size": 20,
+    "totalElements": 0,
+    "totalPages": 0,
+    "number": 0
+  }
+}

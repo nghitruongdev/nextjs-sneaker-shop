@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "json-server": "json-server -w data/_index.js -p 3003 -r data/_routes.json"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.17",
@@ -32,6 +33,8 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.5",
     "react-icons": "^4.8.0",
+    "react-select": "^5.7.0",
+    "react-table": "^7.8.0",
     "react-redux": "^8.0.5",
     "redux": "^4.2.1",
     "styled-components": "^5.3.8",
@@ -42,6 +45,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.13",
     "eslint-config-prettier": "^8.6.0",
+    "json-server": "^0.17.2",
     "postcss": "^8.4.21",
     "react-icons": "^4.8.0",
     "tailwindcss": "^3.2.7"
