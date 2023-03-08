@@ -2,34 +2,18 @@ import { NextPageWithLayout } from '@/pages/_app'
 import useSWR from 'swr'
 import { getAdminLayout } from '../../../components/layout/admin/AdminLayout'
 import OrderTable from '@/components/admin/order/OrderTable'
-
-type Data = {
-  id: number
-  name: string
-}
+import useAxios from '@/hooks/useAxios'
 
 const OrderPage: NextPageWithLayout = () => {
-  // const fetcher = (url: string) => fetch(url).then((res) => res.json())
-  // const url = `${process.env.REST_API_BASEPATH}/orders`
-  // const { data, error } = useSWR<Data>(url, fetcher)
+  const transformArray = (data: any) =>
+    data?._embedded?.orders.map((item: any) => item)
 
-  // if (error) return <div>Failed to load data</div>
-  // if (!data) return <div>Loading...</div>
-
-  const headers = ['id', 'Sub totals', 'Place at', 'status']
-  const data = {
-    id: 1,
-    subTotals: 1000,
-    time: new Date().getTime(),
-    status: 'SUCCESS',
-  }
+  const { fetcher, api } = useAxios({ transform: transformArray })
+  const { data, isLoading, error } = useSWR(api.ordersUrl, fetcher)
 
   return (
     <>
-      <OrderTable
-        headers={headers}
-        data={data}
-      />
+      <OrderTable items={data} />
     </>
   )
 }

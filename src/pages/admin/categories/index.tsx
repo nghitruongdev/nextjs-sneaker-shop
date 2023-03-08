@@ -14,10 +14,16 @@ const index: NextPageWithLayout = () => {
   }
   return (
     <>
-      <Button bg={'red'} colorScheme={'blue'}>
+      <Button
+        bg={'red'}
+        colorScheme={'blue'}
+      >
         Add New Category
       </Button>
-      <CategoryTable headers={headers} data={data} />
+      <CategoryTable
+        headers={headers}
+        data={data}
+      />
     </>
   )
 }

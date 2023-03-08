@@ -1,18 +1,30 @@
 import AdminLayout from '@/components/layout/admin/AdminLayout'
+import useAxios from '@/hooks/useAxios'
 import { NextPageWithLayout } from '@/pages/_app'
 import { ReactElement } from 'react'
 import { getAdminLayout } from '../../../components/layout/admin/AdminLayout'
+import useSWR from 'swr'
+import ProductTable from '../../../components/admin/product/ProductTable'
 
-const ProductIndex: NextPageWithLayout = () => {
+const ProductPage: NextPageWithLayout = () => {
+  const transformArray = (data: any) =>
+    data?._embedded?.products.map((item: any) => item)
+
+  const { fetcher, api } = useAxios({ transform: transformArray })
+  const { data, isLoading, error } = useSWR(api.productsUrl, fetcher)
+
+  if (isLoading) return <>Loading...</>
+  if (error) return <>{error}</>
+
   return (
     <>
-      {/* you will have a table */}
-      <p>This will be a product table display product information</p>
+      {/* //todo: you will have a table */}
+      <ProductTable items={data} />
 
-      {/* Update row, Delete Row */}
+      {/* //todo: Update row, Delete Row */}
     </>
   )
 }
 
-ProductIndex.getLayout = getAdminLayout
-export default ProductIndex
+ProductPage.getLayout = getAdminLayout
+export default ProductPage

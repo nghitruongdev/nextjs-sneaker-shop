@@ -27,9 +27,9 @@
   },
   "include": [
     "next-env.d.ts",
+    "env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/components/layout/GlobalLayout.jsx"
   ],
   "exclude": [
     "node_modules"

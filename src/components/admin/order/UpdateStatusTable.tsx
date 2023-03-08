@@ -1,3 +1,5 @@
+import MyTable from '@/components/common/MyTable'
+import Order from '@/domain/Order'
 import {
   Flex,
   Text,
@@ -12,64 +14,32 @@ import {
   Td,
 } from '@chakra-ui/react'
 
-interface OrderTableProps {
-  headers: string[]
-  data: any
-}
-const UpdateStatusTable = ({ headers, data }: OrderTableProps) => {
-  const rows = Array(10)
-    .fill(data)
-    .map(({ id, subTotals, time, status }) => (
-      <Tr key={id}>
-        <Td>{id}</Td>
-        <Td>{subTotals}</Td>
-        <Td>{time}</Td>
-        <Select placeholder="Status order">
-          <option value="option1">ĐANG CHỜ XÁC NHẬN</option>
-          <option value="option2">ĐÃ THANH TOÁN</option>
-          <option value="option3">ĐANG CHUẨN BỊ</option>
-          <option value="option3">ĐANG GIAO HÀNG</option>
-          <option value="">ĐÃ HUỶ</option>
-        </Select>
-      </Tr>
-    ))
+const UpdateStatusTable = ({ items }: { items: Order[] }) => {
+  // todo: If there is no item in the items
+  if (!items?.length) return <p>{`There's nothing`}</p>
+
+  //todo: render the items if items exists
+  const titles = ['id', 'Sub totals', 'Place at', 'status']
 
   return (
-    <>
-      <TableContainer bg={'white'}>
-        <Flex align={'center'}>
-          <Select placeholder="" w={'50'}>
-            <option value="option1" selected>
-              5
-            </option>
-            <option value="option2">10</option>
-            <option value="option3">20</option>
-            <option value="option4">50</option>
-            <option value="option5">100</option>
+    <MyTable
+      headers={titles}
+      caption="VNCO muôn năm"
+    >
+      {items.map((item) => (
+        <Tr key={item.id}>
+          <Td>{item.id}</Td>
+          <Td>{item.subTotals}</Td>
+          <Td>{item.time.getTime()}</Td>
+          <Select placeholder="Status order">
+            <option value="option1">ĐANG CHỜ XÁC NHẬN</option>
+            <option value="option2">ĐÃ THANH TOÁN</option>
+            <option value="option3">ĐANG CHUẨN BỊ</option>
+            <option value="option3">ĐANG GIAO HÀNG</option>
+            <option value="">ĐÃ HUỶ</option>
           </Select>
-          <Text> records per page</Text>
-        </Flex>
-        <Table variant="simple">
-          <TableCaption>Total orders</TableCaption>
-          <Thead>
-            <Tr>
-              {headers.map((head) => (
-                <Th>{head}</Th>
-              ))}
-            </Tr>
-          </Thead>
-          <Tbody>{rows}</Tbody>
-          {/* <Tfoot>
-            <Tr>
-              {headers.map((head) => (
-                <Th>{head}</Th>
-              ))}
-            </Tr>
-          </Tfoot> */}
-        </Table>
-        <p>Showing 1 to 5 of 11 entries</p>
-      </TableContainer>
-    </>
+        </Tr>
+      ))}
+    </MyTable>
   )
 }
-export default UpdateStatusTable

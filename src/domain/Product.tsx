@@ -4,6 +4,7 @@ interface Product {
   shortDesc?: string
   fullDesc?: string
   minPrice?: number
+  images?: string[]
   publishDate?: Date
   status: string
   discount?: any

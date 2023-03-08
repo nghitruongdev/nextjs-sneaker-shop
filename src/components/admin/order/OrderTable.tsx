@@ -1,70 +1,32 @@
-import {
-  Flex,
-  Text,
-  Select,
-  Table,
-  TableCaption,
-  TableContainer,
-  Tbody,
-  Th,
-  Thead,
-  Tr,
-  Td,
-} from '@chakra-ui/react'
+import MyTable from '@/components/common/MyTable'
+import Order from '@/domain/Order'
+import { Tr, Td } from '@chakra-ui/react'
 
-interface OrderTableProps {
-  headers: string[]
-  data: any
+interface Props {
+  items: Order[]
 }
-const OrderTable = ({ headers, data }: OrderTableProps) => {
-  const rows = Array(10)
-    .fill(data)
-    .map(({ id, subTotals, time, status }, index) => (
-      <Tr key={index}>
-        <Td>{id}</Td>
-        <Td>{subTotals}</Td>
-        <Td>{time}</Td>
-        <Td>{status}</Td>
-      </Tr>
-    ))
+const OrderTable = ({ items }: Props) => {
+  // todo: If there is no item in the items
+  if (!items?.length) return <p>{`There's nothing`}</p>
+
+  //todo: render the items if items exists
+  const titles = ['id', 'Sub totals', 'Place at', 'status']
 
   return (
-    <>
-      <TableContainer bg={'white'}>
-        <Flex align={'center'}>
-          <Select
-            placeholder=""
-            w={'50'}
-          >
-            <option value="option1">5</option>
-            <option value="option2">10</option>
-            <option value="option3">20</option>
-            <option value="option4">50</option>
-            <option value="option5">100</option>
-          </Select>
-          <Text> records per page</Text>
-        </Flex>
-        <Table variant="simple">
-          <TableCaption>Total orders</TableCaption>
-          <Thead>
-            <Tr>
-              {headers.map((head) => (
-                <Th key={head}>{head}</Th>
-              ))}
-            </Tr>
-          </Thead>
-          <Tbody>{rows}</Tbody>
-          {/* <Tfoot>
-            <Tr>
-              {headers.map((head) => (
-                <Th>{head}</Th>
-              ))}
-            </Tr>
-          </Tfoot> */}
-        </Table>
-        <p>Showing 1 to 5 of 11 entries</p>
-      </TableContainer>
-    </>
+    <MyTable
+      headers={titles}
+      caption="VNCO muôn năm"
+    >
+      {items.map((item) => (
+        <Tr key={item.id}>
+          <Td>{item.id}</Td>
+          <Td>{item.subTotals}</Td>
+          <Td>{item.time.getTime()}</Td>
+          <Td>{item.status}</Td>
+        </Tr>
+      ))}
+    </MyTable>
   )
 }
+
 export default OrderTable
