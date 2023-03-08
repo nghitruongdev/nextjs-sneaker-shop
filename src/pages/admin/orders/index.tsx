@@ -1,20 +1,5 @@
 import { NextPageWithLayout } from '@/pages/_app'
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-  Text,
-  Select,
-  Flex,
-} from '@chakra-ui/react'
 import useSWR from 'swr'
-import { Box } from '@chakra-ui/react'
 import { getAdminLayout } from '../../../components/layout/admin/AdminLayout'
 import OrderTable from '@/components/admin/order/OrderTable'
 
@@ -41,7 +26,10 @@ const OrderPage: NextPageWithLayout = () => {
 
   return (
     <>
-      <OrderTable headers={headers} data={data} />
+      <OrderTable
+        headers={headers}
+        data={data}
+      />
     </>
   )
 }

@@ -1,0 +1,290 @@
+{
+  "_embedded": {
+    "productVariants": [
+      {
+        "id": 1,
+        "price": 10.05,
+        "sku": "COCO",
+        "stockOnHand": 20,
+        "stockAllocated": 4,
+        "enabled": null,
+        "optionValues": [
+          {
+            "id": 1,
+            "name": "Cotton"
+          },
+          {
+            "id": 4,
+            "name": "Cotton"
+          }
+        ],
+        "availableQuantity": 16,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/product-variants/1"
+          },
+          "productVariant": {
+            "href": "http://localhost:8080/api/product-variants/1"
+          },
+          "product": {
+            "href": "http://localhost:8080/api/product-variants/1/product"
+          }
+        }
+      },
+      {
+        "id": 2,
+        "price": 72.56,
+        "sku": "COIR",
+        "stockOnHand": 20,
+        "stockAllocated": 4,
+        "enabled": null,
+        "optionValues": [
+          {
+            "id": 1,
+            "name": "Cotton"
+          },
+          {
+            "id": 5,
+            "name": "Iron"
+          }
+        ],
+        "availableQuantity": 16,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/product-variants/2"
+          },
+          "productVariant": {
+            "href": "http://localhost:8080/api/product-variants/2"
+          },
+          "product": {
+            "href": "http://localhost:8080/api/product-variants/2/product"
+          }
+        }
+      },
+      {
+        "id": 3,
+        "price": 46.58,
+        "sku": "COMA",
+        "stockOnHand": 20,
+        "stockAllocated": 4,
+        "enabled": null,
+        "optionValues": [
+          {
+            "id": 1,
+            "name": "Cotton"
+          },
+          {
+            "id": 6,
+            "name": "Marble"
+          }
+        ],
+        "availableQuantity": 16,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/product-variants/3"
+          },
+          "productVariant": {
+            "href": "http://localhost:8080/api/product-variants/3"
+          },
+          "product": {
+            "href": "http://localhost:8080/api/product-variants/3/product"
+          }
+        }
+      },
+      {
+        "id": 4,
+        "price": 49.84,
+        "sku": "WOCO",
+        "stockOnHand": 20,
+        "stockAllocated": 4,
+        "enabled": null,
+        "optionValues": [
+          {
+            "id": 2,
+            "name": "Wool"
+          },
+          {
+            "id": 4,
+            "name": "Cotton"
+          }
+        ],
+        "availableQuantity": 16,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/product-variants/4"
+          },
+          "productVariant": {
+            "href": "http://localhost:8080/api/product-variants/4"
+          },
+          "product": {
+            "href": "http://localhost:8080/api/product-variants/4/product"
+          }
+        }
+      },
+      {
+        "id": 5,
+        "price": 69.53,
+        "sku": "WOIR",
+        "stockOnHand": 20,
+        "stockAllocated": 4,
+        "enabled": null,
+        "optionValues": [
+          {
+            "id": 2,
+            "name": "Wool"
+          },
+          {
+            "id": 5,
+            "name": "Iron"
+          }
+        ],
+        "availableQuantity": 16,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/product-variants/5"
+          },
+          "productVariant": {
+            "href": "http://localhost:8080/api/product-variants/5"
+          },
+          "product": {
+            "href": "http://localhost:8080/api/product-variants/5/product"
+          }
+        }
+      },
+      {
+        "id": 6,
+        "price": 53.17,
+        "sku": "WOMA",
+        "stockOnHand": 20,
+        "stockAllocated": 4,
+        "enabled": null,
+        "optionValues": [
+          {
+            "id": 2,
+            "name": "Wool"
+          },
+          {
+            "id": 6,
+            "name": "Marble"
+          }
+        ],
+        "availableQuantity": 16,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/product-variants/6"
+          },
+          "productVariant": {
+            "href": "http://localhost:8080/api/product-variants/6"
+          },
+          "product": {
+            "href": "http://localhost:8080/api/product-variants/6/product"
+          }
+        }
+      },
+      {
+        "id": 7,
+        "price": 70.1,
+        "sku": "COCO",
+        "stockOnHand": 20,
+        "stockAllocated": 4,
+        "enabled": null,
+        "optionValues": [
+          {
+            "id": 3,
+            "name": "Concrete"
+          },
+          {
+            "id": 4,
+            "name": "Cotton"
+          }
+        ],
+        "availableQuantity": 16,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/product-variants/7"
+          },
+          "productVariant": {
+            "href": "http://localhost:8080/api/product-variants/7"
+          },
+          "product": {
+            "href": "http://localhost:8080/api/product-variants/7/product"
+          }
+        }
+      },
+      {
+        "id": 8,
+        "price": 71.75,
+        "sku": "COIR",
+        "stockOnHand": 20,
+        "stockAllocated": 4,
+        "enabled": null,
+        "optionValues": [
+          {
+            "id": 3,
+            "name": "Concrete"
+          },
+          {
+            "id": 5,
+            "name": "Iron"
+          }
+        ],
+        "availableQuantity": 16,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/product-variants/8"
+          },
+          "productVariant": {
+            "href": "http://localhost:8080/api/product-variants/8"
+          },
+          "product": {
+            "href": "http://localhost:8080/api/product-variants/8/product"
+          }
+        }
+      },
+      {
+        "id": 9,
+        "price": 44.68,
+        "sku": "COMA",
+        "stockOnHand": 20,
+        "stockAllocated": 4,
+        "enabled": null,
+        "optionValues": [
+          {
+            "id": 3,
+            "name": "Concrete"
+          },
+          {
+            "id": 6,
+            "name": "Marble"
+          }
+        ],
+        "availableQuantity": 16,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/product-variants/9"
+          },
+          "productVariant": {
+            "href": "http://localhost:8080/api/product-variants/9"
+          },
+          "product": {
+            "href": "http://localhost:8080/api/product-variants/9/product"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/api/product-variants"
+    },
+    "profile": {
+      "href": "http://localhost:8080/api/profile/product-variants"
+    }
+  },
+  "page": {
+    "size": 20,
+    "totalElements": 9,
+    "totalPages": 1,
+    "number": 0
+  }
+}

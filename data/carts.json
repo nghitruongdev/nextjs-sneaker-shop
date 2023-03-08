@@ -1,0 +1,22 @@
+{
+  "_embedded": {
+    "carts": []
+  },
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/api/carts"
+    },
+    "profile": {
+      "href": "http://localhost:8080/api/profile/carts"
+    },
+    "search": {
+      "href": "http://localhost:8080/api/carts/search"
+    }
+  },
+  "page": {
+    "size": 20,
+    "totalElements": 0,
+    "totalPages": 0,
+    "number": 0
+  }
+}

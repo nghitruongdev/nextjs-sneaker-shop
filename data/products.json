@@ -1,0 +1,205 @@
+{
+  "_embedded": {
+    "products": [
+      {
+        "id": 1,
+        "name": "Lightweight Cotton Gloves",
+        "shortDesc": null,
+        "fullDesc": null,
+        "minPrice": 10.05,
+        "publishDate": null,
+        "status": null,
+        "discount": null,
+        "attributes": [],
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/products/1"
+          },
+          "product": {
+            "href": "http://localhost:8080/api/products/1"
+          },
+          "options": {
+            "href": "http://localhost:8080/api/products/1/options"
+          },
+          "categories": {
+            "href": "http://localhost:8080/api/products/1/categories"
+          },
+          "reviews": {
+            "href": "http://localhost:8080/api/products/1/reviews"
+          },
+          "brand": {
+            "href": "http://localhost:8080/api/products/1/brand"
+          },
+          "collection": {
+            "href": "http://localhost:8080/api/products/1/collection"
+          },
+          "variants": {
+            "href": "http://localhost:8080/api/products/1/variants"
+          }
+        }
+      },
+      {
+        "id": 2,
+        "name": "Sleek Bronze Lamp",
+        "shortDesc": null,
+        "fullDesc": null,
+        "minPrice": null,
+        "publishDate": null,
+        "status": null,
+        "discount": null,
+        "attributes": [],
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/products/2"
+          },
+          "product": {
+            "href": "http://localhost:8080/api/products/2"
+          },
+          "options": {
+            "href": "http://localhost:8080/api/products/2/options"
+          },
+          "categories": {
+            "href": "http://localhost:8080/api/products/2/categories"
+          },
+          "reviews": {
+            "href": "http://localhost:8080/api/products/2/reviews"
+          },
+          "brand": {
+            "href": "http://localhost:8080/api/products/2/brand"
+          },
+          "collection": {
+            "href": "http://localhost:8080/api/products/2/collection"
+          },
+          "variants": {
+            "href": "http://localhost:8080/api/products/2/variants"
+          }
+        }
+      },
+      {
+        "id": 3,
+        "name": "Mediocre Iron Shoes",
+        "shortDesc": null,
+        "fullDesc": null,
+        "minPrice": null,
+        "publishDate": null,
+        "status": null,
+        "discount": null,
+        "attributes": [],
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/products/3"
+          },
+          "product": {
+            "href": "http://localhost:8080/api/products/3"
+          },
+          "options": {
+            "href": "http://localhost:8080/api/products/3/options"
+          },
+          "categories": {
+            "href": "http://localhost:8080/api/products/3/categories"
+          },
+          "reviews": {
+            "href": "http://localhost:8080/api/products/3/reviews"
+          },
+          "brand": {
+            "href": "http://localhost:8080/api/products/3/brand"
+          },
+          "collection": {
+            "href": "http://localhost:8080/api/products/3/collection"
+          },
+          "variants": {
+            "href": "http://localhost:8080/api/products/3/variants"
+          }
+        }
+      },
+      {
+        "id": 4,
+        "name": "Rustic Cotton Keyboard",
+        "shortDesc": null,
+        "fullDesc": null,
+        "minPrice": null,
+        "publishDate": null,
+        "status": null,
+        "discount": null,
+        "attributes": [],
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/products/4"
+          },
+          "product": {
+            "href": "http://localhost:8080/api/products/4"
+          },
+          "options": {
+            "href": "http://localhost:8080/api/products/4/options"
+          },
+          "categories": {
+            "href": "http://localhost:8080/api/products/4/categories"
+          },
+          "reviews": {
+            "href": "http://localhost:8080/api/products/4/reviews"
+          },
+          "brand": {
+            "href": "http://localhost:8080/api/products/4/brand"
+          },
+          "collection": {
+            "href": "http://localhost:8080/api/products/4/collection"
+          },
+          "variants": {
+            "href": "http://localhost:8080/api/products/4/variants"
+          }
+        }
+      },
+      {
+        "id": 5,
+        "name": "Rustic Linen Computer",
+        "shortDesc": null,
+        "fullDesc": null,
+        "minPrice": null,
+        "publishDate": null,
+        "status": null,
+        "discount": null,
+        "attributes": [],
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/products/5"
+          },
+          "product": {
+            "href": "http://localhost:8080/api/products/5"
+          },
+          "options": {
+            "href": "http://localhost:8080/api/products/5/options"
+          },
+          "categories": {
+            "href": "http://localhost:8080/api/products/5/categories"
+          },
+          "reviews": {
+            "href": "http://localhost:8080/api/products/5/reviews"
+          },
+          "brand": {
+            "href": "http://localhost:8080/api/products/5/brand"
+          },
+          "collection": {
+            "href": "http://localhost:8080/api/products/5/collection"
+          },
+          "variants": {
+            "href": "http://localhost:8080/api/products/5/variants"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/api/products"
+    },
+    "profile": {
+      "href": "http://localhost:8080/api/profile/products"
+    }
+  },
+  "page": {
+    "size": 20,
+    "totalElements": 5,
+    "totalPages": 1,
+    "number": 0
+  }
+}

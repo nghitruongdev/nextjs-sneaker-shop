@@ -26,7 +26,7 @@ export interface SidebarItemProps extends AccordionItemProps {
   href: string
   subItems?: Array<SidebarItemProps>
   active?: boolean
-  selectItemHandler?: () => void
+  clickHandler?: () => void
 }
 
 const SidebarItem = ({
@@ -35,7 +35,7 @@ const SidebarItem = ({
   href,
   active,
   subItems,
-  selectItemHandler,
+  clickHandler,
   ...rest
 }: SidebarItemProps) => {
   const bgColor =
@@ -56,7 +56,7 @@ const SidebarItem = ({
       <Link
         href={href}
         as={NextLink}
-        onClick={selectItemHandler}
+        onClick={clickHandler}
         _hover={{
           textDecor: 'none',
         }}

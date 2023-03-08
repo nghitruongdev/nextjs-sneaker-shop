@@ -1,28 +1,23 @@
-import {
-  Box,
-  Text,
-  Card,
-  Heading,
-  Badge,
-  Button,
-  Wrap,
-  Flex,
-  HStack,
-  Input,
-  Stack,
-} from '@chakra-ui/react'
-import OptionValueItem from './OptionValueItem'
+import { Box, Heading, Input, Stack } from '@chakra-ui/react'
 import { VStack } from '@chakra-ui/react'
 
 const OptionItem = () => {
   return (
     <Box>
       {/* <HStack align={'center'} textAlign={'center'}> */}
-      <Heading size="sm" textTransform="uppercase" mb={'5px'}>
+      <Heading
+        size="sm"
+        textTransform="uppercase"
+        mb={'5px'}
+      >
         size
       </Heading>
 
-      <VStack border="1px" borderColor={'gray.300'} px={4}>
+      <VStack
+        border="1px"
+        borderColor={'gray.300'}
+        px={4}
+      >
         <Input
           focusBorderColor="transparent"
           size="sm"

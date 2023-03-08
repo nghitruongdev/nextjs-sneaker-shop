@@ -1,0 +1,8 @@
+{
+  "/api/products": "/products",
+  "/api/users": "/users",
+  "/api/product-variants": "/variants",
+  "/api/orders": "/orders",
+  "/api/order-items": "/order-items",
+  "/api/carts": "/carts"
+}

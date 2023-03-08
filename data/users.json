@@ -1,0 +1,95 @@
+{
+  "_embedded": {
+    "users": [
+      {
+        "id": 1,
+        "firstName": null,
+        "lastName": null,
+        "imageUrl": null,
+        "email": "admin@localhost",
+        "phone": null,
+        "login": "admin",
+        "address": null,
+        "groups": [],
+        "wishList": [],
+        "fullName": "null null",
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/users/1"
+          },
+          "user": {
+            "href": "http://localhost:8080/api/users/1"
+          },
+          "shippingAddresses": {
+            "href": "http://localhost:8080/api/users/1/shippingAddresses"
+          }
+        }
+      },
+      {
+        "id": 2,
+        "firstName": null,
+        "lastName": null,
+        "imageUrl": null,
+        "email": "user@localhost",
+        "phone": null,
+        "login": "user",
+        "address": null,
+        "groups": [],
+        "wishList": [],
+        "fullName": "null null",
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/users/2"
+          },
+          "user": {
+            "href": "http://localhost:8080/api/users/2"
+          },
+          "shippingAddresses": {
+            "href": "http://localhost:8080/api/users/2/shippingAddresses"
+          }
+        }
+      },
+      {
+        "id": 3,
+        "firstName": null,
+        "lastName": null,
+        "imageUrl": null,
+        "email": "doug.greenfelder@gmail.com",
+        "phone": "1-824-855-2564",
+        "login": "goat",
+        "address": null,
+        "groups": [],
+        "wishList": [],
+        "fullName": "null null",
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/users/3"
+          },
+          "user": {
+            "href": "http://localhost:8080/api/users/3"
+          },
+          "shippingAddresses": {
+            "href": "http://localhost:8080/api/users/3/shippingAddresses"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/api/users"
+    },
+    "profile": {
+      "href": "http://localhost:8080/api/profile/users"
+    },
+    "search": {
+      "href": "http://localhost:8080/api/users/search"
+    }
+  },
+  "page": {
+    "size": 20,
+    "totalElements": 3,
+    "totalPages": 1,
+    "number": 0
+  }
+}

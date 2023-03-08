@@ -10,27 +10,10 @@ const SidebarList = ({
   items: Array<SidebarItemProps>
   isParentActive?: boolean
 } & AccordionProps) => {
-  const [list, setList] = useState(items)
-
-  const setSelectedItem = (
-    list: Array<SidebarItemProps>,
-    index: number | undefined
-  ) => {
-    list.forEach((item) => (item.active = false))
-    if (index || index === 0) {
-      list[index].active = true
-    }
-    return [...list]
-  }
-
-  const selectItemHandler = (index: number) => {
-    setList((previousList) => setSelectedItem(previousList, index))
-  }
+  const [currentName, setCurrentName] = useState('')
 
   useEffect(() => {
-    if (!isParentActive) {
-      setList((previousList) => setSelectedItem(previousList, undefined))
-    }
+    !isParentActive && setCurrentName('')
   }, [isParentActive])
 
   return (
@@ -38,10 +21,11 @@ const SidebarList = ({
       allowToggle
       {...rest}
     >
-      {list.map((item, index) => (
+      {items.map((item) => (
         <SidebarItem
           key={item.name}
-          selectItemHandler={selectItemHandler.bind(this, index)}
+          clickHandler={setCurrentName.bind(this, item.name)}
+          active={item.name === currentName}
           {...item}
         />
       ))}
