@@ -11,8 +11,6 @@ import { RiFlashlightFill } from 'react-icons/ri'
 import { SidebarItemProps as ItemProps, SidebarItemProps } from './SidebarItem'
 import { AiOutlineBorderVerticle, AiOutlineHome } from 'react-icons/ai'
 import { FiHome, FiCompass, FiStar, FiSettings } from 'react-icons/fi'
-import SidebarItem from './SidebarItem'
-import { useState } from 'react'
 import SidebarList from './SidebarList'
 
 const Items: Array<ItemProps> = [
@@ -66,26 +64,6 @@ const Items: Array<ItemProps> = [
 ]
 
 const SidebarContent = ({ ...props }: BoxProps) => {
-  const brand = (
-    <Flex
-      px="4"
-      py="5"
-      align="center"
-    >
-      <Icon
-        as={RiFlashlightFill}
-        boxSize="8"
-      />
-      <Heading
-        fontSize="2xl"
-        ml="2"
-        color={useColorModeValue('brand.default', 'white')}
-      >
-        VNCO
-      </Heading>
-    </Flex>
-  )
-
   return (
     <Box
       as="nav"
@@ -104,7 +82,26 @@ const SidebarContent = ({ ...props }: BoxProps) => {
       w={{ base: 'full', sm: 60 }}
       {...props}
     >
-      {brand}
+      {/* Brand */}
+      <Flex
+        px="4"
+        py="5"
+        align="center"
+      >
+        <Icon
+          as={RiFlashlightFill}
+          boxSize="8"
+        />
+        <Heading
+          fontSize="2xl"
+          ml="2"
+          color={useColorModeValue('brand.default', 'white')}
+        >
+          VNCO
+        </Heading>
+      </Flex>
+
+      {/* Main Items */}
       <SidebarList items={Items} />
     </Box>
   )

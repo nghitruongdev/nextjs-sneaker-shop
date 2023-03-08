@@ -1,4 +1,4 @@
-import { Avatar, Box, Text, Badge, CloseButton, Input } from '@chakra-ui/react'
+import { Badge, Input } from '@chakra-ui/react'
 import { ChangeEvent, useState } from 'react'
 
 interface ItemProps {
