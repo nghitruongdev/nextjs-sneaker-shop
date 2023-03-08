@@ -19,16 +19,16 @@ import {
   PopoverTrigger,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import { MdSettings, MdShoppingCart } from "react-icons/md";
+import {BsMinecart} from "react-icons/bs"
+import { AiOutlineHeart } from "react-icons/ai";
 import {
   ChevronRightIcon,
   CloseIcon,
-  CopyIcon,
   HamburgerIcon,
 } from "@chakra-ui/icons";
 import { OutliningSpanKind } from "typescript";
+import NextLink from "next/link";
 
-// TODO: Make a navbar and index page first
 
 export default function AnoNav() {
   const { isOpen, onToggle } = useDisclosure();
@@ -73,12 +73,14 @@ export default function AnoNav() {
         p={0}
       >
         <Flex justifyContent="center" alignItems="center" ml={3} p={3}>
+          <NextLink href="/client">
           <Image
             height={14}
             width={14}
             fallbackSrc="https://img.icons8.com/fluency-systems-filled/512/chakra-ui.png"
-            
+            cursor={'pointer'}
           />
+          </NextLink>
         </Flex>
         <Tabs variant={'none'}>
           <TabList opacity={1} display="flex" alignItems="center" m={0} p={0}>
@@ -116,22 +118,35 @@ export default function AnoNav() {
           </TabList>
         </Tabs>
         <Grid templateColumns="repeat(5, 1fr)" gap={3} display="flex" mr={3}>
+          <NextLink href="/client/cart">
+            <Box pos="absolute">
+              <IconButton
+              right={10}
+              aria-label="icon"
+              icon={<BsMinecart />}
+              // boxSize="xs"
+              size="lg"
+              borderRadius={30}
+              // opacity={1}
+              overflow="visible"
+              display="flex"
+              isRound
+              variant="ghost"
+            />
+            <Text fontSize={'9px'}
+                  fontWeight={'500'} 
+                  pos={'relative'} 
+                  bottom={'31px'}
+                  right={'18.3px'}
+            >
+                    7</Text>
+            </Box>
+          </NextLink>
           <IconButton
             aria-label="icon"
-            icon={<MdShoppingCart />}
+            icon={<AiOutlineHeart />}
             size="lg"
-            borderRadius={20}
-            opacity={1}
-            overflow="visible"
-            display="flex"
-            isRound
-            variant="ghost"
-          />
-          <IconButton
-            aria-label="icon"
-            icon={<MdSettings />}
-            size="lg"
-            borderRadius={20}
+            borderRadius={30}
             variant="ghost"
           />
         </Grid>

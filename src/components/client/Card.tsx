@@ -14,15 +14,26 @@ import {
 
 import { BsArrowUpRight, BsHeartFill, BsHeart } from 'react-icons/bs'
 import { GrCart } from 'react-icons/gr'
-export default function Card() {
+
+interface Product {
+  id: number;
+  price: number;
+  name: string;
+  categories: string;
+}
+
+
+
+
+export default function Card(props: any) {
   const [isFavourite, setIsFavorite] = useState(false)
 
   return (
     <Center py={5}>
       <Box
-        w="xs"
+        w="3xl"
         rounded={'sm'}
-        my={5}
+        my={3}
         mx={[0, 5]}
         overflow={'hidden'}
         bg="white"
@@ -36,8 +47,8 @@ export default function Card() {
           // ternary operator
           color={isFavourite ? "red" : undefined}
           pos={'relative'} 
-          top={'39px'} 
-          left={'279px'}  
+          top={'43px'} 
+          left={'290px'}  
           as={isFavourite ? BsHeartFill : BsHeart} 
           onClick={() => setIsFavorite(!isFavourite)}
           />
@@ -57,14 +68,14 @@ export default function Card() {
             fontFamily={'sans-serif'}
             justifyContent="flex-start"
             flexDirection="column"
-            mt={3}
+            mt={10}
             ml={3}
           >
-            <Text>Nike Pro 19</Text>
-            <Text color={'gray.500'}>Male shoes</Text>
+            <Text>{props.name}</Text>
+            <Text color={'gray.500'}>{props.categories}</Text>
             <Flex m={0} p={0}>
-              <Button variant="ghost" size="sm" mt={1} p={0}>
-                Add to cart
+              <Button variant="ghost" size="sm"  p={0}>
+                ${props.price}
               </Button>
             </Flex>
           </Flex>
