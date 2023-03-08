@@ -40,9 +40,9 @@ const SidebarItem = ({
 }: SidebarItemProps) => {
   const bgColor =
     subItems && active ? 'gray.50' : active ? 'blue.50' : 'inherit'
-  const color = subItems ? 'blue.500' : active ? 'blue.500' : ' inherit'
+  const color = active ? 'blue.500' : ' inherit'
   const hover = {
-    bg: useColorModeValue('gray.50', 'gray.900'),
+    bg: useColorModeValue('blue.50', 'gray.900'),
     color: useColorModeValue('blue.500', 'gray.200'),
   }
 
@@ -68,7 +68,7 @@ const SidebarItem = ({
           display="flex"
           alignItems="center"
           color={color}
-          // bg={bgColor}
+          bg={bgColor}
           role="group"
           fontWeight={subItems ? 'bold' : 'semibold'}
           fontSize="sm"
