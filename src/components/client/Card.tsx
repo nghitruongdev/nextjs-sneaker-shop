@@ -22,9 +22,6 @@ interface Product {
   categories: string;
 }
 
-
-
-
 export default function Card(props: any) {
   const [isFavourite, setIsFavorite] = useState(false)
 

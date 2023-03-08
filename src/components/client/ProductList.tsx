@@ -50,9 +50,9 @@ import {Box, Flex, Stack, Grid} from "@chakra-ui/react"
 export default function List() {
     const arr = data.map((item) => {
         return (
-          <NextLink href="/client/overview">
+
             <Card key={item.id} {...item}/>
-          </NextLink>
+
         );
     })
 
