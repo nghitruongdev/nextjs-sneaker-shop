@@ -2,16 +2,21 @@ import CategoryTable from '@/components/admin/category/CategoryTable'
 import { NextPageWithLayout } from '@/pages/_app'
 import { getAdminLayout } from '../../../components/layout/admin/AdminLayout'
 import { Button } from '@chakra-ui/react'
+import useSWR from 'swr'
+import useFetcher from '@/hooks/useFetcher'
+import config from 'config'
 
-const index: NextPageWithLayout = () => {
-  const headers = ['id', 'name', 'parent category', 'description']
-  const data = {
-    id: 1,
-    name: 'Category',
-    parent: 'mama',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti quis blanditiis illum quidem facere sequi quae voluptatum reiciendis ipsam non! Maxime, tempora repudiandae? Tenetur cumque, consequuntur ullam nesciunt repudiandae id.',
-  }
+const CategoryPage: NextPageWithLayout = () => {
+  const transformArray = (data: any) =>
+    data?._embedded?.categories.map((item: any) => item)
+
+  const { isLoading, error, data } = useFetcher(config.api.categories, {
+    transform: transformArray,
+  })
+
+  if (isLoading) return <>Loading...</>
+  if (error) return <>{JSON.stringify(error)}</>
+
   return (
     <>
       <Button
@@ -20,13 +25,10 @@ const index: NextPageWithLayout = () => {
       >
         Add New Category
       </Button>
-      <CategoryTable
-        headers={headers}
-        data={data}
-      />
+      <CategoryTable items={data} />
     </>
   )
 }
 
-index.getLayout = getAdminLayout
-export default index
+CategoryPage.getLayout = getAdminLayout
+export default CategoryPage

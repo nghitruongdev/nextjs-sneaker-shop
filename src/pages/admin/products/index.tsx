@@ -1,20 +1,22 @@
 import AdminLayout from '@/components/layout/admin/AdminLayout'
-import useAxios from '@/hooks/useAxios'
 import { NextPageWithLayout } from '@/pages/_app'
 import { ReactElement } from 'react'
 import { getAdminLayout } from '../../../components/layout/admin/AdminLayout'
 import useSWR from 'swr'
 import ProductTable from '../../../components/admin/product/ProductTable'
+import useFetcher from '@/hooks/useFetcher'
+import config from 'config'
 
 const ProductPage: NextPageWithLayout = () => {
   const transformArray = (data: any) =>
     data?._embedded?.products.map((item: any) => item)
 
-  const { fetcher, api } = useAxios({ transform: transformArray })
-  const { data, isLoading, error } = useSWR(api.productsUrl, fetcher)
+  const { data, isLoading, error } = useFetcher(config.api.products, {
+    transform: transformArray,
+  })
 
   if (isLoading) return <>Loading...</>
-  if (error) return <>{error}</>
+  if (error) return <>{JSON.stringify(error)}</>
 
   return (
     <>
