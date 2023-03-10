@@ -251,7 +251,7 @@ interface NavItem {
 const NAV_ITEMS: Array<NavItem> = [
   {
     label: "Male",
-    href: "/client/product",
+    href: "/client/products",
     children: [
       {
         label: "Sneakers",

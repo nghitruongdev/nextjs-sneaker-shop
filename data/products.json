@@ -122,6 +122,7 @@
         "status": null,
         "discount": null,
         "attributes": [],
+        "images": [],
         "_links": {
           "self": {
             "href": "http://localhost:8080/api/products/4"

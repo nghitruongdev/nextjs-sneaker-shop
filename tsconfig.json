@@ -30,7 +30,7 @@
     "**/*.ts",
     "**/*.tsx",
     "src/components/layout/GlobalLayout.jsx"
-  ],
+, "src/components/client/Card.jsx", "src/components/client/Test.js"  ],
   "exclude": [
     "node_modules"
   ]

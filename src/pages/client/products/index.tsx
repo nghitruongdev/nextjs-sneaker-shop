@@ -5,7 +5,7 @@ import ProductList from "../../../components/client/ProductList";
 const ProductPage: NextPageWithLayout = () => {
   return (
     <>
-      <section>This is product page</section>
+      {/* <section>This is product page</section> */}
       <ProductList/>
     </>
   )
