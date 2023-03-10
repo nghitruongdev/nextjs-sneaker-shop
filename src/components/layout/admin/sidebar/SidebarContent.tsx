@@ -51,8 +51,11 @@ const Items: Array<ItemProps> = [
       },
     ],
   },
+  //* inline - collection, attributes, options, reviews
   { name: 'Users', icon: FiCompass, href: '/admin/users' },
   { name: 'Categories', icon: FiCompass, href: '/admin/categories' },
+  { name: 'Brands', icon: FiCompass, href: '/admin/brands' },
+  { name: 'Discounts', icon: FiCompass, href: '/admin/discounts' },
   { name: 'Products', icon: FiStar, href: '/admin/products' },
   { name: 'New Product', icon: FiStar, href: '/admin/products/new' },
   {
@@ -63,7 +66,10 @@ const Items: Array<ItemProps> = [
   { name: 'Settings', icon: FiSettings, href: '/admin' },
 ]
 
-const SidebarContent = ({ ...props }: BoxProps) => {
+const SidebarContent = ({
+  isExpanded,
+  ...props
+}: { isExpanded?: boolean } & BoxProps) => {
   return (
     <Box
       as="nav"
@@ -79,7 +85,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
       bg={useColorModeValue('white', 'gray.800')}
       borderColor={useColorModeValue('inherit', 'gray.700')}
       borderRightWidth="1px"
-      w={{ base: 'full', sm: 60 }}
+      w={{ base: 'full', sm: isExpanded ? 60 : '14' }}
       {...props}
     >
       {/* Brand */}
@@ -102,7 +108,10 @@ const SidebarContent = ({ ...props }: BoxProps) => {
       </Flex>
 
       {/* Main Items */}
-      <SidebarList items={Items} />
+      <SidebarList
+        items={Items}
+        isExpanded={isExpanded}
+      />
     </Box>
   )
 }

@@ -11,6 +11,7 @@ module.exports = () => {
     products: require('./products.json'),
     users: require('./users.json'),
     carts: require('./carts.json'),
+    categories: require('./categories.json'),
     'product-variants': require('./variants.json'),
     orders: require('./orders.json'),
     'order-items': require('./orderItems.json'),

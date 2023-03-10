@@ -5,10 +5,12 @@ import { useEffect, useState } from 'react'
 const SidebarList = ({
   items,
   isParentActive,
+  isExpanded,
   ...rest
 }: {
   items: Array<SidebarItemProps>
   isParentActive?: boolean
+  isExpanded?: boolean
 } & AccordionProps) => {
   const [currentName, setCurrentName] = useState('')
 
@@ -24,6 +26,7 @@ const SidebarList = ({
       {items.map((item) => (
         <SidebarItem
           key={item.name}
+          isSidebarExpanded={isExpanded}
           clickHandler={setCurrentName.bind(this, item.name)}
           active={item.name === currentName}
           {...item}

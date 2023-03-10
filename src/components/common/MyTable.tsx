@@ -12,6 +12,9 @@ import {
   Tbody,
   Tfoot,
   Td,
+  TableContainerProps,
+  TableBodyProps,
+  TableProps,
 } from '@chakra-ui/react'
 
 type Props = {
@@ -19,10 +22,30 @@ type Props = {
   footers?: string[]
   caption?: string
   children: ReactNode
+  config?: {
+    containerProps?: TableContainerProps
+    tableProps?: TableProps
+    bodyProps?: TableBodyProps
+    config?: any
+  }
 }
-const MyTable = ({ headers, footers, children: body, caption }: Props) => {
+const MyTable = ({
+  headers,
+  footers,
+  children: body,
+  caption,
+  config: {
+    containerProps = {},
+    tableProps = {},
+    bodyProps = {},
+    config = {},
+  } = {},
+}: Props) => {
   return (
-    <TableContainer bg={'white'}>
+    <TableContainer
+      bg="white"
+      {...containerProps}
+    >
       <Flex align={'center'}>
         <Select
           placeholder=""
@@ -36,20 +59,28 @@ const MyTable = ({ headers, footers, children: body, caption }: Props) => {
         </Select>
         <Text> records per page</Text>
       </Flex>
-      <Table variant="simple">
+      <Table
+        variant="simple"
+        {...tableProps}
+      >
         {caption && <TableCaption>{caption}</TableCaption>}
 
         {/* Headers */}
         <Thead>
           <Tr>
             {headers.map((hd) => (
-              <Th key={hd}>{hd}</Th>
+              <Th
+                key={hd}
+                textAlign="center"
+              >
+                {hd}
+              </Th>
             ))}
           </Tr>
         </Thead>
 
         {/* Body */}
-        <Tbody>{body}</Tbody>
+        <Tbody {...bodyProps}>{body}</Tbody>
 
         {/* Footer */}
         {footers && (

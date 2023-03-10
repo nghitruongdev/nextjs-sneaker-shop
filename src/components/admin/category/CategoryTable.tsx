@@ -1,6 +1,7 @@
 import MyTable from '@/components/common/MyTable'
 import Category from '@/domain/Category'
 import { Tr, Td } from '@chakra-ui/react'
+import { useState } from 'react'
 import Select from 'react-select'
 import CategoryRow from './CategoryRow'
 const CategoryTable = ({ items }: { items: Category[] }) => {
@@ -8,7 +9,7 @@ const CategoryTable = ({ items }: { items: Category[] }) => {
   if (!items?.length) return <p>{`There's nothing`}</p>
 
   //todo: render the items if items exists
-  const titles = ['id', 'Name', 'Parent', 'Description']
+  const titles = ['id', 'Name', 'Parent', 'Description', 'Menu']
 
   const selectOptions = items
     .filter((item) => item.isRoot)

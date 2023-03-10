@@ -3,6 +3,7 @@ import {
   Flex,
   Icon,
   IconButton,
+  Spacer,
   useColorModeValue,
 } from '@chakra-ui/react'
 import { AiFillBell } from 'react-icons/ai'
@@ -12,8 +13,9 @@ import { RiBellFill } from 'react-icons/ri'
 
 interface HeaderProps {
   onOpen: () => void
+  onToggle: () => void
 }
-const Header = ({ onOpen }: HeaderProps) => {
+const Header = ({ onOpen, onToggle }: HeaderProps) => {
   return (
     <Flex
       as="header"
@@ -37,6 +39,15 @@ const Header = ({ onOpen }: HeaderProps) => {
         display={{ base: 'inline-flex', md: 'none' }}
       />
 
+      {/* Button to hide the sidebar */}
+      <IconButton
+        aria-label="Menu"
+        onClick={onToggle}
+        icon={<FiMenu />}
+        size="sm"
+        display={{ base: 'none', md: 'inline-flex' }}
+      />
+      <Spacer display={{ base: 'hidden', md: 'flex' }} />
       {/* Right info: avatar user + bell */}
       <Flex align="center">
         <Icon

@@ -7,6 +7,7 @@ import useFetcher from '@/hooks/useFetcher'
 import config from 'config'
 
 const CategoryPage: NextPageWithLayout = () => {
+  const
   const transformArray = (data: any) =>
     data?._embedded?.categories.map((item: any) => item)
 

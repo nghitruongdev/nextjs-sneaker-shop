@@ -1,5 +1,4 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
-import { time } from 'console'
 import { useEffect, useState } from 'react'
 
 type State = {
@@ -13,6 +12,7 @@ type Options = {
   retryDelay?: number
   timeout?: number
 }
+
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 type MethodProps = {
   options?: Options
@@ -75,8 +75,6 @@ const useAxios = (url: string) => {
         data: response.data,
         status: response.status,
       }))
-
-      // if (responseInterceptor) return responseInterceptor(response)
       return response
     } catch (error: any) {
       setState((prevState) => ({
