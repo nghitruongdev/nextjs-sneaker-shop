@@ -12,10 +12,14 @@ import {
 const useMyToast = () => {
   const notify = useToast()
 
+  const close = (id: ToastId) => {
+    notify.close(id)
+  }
+
   const makeToast = (options?: UseToastOptions) => {
     const id = notify(options)
     return {
-      id: id,
+      id,
       close: close.bind(this, id),
     }
   }
@@ -63,11 +67,9 @@ const useMyToast = () => {
       ...options,
     })
   }
-  const close = (id: ToastId) => {
-    notify.close(id)
-  }
 
   return {
+    closeToast: close,
     successToast,
     failToast,
     loadingToast,

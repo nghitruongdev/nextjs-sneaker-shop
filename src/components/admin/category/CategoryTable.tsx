@@ -4,7 +4,15 @@ import { Tr, Td } from '@chakra-ui/react'
 import { useState } from 'react'
 import Select from 'react-select'
 import CategoryRow from './CategoryRow'
-const CategoryTable = ({ items }: { items: Category[] }) => {
+import index from '../../../pages/admin/users/index'
+const CategoryTable = ({
+  items,
+  ...props
+}: {
+  items: Category[]
+  isAdding?: boolean
+  cancelAddingHandler?: () => void
+}) => {
   // todo: If there is no item in the items
   if (!items?.length) return <p>{`There's nothing`}</p>
 
@@ -24,6 +32,14 @@ const CategoryTable = ({ items }: { items: Category[] }) => {
       headers={titles}
       caption="VNCO muôn năm"
     >
+      {props.isAdding && (
+        <CategoryRow
+          name=""
+          selectOptions={selectOptions}
+          isNew
+          cancelAddingHandler={props.cancelAddingHandler}
+        />
+      )}
       {items.map((item) => (
         <CategoryRow
           key={item.id}

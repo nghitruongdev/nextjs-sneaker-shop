@@ -1,5 +1,5 @@
 type Category = {
-  id: number
+  id?: number
   name: string
   isRoot?: boolean
   parentId?: number

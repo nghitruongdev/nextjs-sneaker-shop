@@ -23,6 +23,7 @@ import { AiOutlineCar } from 'react-icons/ai'
 import { useForm } from 'react-hook-form'
 import { useToast } from '@chakra-ui/react'
 import useMyToast from '@/hooks/useMyToast'
+import useAlert from '../../../hooks/useAlert'
 type Option = {
   label: string
   value: Category
@@ -41,8 +42,14 @@ const CategoryRow = ({
   parentId,
   description,
   _links,
+  isNew = false,
+  cancelAddingHandler,
   selectOptions: options,
-}: Category & { selectOptions: Option[] }) => {
+}: Category & {
+  selectOptions: Option[]
+  isNew?: boolean
+  cancelAddingHandler?: () => void
+}) => {
   const parentOption = options.find((option) => option.value.id === parentId)
   const defaultFormValue: FormValue = {
     name: name,
@@ -51,14 +58,16 @@ const CategoryRow = ({
   }
 
   const { successToast, failToast, loadingToast } = useMyToast()
+  const { warning } = useAlert()
   // const [selectedOption, setSelectedOption] = useState(parentOption)
-  const [isEdit, setIsEdit] = useState<boolean>(false)
-  const { errorText, patch } = useAxios(_links.self.href)
+  const [isEdit, setIsEdit] = useState<boolean>(isNew)
+  const { errorText, patch } = useAxios(_links?.self.href)
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    reset: resetForm,
+    formState: { errors, isSubmitting, isDirty },
   } = useForm({
     mode: 'onBlur',
     reValidateMode: 'onChange',
@@ -76,31 +85,49 @@ const CategoryRow = ({
   ]
 
   const saveHandler = async (data: FormValue) => {
-    const toastLoading = loadingToast('Sending data to the server')
+    const successAction = () => {
+      successToast('Category saved.', 'Category has been saved to the server')
+      setIsEdit(false)
+    }
 
+    if (!isDirty) {
+      successAction()
+      return
+    }
+
+    const toastLoading = loadingToast('Sending data to the server')
+    const parent = data.parent.value._links.self.href
     const response = await patch(
+      { ...data, parent },
       {
-        ...data,
-        parent: data.parent?.value._links.self.href,
-      },
-      {
-        options: {
-          timeout: 3000,
-        },
+        options: { timeout: 3000 },
       }
     )
     toastLoading.close()
+    ;(response?.status && successAction()) ||
+      failToast('Server error', errorText)
+  }
 
-    if (response?.status) {
-      successToast('Category created.', 'Category has been saved to the server')
+  const cancelHandler = () => {
+    const cancelAction = () => {
+      if (isNew) {
+        cancelAddingHandler?.()
+        return
+      }
       setIsEdit(false)
-      return
+      resetForm(defaultFormValue)
     }
-    failToast('Server error', errorText)
+    if (!isDirty) cancelAction()
+    else
+      warning({
+        text: `Edits you've made will be lost!`,
+        confirmButtonText: 'Yes, do it!',
+        confirmAction: cancelAction,
+      })
   }
 
   return (
-    <Tr key={id}>
+    <Tr>
       <Td>{id}</Td>
       <Td w="250px">
         {!isEdit && name}
@@ -164,7 +191,7 @@ const CategoryRow = ({
             <IconButton
               // bg="transparent"
               aria-label="cancel edit"
-              onClick={() => setIsEdit(false)}
+              onClick={cancelHandler}
               colorScheme="red"
               icon={<FiXCircle />}
             />
