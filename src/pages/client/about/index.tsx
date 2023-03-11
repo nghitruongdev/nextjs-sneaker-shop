@@ -1,18 +1,20 @@
-import { ReactNode } from 'react';
+import { NextPageWithLayout } from '@/pages/_app'
+import { ReactElement, ReactNode } from 'react'
+import ClientLayout from '@/components/layout/ClientLayout'
 import {
+  Avatar,
   Box,
   Flex,
   Heading,
-  Text,
   Stack,
-  Container,
-  Avatar,
   useColorModeValue,
-} from '@chakra-ui/react';
+  Text,
+  Container
+} from '@chakra-ui/react'
 
 const Testimonial = ({ children }: { children: ReactNode }) => {
-  return <Box>{children}</Box>;
-};
+  return <Box>{children}</Box>
+}
 
 const TestimonialContent = ({ children }: { children: ReactNode }) => {
   return (
@@ -38,54 +40,72 @@ const TestimonialContent = ({ children }: { children: ReactNode }) => {
         bottom: '-16px',
         left: '50%',
         transform: 'translateX(-50%)',
-      }}>
+      }}
+    >
       {children}
     </Stack>
-  );
-};
+  )
+}
 
 const TestimonialHeading = ({ children }: { children: ReactNode }) => {
   return (
-    <Heading as={'h3'} fontSize={'xl'}>
+    <Heading
+      as={'h3'}
+      fontSize={'xl'}
+    >
       {children}
     </Heading>
-  );
-};
+  )
+}
 
 const TestimonialText = ({ children }: { children: ReactNode }) => {
   return (
     <Text
       textAlign={'center'}
       color={useColorModeValue('gray.600', 'gray.400')}
-      fontSize={'sm'}>
+      fontSize={'sm'}
+    >
       {children}
     </Text>
-  );
-};
+  )
+}
 
 const TestimonialAvatar = ({
   src,
   name,
   title,
 }: {
-  src: string;
-  name: string;
-  title: string;
+  src: string
+  name: string
+  title: string
 }) => {
   return (
-    <Flex align={'center'} mt={8} direction={'column'}>
-      <Avatar src={src} mb={2} />
-      <Stack spacing={-1} align={'center'}>
+    <Flex
+      align={'center'}
+      mt={8}
+      direction={'column'}
+    >
+      <Avatar
+        src={src}
+        mb={2}
+      />
+      <Stack
+        spacing={-1}
+        align={'center'}
+      >
         <Text fontWeight={600}>{name}</Text>
-        <Text fontSize={'sm'} color={useColorModeValue('gray.600', 'gray.400')}>
+        <Text
+          fontSize={'sm'}
+          color={useColorModeValue('gray.600', 'gray.400')}
+        >
           {title}
         </Text>
       </Stack>
     </Flex>
-  );
-};
+  )
+}
 
-export default function WithSpeechBubbles() {
+const AboutPage: NextPageWithLayout = () => {
   return (
     <Box bg={useColorModeValue('gray.100', 'gray.700')}>
       <Container maxW={'7xl'} py={16} as={Stack} spacing={12}>
@@ -149,3 +169,9 @@ export default function WithSpeechBubbles() {
     </Box>
   );
 }
+
+AboutPage.getLayout = (page: ReactElement) => {
+  return <ClientLayout>{page}</ClientLayout>
+}
+
+export default AboutPage

@@ -123,7 +123,7 @@ export default function AnoNav() {
               <IconButton
               right={10}
               aria-label="icon"
-              icon={<BsMinecart />}
+              icon={<BsMinecart/>}
               // boxSize="xs"
               size="lg"
               borderRadius={30}
@@ -267,6 +267,7 @@ const NAV_ITEMS: Array<NavItem> = [
   },
   {
     label: "Female",
+    href: "/client/products",
     children: [
       {
         label: "Job Board",
@@ -282,10 +283,10 @@ const NAV_ITEMS: Array<NavItem> = [
   },
   {
     label: "Collections",
-    href: "#",
+    href: "/client/products",
   },
   {
     label: "About Us",
-    href: "#",
+    href: "/client/about",
   },
 ];

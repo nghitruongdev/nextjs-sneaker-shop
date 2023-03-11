@@ -10,8 +10,13 @@ import {
   Select,
   Image,
   Text,
+  Divider,
+  GridItem,
+  Stack,
 } from '@chakra-ui/react'
 import { ChevronDownIcon, CopyIcon } from '@chakra-ui/icons'
+import { AiOutlineHeart } from 'react-icons/ai'
+import { HiOutlineTrash } from 'react-icons/hi'
 const CartPage: NextPageWithLayout = () => {
   return (
     <Box
@@ -37,7 +42,7 @@ const CartPage: NextPageWithLayout = () => {
             <Flex
               justifyContent="space-between"
               alignItems="space-between"
-              paddingBlock={'16px'}
+              paddingBlock={'15px'}
             >
               <Flex
                 alignItems="flex-start"
@@ -45,8 +50,8 @@ const CartPage: NextPageWithLayout = () => {
               >
                 {/* image  */}
                 <Box
-                  ml={'10px'}
-                  mr={'30px'}
+                  ml={'5px'}
+                  mr={'20px'}
                   h={'150px'}
                 >
                   <Image
@@ -58,7 +63,10 @@ const CartPage: NextPageWithLayout = () => {
                 </Box>
                 {/* name size quantity */}
                 <Flex flexDirection="column">
-                  <Flex flexDirection="column">
+                  <Flex
+                    flexDirection="column"
+                    ml={'13px'}
+                  >
                     <Text
                       fontWeight={'500'}
                       fontSize={'16px'}
@@ -66,17 +74,19 @@ const CartPage: NextPageWithLayout = () => {
                       Nike pro
                     </Text>
                     <Text
-                      paddingBlock={'10px'}
+                      paddingBlock={'5px'}
                       color={'gray.500'}
                     >
                       Variant
                     </Text>
                   </Flex>
-                  <Flex>
+
+                  {/* size quantity */}
+                  <Flex ml={'13px'}>
                     <Box display={'flex'}>
                       <Text color={'gray.700'}>Size</Text>
                       <Select
-                        ml={'10px'}
+                        ml={'5px'}
                         icon={<ChevronDownIcon />}
                         variant="unstyled"
                         size="xs"
@@ -107,36 +117,42 @@ const CartPage: NextPageWithLayout = () => {
                       </Select>
                     </Flex>
                   </Flex>
+
+                  {/* buttons */}
+                  <Flex
+                    alignItems="space-between"
+                    mr={'4'}
+                  >
+                    <IconButton
+                      aria-label="icon"
+                      icon={<AiOutlineHeart />}
+                      size="md"
+                      isRound
+                      variant="ghost"
+                    />
+                    <IconButton
+                      aria-label="icon"
+                      icon={<HiOutlineTrash />}
+                      size="md"
+                      isRound
+                      variant="ghost"
+                    />
+                  </Flex>
                 </Flex>
               </Flex>
 
               {/* price and remove + favorite buttons */}
               <Flex
                 flexDirection="column"
-                ml={'15rem'}
+                ml={'7.5rem'}
               >
-                <Flex>
+                <Flex justifyContent={'flex-end'}>
                   <Text>2.300.000 VND</Text>
-                </Flex>
-                <Flex alignItems="space-between">
-                  <IconButton
-                    aria-label="icon"
-                    icon={<CopyIcon />}
-                    size="md"
-                    isRound
-                    variant="ghost"
-                  />
-                  <IconButton
-                    aria-label="icon"
-                    icon={<CopyIcon />}
-                    size="md"
-                    isRound
-                    variant="ghost"
-                  />
                 </Flex>
               </Flex>
             </Flex>
           </Box>
+          <Divider></Divider>
         </Box>
 
         {/* Summary table */}
@@ -151,32 +167,41 @@ const CartPage: NextPageWithLayout = () => {
           >
             Summary
           </Text>
-          <Flex
-            justifyContent="space-between"
-            flexDirection="column"
-            pr={10}
+          <Grid
+            templateColumns="repeat(2, 1fr)"
+            gap={'10px'}
           >
-            <Grid
-              templateColumns="repeat(2, 1fr)"
-              gap={3}
-              display="grid"
-            >
-              <Text>Subtotal</Text>
-              <Text>Text value</Text>
-            </Grid>
-            <Grid
-              templateColumns="repeat(2, 1fr)"
-              gap={3}
-            >
-              <Text>Shipping</Text>
-              <Text>Text value</Text>
-            </Grid>
-          </Flex>
-          <Button
-            variant="solid"
-            size="md"
+            <GridItem>Subtotal</GridItem>
+            <GridItem>2.300.000VND</GridItem>
+            <GridItem>Subtotal</GridItem>
+            <GridItem>2.300.000VND</GridItem>
+          </Grid>
+
+          {/* total and checkout button */}
+          <Divider mt={5}/>
+          <Flex>
+          <Grid
+            templateColumns="repeat(2, 1fr)"
+            gap={'10px'}
             mt={5}
           >
+            <GridItem>Total</GridItem>
+            <GridItem>2.300.000VND</GridItem>
+          </Grid>
+          </Flex>
+          
+          <Divider mt={5}/>
+          <Button
+            variant="solid"
+            size="lg"
+            mt={5}
+            fontSize={'14px'}
+            fontWeight={'400'}
+            bg={'black'}
+            colorScheme={'blackAlpha'}
+            borderRadius={'2xl'}
+          >
+
             Checkout
           </Button>
         </Flex>
