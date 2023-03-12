@@ -8,71 +8,96 @@ import {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react'
+import { optionCSS } from 'react-select/dist/declarations/src/components/Option'
 
+type Configs = {
+  shouldClose?: boolean
+}
+type Options = UseToastOptions
+
+type ToastProps = {
+  title: string
+  message?: string | null
+  configs?: Configs
+  options?: Options
+}
+let count = 0
 const useMyToast = () => {
-  const notify = useToast()
+  const toast = useToast()
 
-  const close = (id: ToastId) => {
-    notify.close(id)
-  }
-
-  const makeToast = (options?: UseToastOptions) => {
-    const id = notify(options)
+  const makeToast = (options: Options, config?: Configs) => {
+    const id = count++
+    const fire = () =>
+      toast({
+        id,
+        ...options,
+      })
     return {
-      id,
-      close: close.bind(this, id),
+      fire,
+      close: toast.close.bind(this, id),
     }
   }
-  const successToast = (
-    title: string,
-    description?: string | null,
-    options?: UseToastOptions
-  ) => {
-    return makeToast({
-      title,
-      description,
-      status: 'success',
-      position: 'top-right',
-      isClosable: true,
-      duration: 3000,
-      ...options,
-    })
+  const ok = ({
+    title,
+    message: description,
+    configs,
+    options = {},
+  }: ToastProps) => {
+    return makeToast(
+      {
+        title,
+        description,
+        status: 'success',
+        position: 'top-right',
+        isClosable: true,
+        duration: 3000,
+        ...options,
+      },
+      configs
+    )
   }
 
-  const failToast = (
-    title: string,
-    description?: string | null,
-    options?: UseToastOptions
-  ) => {
-    return makeToast({
-      title,
-      description,
-      status: 'error',
-      position: 'top',
-      isClosable: true,
-      duration: 3000,
-      ...options,
-    })
+  const fail = ({
+    title,
+    message: description,
+    configs,
+    options = {},
+  }: ToastProps) => {
+    return makeToast(
+      {
+        title,
+        description,
+        status: 'error',
+        position: 'top-right',
+        isClosable: true,
+        duration: 3000,
+        ...options,
+      },
+      configs
+    )
   }
-  const loadingToast = (
-    title: string,
-    description?: string | null,
-    options?: UseToastOptions
-  ) => {
-    return makeToast({
-      title,
-      description,
-      status: 'loading',
-      position: 'top',
-      ...options,
-    })
+  const waiting = ({
+    title,
+    message: description,
+    configs,
+    options = {},
+  }: ToastProps) => {
+    return makeToast(
+      {
+        title,
+        description,
+        status: 'loading',
+        position: 'top',
+        ...options,
+      },
+      configs
+    )
   }
 
   return {
-    closeToast: close,
-    successToast,
-    failToast,
-    loadingToast,
+    ok: ok,
+    fail: fail,
+    waiting: waiting,
   }
 }
 

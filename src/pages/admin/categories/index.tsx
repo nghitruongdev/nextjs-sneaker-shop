@@ -1,44 +1,47 @@
 import CategoryTable from '@/components/admin/category/CategoryTable'
 import { NextPageWithLayout } from '@/pages/_app'
 import { getAdminLayout } from '../../../components/layout/admin/AdminLayout'
-import { Button } from '@chakra-ui/react'
-import useSWR from 'swr'
-import useFetcher from '@/hooks/useFetcher'
+import useSWR, { preload } from 'swr'
+import { getFetcher } from '@/hooks/useFetcher'
 import config from 'config'
-import { useState } from 'react'
-import Category from '@/domain/Category'
+import { useEffect, useState } from 'react'
 
-const transformArray = (data: any) =>
-  data?._embedded?.categories.map((item: any) => item)
+export type Page = {
+  size: number
+  totalElements: number
+  totalPages: number
+  number: number
+}
+const fetcher = getFetcher()
 
 const CategoryPage: NextPageWithLayout = () => {
-  const {
-    isLoading,
-    error,
-    data: items,
-  } = useFetcher(config.api.categories, {
-    transform: transformArray,
-  })
-  // const [items, setItems] = useState(data)
-  const [isAdding, setIsAdding] = useState(false)
-  if (isLoading) return <>Loading...</>
-  if (error) return <>{JSON.stringify(error)}</>
+  console.debug('Category page rerendered')
+  const [page, setPage] = useState<Page>()
+  const [size, setSize] = useState<number>(5)
 
-  const cancelAddingHandler = () => {
-    setIsAdding(false)
-  }
+  const keyUrl = `${config.api.categories}?sort=id,desc&page=${page?.number}&size=${size}`
+
+  preload(keyUrl, fetcher)
+  const { isLoading, error, mutate, data } = useSWR(keyUrl, fetcher, {
+    keepPreviousData: true,
+    revalidateOnReconnect: true,
+  })
+
+  useEffect(() => {
+    setPage(data?.page)
+  }, [data])
+
+  if (isLoading) return <>Loading...</>
+  if (error) return <>{JSON.stringify(error.message)}</>
+
+  const items = data._embedded.categories
+  const changePage = () => {}
   return (
     <>
-      <Button
-        colorScheme={'blue'}
-        onClick={() => setIsAdding(true)}
-      >
-        Add New Category
-      </Button>
       <CategoryTable
         items={items}
-        isAdding={isAdding}
-        cancelAddingHandler={cancelAddingHandler}
+        page={page}
+        setSize={setSize}
       />
     </>
   )

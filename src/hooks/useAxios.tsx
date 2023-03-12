@@ -1,16 +1,16 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { useEffect, useState } from 'react'
-
+import ApiConfig from 'config'
 type State = {
-  isLoading: boolean
-  error: any
-  errorText: string | null
+  isLoading?: boolean
+  errorText?: string
 }
 
 type Options = {
   retryCount?: number
   retryDelay?: number
   timeout?: number
+  throwOnError?: boolean
 }
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
@@ -19,15 +19,10 @@ type MethodProps = {
   config?: AxiosRequestConfig<any>
 }
 const useAxios = (url: string) => {
-  const initialState: State = {
-    isLoading: false,
-    error: null,
-    errorText: null,
-  }
-  const [state, setState] = useState(initialState)
+  const [state, setState] = useState<State>()
 
   const resetState = () => {
-    setState(initialState)
+    setState({ ...{} })
   }
 
   const get = ({ options, config }: MethodProps = {}) =>
@@ -61,8 +56,9 @@ const useAxios = (url: string) => {
     setState((prevState) => ({ ...prevState, isLoading: true }))
     try {
       if (timeout) await sleep(timeout)
-
+      console.log('config', config)
       const response = await axios.request({
+        baseURL: ApiConfig.apiPath,
         method: method,
         data: data,
         url: url,
@@ -80,9 +76,9 @@ const useAxios = (url: string) => {
       setState((prevState) => ({
         ...prevState,
         isLoading: false,
-        error: error,
-        errorText: error?.message,
+        errorText: error.message,
       }))
+      if (options.throwOnError) throw error
     }
   }
   return {

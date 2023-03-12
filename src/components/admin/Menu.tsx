@@ -16,21 +16,9 @@ import { IconType } from 'react-icons'
 
 import { BsThreeDotsVertical, BsChatSquareQuote } from 'react-icons/bs'
 import { RiShutDownLine, RiRestartLine, RiFileShredLine } from 'react-icons/ri'
-import { MouseEventHandler, ReactElement } from 'react'
+import { MouseEventHandler, ReactElement, ReactNode } from 'react'
 
-export type MenuButtonAction = {
-  name: string
-  onClick?: MouseEventHandler
-  icon?: ReactElement<IconType>
-  colorScheme?: string
-}
-const MenuButton = ({
-  actions,
-  buttonProps = {},
-}: {
-  buttonProps?: ButtonProps
-  actions?: MenuButtonAction[]
-}) => {
+const Menu = ({ children }: { children: ReactNode }) => {
   return (
     /**
      * You may move the Popover outside Flex.
@@ -57,26 +45,7 @@ const MenuButton = ({
         >
           <PopoverArrow />
           <PopoverBody>
-            <Stack>
-              {actions?.map(({ name, icon, colorScheme, onClick }, idx) => (
-                <Box key={idx}>
-                  <Button
-                    w="150px"
-                    variant="ghost"
-                    rightIcon={icon}
-                    justifyContent="space-between"
-                    fontWeight="normal"
-                    fontSize="sm"
-                    colorScheme={colorScheme}
-                    onClick={onClick}
-                    {...buttonProps}
-                  >
-                    {name}
-                  </Button>
-                  <Divider />
-                </Box>
-              ))}
-            </Stack>
+            <Stack>{children}</Stack>
           </PopoverBody>
         </PopoverContent>
       </Popover>
@@ -84,4 +53,4 @@ const MenuButton = ({
   )
 }
 
-export default MenuButton
+export default Menu

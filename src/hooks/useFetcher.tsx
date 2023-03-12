@@ -9,14 +9,15 @@ const axiosInstance = axios.create({
 type OptionProps = {
   transform?: (data: any) => any
 }
-const useFetcher = (url: string, options?: OptionProps) => {
-  const fetcher = async (url: string) => {
+export const getFetcher = (options?: OptionProps) => {
+  return async (url: string) => {
     console.debug('axios fetch', url, config.apiPath)
     const res = await axiosInstance.get(url)
 
     return options?.transform ? options.transform(res.data) : res.data
   }
-
+}
+const useFetcher = (url: string, fetcher: any) => {
   const { data, isLoading, error } = useSWR(url, fetcher)
   return {
     axios: axiosInstance,

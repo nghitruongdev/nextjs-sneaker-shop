@@ -36,8 +36,14 @@ const useAlert = () => {
     text = `You won't be able to revert this!`,
     confirmButtonText = 'Yes!',
     confirmAction,
+    deniedAction,
+    dismissAction,
     ...props
-  }: AlertProps & { confirmAction?: (result?: SweetAlertResult) => any }) => {
+  }: AlertProps & {
+    confirmAction?: () => any
+    deniedAction?: () => any
+    dismissAction?: () => any
+  }) => {
     const result = await alert.fire({
       title,
       text,
@@ -49,7 +55,9 @@ const useAlert = () => {
       ...props,
     })
 
-    if (confirmAction && result.isConfirmed) return confirmAction(result)
+    if (confirmAction && result.isConfirmed) return confirmAction()
+    if (deniedAction && result.isDenied) return deniedAction()
+    if (dismissAction && result.isDismissed) return dismissAction()
     return result
   }
 
