@@ -1,4 +1,8 @@
-import axios from 'axios'
+import axios, {
+  AxiosInterceptorManager,
+  AxiosRequestConfig,
+  AxiosResponse,
+} from 'axios'
 import config from 'config'
 import useSWR from 'swr'
 
@@ -8,13 +12,23 @@ const axiosInstance = axios.create({
 
 type OptionProps = {
   transform?: (data: any) => any
+  responseInterceptor?: (
+    resposne: AxiosResponse<any>
+  ) => AxiosResponse | Promise<AxiosResponse>
 }
-export const getFetcher = (options?: OptionProps) => {
+export const getFetcher = ({
+  options: { transform, responseInterceptor } = {},
+  config: requestConfig = {},
+}: {
+  options?: OptionProps
+  config?: AxiosRequestConfig
+} = {}) => {
   return async (url: string) => {
+    // const timeout = await new Promise((res) => setTimeout(res, 500))
     console.debug('axios fetch', url, config.apiPath)
     const res = await axiosInstance.get(url)
 
-    return options?.transform ? options.transform(res.data) : res.data
+    return transform ? transform(res.data) : res.data
   }
 }
 const useFetcher = (url: string, fetcher: any) => {

@@ -20,7 +20,7 @@ const Sidebar = ({ isOpen, onClose, isExpanded }: SidebarProps) => {
       <SidebarContent
         display={{
           base: 'none',
-          md: 'unset',
+          md: isOpen ? 'none' : 'unset',
         }}
         isExpanded={isExpanded}
       />

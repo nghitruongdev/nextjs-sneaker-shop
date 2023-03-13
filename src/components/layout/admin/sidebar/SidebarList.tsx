@@ -27,6 +27,7 @@ const SidebarList = ({
         <SidebarItem
           key={item.name}
           isSidebarExpanded={isExpanded}
+          // clickHandler={clickHandler}
           clickHandler={setCurrentName.bind(this, item.name)}
           active={item.name === currentName}
           {...item}

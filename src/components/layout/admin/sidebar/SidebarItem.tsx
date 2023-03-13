@@ -107,7 +107,10 @@ const SidebarItem = ({
 
           {subItems && (
             <AccordionPanel
-              display={!isSidebarExpanded && isExpanded ? 'none' : 'inherit'}
+              {...(!isSidebarExpanded && {
+                h: '0px',
+                p: '0px',
+              })}
             >
               <SidebarList
                 items={subItems}

@@ -15,10 +15,11 @@ type Options = {
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 type MethodProps = {
+  requestUrl?: string
   options?: Options
   config?: AxiosRequestConfig<any>
 }
-const useAxios = (url: string) => {
+const useAxios = (url?: string) => {
   const [state, setState] = useState<State>()
 
   const resetState = () => {
@@ -38,16 +39,18 @@ const useAxios = (url: string) => {
     return makeRequest({ method: 'PATCH', data, options, config })
   }
 
-  const remove = ({ config }: MethodProps) =>
-    makeRequest({ method: 'DELETE', config })
+  const remove = ({ requestUrl, config }: MethodProps = {}) =>
+    makeRequest({ method: 'DELETE', requestUrl, config })
 
   const makeRequest = async ({
     method,
     data,
+    requestUrl,
     options = {},
     config = {},
   }: {
     method: HttpMethod
+    requestUrl?: string
     data?: any
     options?: Options
     config?: AxiosRequestConfig
@@ -61,7 +64,7 @@ const useAxios = (url: string) => {
         baseURL: ApiConfig.apiPath,
         method: method,
         data: data,
-        url: url,
+        url: requestUrl ? requestUrl : url,
         ...config,
       })
 

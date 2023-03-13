@@ -1,47 +1,45 @@
 import CategoryTable from '@/components/admin/category/CategoryTable'
 import { NextPageWithLayout } from '@/pages/_app'
 import { getAdminLayout } from '../../../components/layout/admin/AdminLayout'
-import useSWR, { preload } from 'swr'
-import { getFetcher } from '@/hooks/useFetcher'
 import config from 'config'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-export type Page = {
-  size: number
-  totalElements: number
-  totalPages: number
-  number: number
-}
-const fetcher = getFetcher()
-
+// const transformResponse = (data:any)=> data.
+// const getInterceptors = (
+//   page: PageProps,
+//   setPage: (newPage: PageProps) => void
+// ) => {
+//   return (response: AxiosResponse<any>) => {
+//     const responsePage = response.data.page
+//     if (page !== responsePage) {
+//       setPage(responsePage)
+//     }
+//     return response
+//   }
+// }
 const CategoryPage: NextPageWithLayout = () => {
-  console.debug('Category page rerendered')
-  const [page, setPage] = useState<Page>()
   const [size, setSize] = useState<number>(5)
+  const [pageIndex, setPageIndex] = useState(0)
 
-  const keyUrl = `${config.api.categories}?sort=id,desc&page=${page?.number}&size=${size}`
+  console.debug('Category page rerendered')
 
-  preload(keyUrl, fetcher)
-  const { isLoading, error, mutate, data } = useSWR(keyUrl, fetcher, {
-    keepPreviousData: true,
-    revalidateOnReconnect: true,
-  })
+  const keyUrl = `${config.api.categories.url}?sort=id,desc&page=${pageIndex}&size=${size}`
 
-  useEffect(() => {
-    setPage(data?.page)
-  }, [data])
+  const changePageHandler = (total: number, index: number) => {
+    if (index) return
+    if (pageIndex === index) return
+    if (index >= total) return
+    if (index < 0) return
+    setPageIndex(index)
+  }
 
-  if (isLoading) return <>Loading...</>
-  if (error) return <>{JSON.stringify(error.message)}</>
-
-  const items = data._embedded.categories
-  const changePage = () => {}
   return (
     <>
       <CategoryTable
-        items={items}
-        page={page}
+        indexPage={pageIndex}
         setSize={setSize}
+        onChangePage={changePageHandler}
+        keyUrl={keyUrl}
       />
     </>
   )

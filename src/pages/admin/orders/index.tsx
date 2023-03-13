@@ -3,23 +3,34 @@ import useSWR from 'swr'
 import { getAdminLayout } from '../../../components/layout/admin/AdminLayout'
 import OrderTable from '@/components/admin/order/OrderTable'
 import useAxios from '@/hooks/useAxios'
-import useFetcher from '@/hooks/useFetcher'
 import config from 'config'
+import useFetcher from '@/hooks/useFetcher'
+import { useState } from 'react'
 
 const OrderPage: NextPageWithLayout = () => {
-  const transformArray = (data: any) =>
-    data?._embedded?.orders.map((item: any) => item)
+  const [size, setSize] = useState<number>(5)
+  const [pageIndex, setPageIndex] = useState(0)
 
-  const { data, isLoading, error } = useFetcher(config.api.orders, {
-    transform: transformArray,
-  })
+  console.debug('Order page rerendered')
 
-  if (isLoading) return <>Loading...</>
-  if (error) return <>{JSON.stringify(error)}</>
+  const keyUrl = `${config.api.orders.url}?sort=id,desc&page=${pageIndex}&size=${size}`
+
+  const changePageHandler = (total: number, index: number) => {
+    if (index) return
+    if (pageIndex === index) return
+    if (index >= total) return
+    if (index < 0) return
+    setPageIndex(index)
+  }
 
   return (
     <>
-      <OrderTable items={data} />
+      <OrderTable
+        indexPage={pageIndex}
+        setSize={setSize}
+        onChangePage={changePageHandler}
+        keyUrl={keyUrl}
+      />
     </>
   )
 }

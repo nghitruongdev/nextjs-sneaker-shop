@@ -1,3 +1,4 @@
+import { PageProps } from '@/domain/PageProps'
 import {
   TableContainer,
   Text,
@@ -18,18 +19,21 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  Header,
   HeaderGroup,
   useReactTable,
 } from '@tanstack/react-table'
-import React, { ChangeEventHandler } from 'react'
+import React from 'react'
 type DataProps = {
   columns: any[]
   data: any[]
   options?: any[]
-  setSize: (size: number) => void
 }
 type TableProps = {
   caption?: string
+  setSize: (size: number) => void
+  page?: PageProps
+  onChangePage?: any
   config?: {
     containerProps?: TableContainerProps
     tableProps?: TableProps
@@ -43,6 +47,7 @@ const NewTable = ({
   columns,
   data,
   options,
+  page,
   caption,
   setSize,
   config: { containerProps, tableProps, bodyProps, config } = {},
@@ -105,7 +110,12 @@ const NewTable = ({
           isFooter
         />
       </Table>
-      <p>Showing 1 to 5 of 11 entries</p>
+      {page && (
+        <p>
+          Results: {page.number + 1} - {page.totalPages} of {page.totalElements}{' '}
+          entries
+        </p>
+      )}
     </TableContainer>
   )
 }
@@ -117,18 +127,17 @@ const TableHeader = ({
   groups: HeaderGroup<any>[]
   isFooter?: boolean
 }) => {
+  const content = (header: Header<any, unknown>) => {
+    const columnDef = header.column.columnDef
+    return isFooter ? columnDef.footer : columnDef.header
+  }
   const row = groups.map((group) => (
     <Tr key={group.id}>
       {group.headers.map((header) => (
         <Th key={header.id}>
           {header.isPlaceholder
             ? null
-            : flexRender(
-                isFooter
-                  ? header.column.columnDef.footer
-                  : header.column.columnDef.header,
-                header.getContext()
-              )}
+            : flexRender(content(header), header.getContext())}
         </Th>
       ))}
     </Tr>

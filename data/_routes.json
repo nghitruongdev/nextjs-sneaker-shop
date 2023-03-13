@@ -4,6 +4,7 @@
   "/api/users": "/users",
   "/api/product-variants": "/variants",
   "/api/orders": "/orders",
-  "/api/order-items": "/order-items",
-  "/api/carts": "/carts"
+  "/api/orderItems": "/orderItems",
+  "/api/carts": "/carts",
+  "/api/orders/status": "/order-status"
 }

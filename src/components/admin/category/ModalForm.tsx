@@ -1,6 +1,5 @@
 import CustomModal from '@/components/common/CustomModal'
 import Category from '@/domain/Category'
-import useAlert from '@/hooks/useAlert'
 import useAxios from '@/hooks/useAxios'
 import useMyToast from '@/hooks/useMyToast'
 import {
@@ -10,31 +9,25 @@ import {
   FormErrorMessage,
   FormHelperText,
   Textarea,
-  Heading,
   HStack,
   FormLabel,
-  Checkbox,
-  Flex,
   Switch,
-  ModalFooter,
-  CloseButton,
-  Button,
-  Select,
 } from '@chakra-ui/react'
-import { useState, useEffect, useRef } from 'react'
-import { useForm, useWatch } from 'react-hook-form'
-import { RiFileShredLine, RiPencilFill, RiPencilLine } from 'react-icons/ri'
+import { useForm } from 'react-hook-form'
+import { RiPencilFill } from 'react-icons/ri'
 import ReactSelect from 'react-select'
 import { VStack } from '@chakra-ui/react'
 import SaveButton from '../../common/CloseButton'
-import { mutate } from 'swr'
+import { mutate as globalMutate, KeyedMutator } from 'swr'
 import config from 'config'
 type Props = {
   category?: Category
   isOpen: boolean
   onClose: () => void
   rootCategories?: Category[]
+  keyUrl: string | null
   clearCurrent: () => void
+  mutate: KeyedMutator<any>
 }
 
 type FormValue = {
@@ -50,11 +43,13 @@ const ModalForm = ({
   onClose,
   category = { name: '' },
   rootCategories,
+  keyUrl,
+  mutate,
   clearCurrent,
 }: Props) => {
   console.debug('Modal form rendered', count++)
   const { id, name, description, parentId, isRoot, _links } = category
-  const { ok, fail, waiting } = useMyToast()
+  const { ok, fail } = useMyToast()
   const {
     errorText,
     isLoading: isSubmitting,
@@ -129,13 +124,12 @@ const ModalForm = ({
         const response = await post(transformRequest(data), {
           options,
           config: {
-            url: config.api.categories,
+            url: config.api.categories.url,
           },
         })
         if (response?.status) {
           return successAction(response.data)
         }
-        console.log('response', response)
         throw Error('Fail to create new category')
       }
     } else {
@@ -149,24 +143,26 @@ const ModalForm = ({
     }
 
     const mutateFn = () => {
-      const updateItemsFn = (saved: Category, items: Category[]) => {
-        if (!saved?.id) return items
-        console.debug('Updating cache data')
-        const idx = items.findIndex((item) => item.id === saved.id)
+      const updateItemsFn = (saved: Category, currentData: any) => {
+        if (!saved?.id) return currentData
+        const items = currentData._embedded.categories
+        const idx = items.findIndex((item: Category) => item.id === saved.id)
         if (idx >= 0) items[idx] = saved
         else items.unshift(saved)
-        return [...items]
+        return { ...currentData, _embedded: { categories: [...items] } }
       }
       mutate(
-        config.api.categories,
-        submitHandler().catch((error) => {
-          fail({ title: error.code, message: error.message }).fire()
-          console.error(error)
-        }),
+        submitHandler()
+          .then(() => {
+            globalMutate(config.api.categories.root)
+          })
+          .catch((error) => {
+            fail({ title: error.code, message: error.message }).fire()
+            console.error(error)
+          }),
         {
           revalidate: false,
-          populateCache: (updated: Category, categories: Category[]) => {
-            console.debug('updatedCategory', updated)
+          populateCache: (updated: Category, categories: any) => {
             return updateItemsFn(updated, categories)
           },
           rollbackOnError: true,
@@ -176,8 +172,6 @@ const ModalForm = ({
     }
     mutateFn()
   }
-
-  const saveNewHandler = (data: FormValue) => {}
 
   const saveBtn = (
     <SaveButton
@@ -192,7 +186,7 @@ const ModalForm = ({
   return (
     <CustomModal
       initialFocusRef={nameRef}
-      shouldWarn={isDirty}
+      shouldWarn={isDirty && !isSubmitting}
       isOpen={isOpen}
       onClose={cancelHandler}
       header={

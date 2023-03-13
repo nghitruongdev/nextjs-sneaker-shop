@@ -75,15 +75,15 @@ const CustomModal = ({
         scrollBehavior="outside"
       >
         <ModalOverlay />
-        <ModalContent pointerEvents={isSubmitting ? 'none' : 'unset'}>
+        <ModalContent>
           <ModalHeader>{header}</ModalHeader>
-          <ModalCloseButton isDisabled={isSubmitting} />
+          <ModalCloseButton />
           <Divider />
-          <ModalBody color={isSubmitting ? 'gray.500' : 'unset'}>
+          <ModalBody pointerEvents={isSubmitting ? 'none' : 'unset'}>
             {children}
           </ModalBody>
 
-          <ModalFooter>
+          <ModalFooter pointerEvents={isSubmitting ? 'none' : 'unset'}>
             {defaultCloseBtn && (
               <Button
                 mr={3}
