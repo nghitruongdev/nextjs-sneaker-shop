@@ -7,6 +7,7 @@ import { ReactElement, ReactNode } from 'react'
 import theme from '../theme'
 import { store } from '../redux/store';
 import { Provider } from 'react-redux';
+
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
 }

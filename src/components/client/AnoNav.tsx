@@ -28,6 +28,7 @@ import {
 } from "@chakra-ui/icons";
 import { OutliningSpanKind } from "typescript";
 import NextLink from "next/link";
+import logo  from '../../assets/images/logo.png';
 
 
 export default function AnoNav() {
@@ -77,9 +78,10 @@ export default function AnoNav() {
           <Image
             height={14}
             width={14}
-            fallbackSrc="https://img.icons8.com/fluency-systems-filled/512/chakra-ui.png"
+            fallbackSrc="/logo.png"
             cursor={'pointer'}
           />
+
           </NextLink>
         </Flex>
         <Tabs variant={'none'}>
@@ -156,9 +158,9 @@ export default function AnoNav() {
 }
 
 const DesktopNav = () => {
-  const linkColor = useColorModeValue("gray.600", "gray.200");
-  const linkHoverColor = useColorModeValue("gray.800", "white");
-  const popoverContentBgColor = useColorModeValue("white", "gray.800");
+  const linkColor = useColorModeValue("gray.700", "gray.200");
+  const linkHoverColor = useColorModeValue("gray.500", "white");
+  const popoverContentBgColor = useColorModeValue("white", "gray.500");
 
   return (
     <Stack direction={"row"} spacing={4}>
@@ -212,13 +214,13 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
       display={"block"}
       p={2}
       rounded={"md"}
-      _hover={{ bg: useColorModeValue("gray.50", "gray.900") }}
+      _hover={{ bg: useColorModeValue("gray.50", "gray.500") }}
     >
       <Stack direction={"row"} align={"center"}>
         <Box>
           <Text
             transition={"all .3s ease"}
-            _groupHover={{ color: "gray.400" }}
+            _groupHover={{ color: "gray.500" }}
             fontWeight={500}
           >
             {label}
