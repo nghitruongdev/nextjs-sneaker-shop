@@ -34,7 +34,6 @@ const Card = (props:any) => {
       >
         <Box
           h={'300px'}
-          //  pos={'absolute'}
         >
           <Icon
             boxSize={25}
@@ -42,7 +41,7 @@ const Card = (props:any) => {
             color={isFavourite ? 'red' : undefined}
             pos={'relative'}
             top={'43px'}
-            left={'290px'}
+            left={'280px'}
             as={isFavourite ? BsHeartFill : BsHeart}
             onClick={() => setIsFavorite(!isFavourite)}
           />
