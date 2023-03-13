@@ -89,70 +89,15 @@ const Overview: NextPageWithLayout = () => {
                     >
                       <Input
                         isReadOnly
+                        cursor={'pointer'}
                         width={20}
                         focusBorderColor={'black.400'}
                         variant="outline"
                         placeholder="EU 40"
+                        _placeholder={{ opacity: 1, color: 'inherit' }}
                         display="block"
                         overflow="hidden"
-                        colorScheme={'blackAlpha'}
-                        color={'black'}
-                      />
-                      <Input
-                        isReadOnly
-                        width={20}
-                        focusBorderColor={'black.400'}
-                        variant="outline"
-                        placeholder="EU 40"
-                        display="block"
-                        overflow="hidden"
-                        colorScheme={'blackAlpha'}
-                        color={'black'}
-                      />
-                      <Input
-                        isReadOnly
-                        width={20}
-                        focusBorderColor={'black.400'}
-                        //   border={'1px'}
-                        variant="outline"
-                        placeholder="EU 40"
-                        display="block"
-                        overflow="hidden"
-                        colorScheme={'blackAlpha'}
-                        color={'black'}
-                      />
-                      <Input
-                        isReadOnly
-                        width={20}
-                        focusBorderColor={'black.400'}
-                        variant="outline"
-                        placeholder="EU 40"
-                        display="block"
-                        overflow="hidden"
-                        colorScheme={'blackAlpha'}
-                        color={'black'}
-                      />
-                      <Input
-                        isReadOnly
-                        width={20}
-                        focusBorderColor={'black.400'}
-                        variant="outline"
-                        placeholder="EU 40"
-                        display="block"
-                        overflow="hidden"
-                        colorScheme={'blackAlpha'}
-                        color={'black'}
-                      />
-                      <Input
-                        isReadOnly
-                        width={20}
-                        focusBorderColor={'black.400'}
-                        variant="outline"
-                        placeholder="EU 40"
-                        display="block"
-                        overflow="hidden"
-                        colorScheme={'blackAlpha'}
-                        color={'black'}
+
                       />
                     </Grid>
                   </Flex>
@@ -166,7 +111,7 @@ const Overview: NextPageWithLayout = () => {
                   fontSize={'13px'}
                 >
                   <Button
-                    w={'260px'}
+                    w={'265px'}
                     h={'60px'}
                     colorScheme={'blackAlpha'}
                     bg={'black'}
@@ -178,7 +123,7 @@ const Overview: NextPageWithLayout = () => {
                     Add to cart
                   </Button>
                   <Button
-                    w={'260px'}
+                    w={'265px'}
                     h={'60px'}
                     variant={'outline'}
                     borderRadius={'30px'}
