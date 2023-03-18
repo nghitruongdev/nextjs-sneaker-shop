@@ -23,7 +23,7 @@ import {
   HeaderGroup,
   useReactTable,
 } from '@tanstack/react-table'
-import React from 'react'
+import React, { ReactNode } from 'react'
 type DataProps = {
   columns: any[]
   data: any[]
@@ -31,9 +31,10 @@ type DataProps = {
 }
 type TableProps = {
   caption?: string
-  setSize: (size: number) => void
+  setSize?: (size: number) => void
   page?: PageProps
   onChangePage?: any
+  additionalRows?: ReactNode
   config?: {
     containerProps?: TableContainerProps
     tableProps?: TableProps
@@ -47,6 +48,7 @@ const NewTable = ({
   columns,
   data,
   options,
+  additionalRows,
   page,
   caption,
   setSize,
@@ -61,27 +63,30 @@ const NewTable = ({
 
   const setSizeHandler = (event: any) => {
     const size = +event.target.value
-    setSize(size)
+    setSize?.(size)
   }
+  if (!data) return <>Nothing to show</>
   return (
     <TableContainer
       bg="white"
       {...containerProps}
     >
-      <Flex align={'center'}>
-        <Select
-          placeholder=""
-          w={'50'}
-          onChange={setSizeHandler}
-        >
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="20">20</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-        </Select>
-        <Text> records per page</Text>
-      </Flex>
+      {setSize && (
+        <Flex align={'center'}>
+          <Select
+            placeholder=""
+            w={'50'}
+            onChange={setSizeHandler}
+          >
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </Select>
+          <Text> records per page</Text>
+        </Flex>
+      )}
       <Table
         variant="simple"
         {...tableProps}
@@ -102,6 +107,7 @@ const NewTable = ({
               ))}
             </Tr>
           ))}
+          {additionalRows}
         </Tbody>
 
         {/* Footer */}

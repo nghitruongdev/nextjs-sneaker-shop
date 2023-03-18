@@ -18,84 +18,34 @@ type Props = {
   onChangePage: (total: number, index: number) => void
   keyUrl: string
   setSize: (size: number) => void
-  isAdding?: boolean
-  cancelAddingHandler?: () => void
 }
 const util = createColumnHelper<Category>()
 const fetcher = getFetcher()
 
 const CategoryTable = ({ setSize, keyUrl, onChangePage, ...props }: Props) => {
-  const {} = useCategory(keyUrl)
-  const { isLoading, error, mutate, data } = useSWR(keyUrl, fetcher)
+  const [current, setCurrent] = useState<Category>({ name: '' })
+  const clearCurrent = setCurrent.bind(this, { name: '' })
+  const {
+    isLoading,
+    isSubmitting,
+    error,
+    data,
+    updateCategory,
+    deleteCategory,
+  } = useCategory({
+    keyUrl,
+  })
 
   const { data: rootData } = useSWR(config.api.categories.root, fetcher, {
     refreshInterval: 60 * 1000,
     revalidateIfStale: true,
   })
   const items = data?._embedded.categories
-  // console.debug('Category Table rendered', count++)
-  const { remove } = useAxios()
-  const { ok, fail } = useMyToast()
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [current, setCurrent] = useState<Category>()
 
   const rootCategories: Category[] = useMemo(() => {
     return rootData?._embedded?.categories
   }, [rootData])
-
-  const clearCurrentCategory = () => {
-    setCurrent(undefined)
-  }
-  const refreshRoot = () => {
-    globalMutate(config.api.categories.root)
-  }
-  const deleteCategory = useCallback(
-    (deleteItem: Category) => {
-      //// get deleter from axios
-      const deleter = async () => {
-        const url = deleteItem._links.self.href
-        const response = await remove({
-          requestUrl: url,
-          options: {
-            throwOnError: true,
-          },
-        })
-        if (response?.status) {
-          //todo: perform some success action like send a toast
-          ok({
-            title: 'Delete success',
-            message: 'Category has been deleted',
-          }).fire()
-          return
-        }
-        ////throw errror when status is not okay
-        throw Error('Không thể xoá danh mục')
-      }
-      mutate(
-        deleter()
-          .then(refreshRoot)
-          .catch(({ code: title, message }) => {
-            fail({ title, message }).fire()
-          }),
-        {
-          revalidate: false,
-          populateCache: (result: any, currentData: any) => {
-            const filtered = currentData._embedded.categories.filter(
-              (item: Category) => item.id !== deleteItem.id
-            )
-
-            return {
-              ...currentData,
-              _embedded: {
-                categories: [...filtered],
-              },
-            }
-          },
-        }
-      )
-    },
-    [ok, remove, fail, mutate]
-  )
 
   const columns = useMemo(() => {
     console.log('columns created use memo')
@@ -104,9 +54,7 @@ const CategoryTable = ({ setSize, keyUrl, onChangePage, ...props }: Props) => {
       onOpen()
     }
     const deleteHandler = (info: CellContext<Category, any>) => {
-      const category: Category = info.row.original
-      deleteCategory(category)
-      console.log('Deleted info', info.row.original)
+      deleteCategory(info.row.original)
     }
 
     const menu = (info: any) => (
@@ -152,18 +100,17 @@ const CategoryTable = ({ setSize, keyUrl, onChangePage, ...props }: Props) => {
   if (!items?.length) return <p>{`There's nothing`}</p>
 
   //todo: render the items if items exists
-
   return (
     <>
       {current && (
         <ModalForm
-          keyUrl={keyUrl}
-          mutate={mutate}
           category={current}
+          updateCategory={updateCategory}
           rootCategories={rootCategories}
           isOpen={isOpen}
+          isSubmitting={isSubmitting}
           onClose={onClose}
-          clearCurrent={clearCurrentCategory}
+          clearCurrent={clearCurrent}
         />
       )}
 

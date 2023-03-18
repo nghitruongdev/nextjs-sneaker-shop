@@ -1,7 +1,5 @@
 import CustomModal from '@/components/common/CustomModal'
 import Category from '@/domain/Category'
-import useAxios from '@/hooks/useAxios'
-import useMyToast from '@/hooks/useMyToast'
 import {
   FormControl,
   Input,
@@ -18,19 +16,18 @@ import { RiPencilFill } from 'react-icons/ri'
 import ReactSelect from 'react-select'
 import { VStack } from '@chakra-ui/react'
 import SaveButton from '../../common/CloseButton'
-import { mutate as globalMutate, KeyedMutator } from 'swr'
-import config from 'config'
+import { UpdateProps } from '@/hooks/useCategory'
 type Props = {
-  category?: Category
+  category: Category
   isOpen: boolean
+  isSubmitting?: boolean
   onClose: () => void
   rootCategories?: Category[]
-  keyUrl: string | null
   clearCurrent: () => void
-  mutate: KeyedMutator<any>
+  updateCategory: (props: UpdateProps) => void
 }
 
-type FormValue = {
+export type FormValue = {
   id?: number
   name: string
   parent?: any
@@ -41,21 +38,14 @@ let count = 0
 const ModalForm = ({
   isOpen,
   onClose,
-  category = { name: '' },
+  category,
   rootCategories,
-  keyUrl,
-  mutate,
+  isSubmitting,
+  updateCategory,
   clearCurrent,
 }: Props) => {
   console.debug('Modal form rendered', count++)
   const { id, name, description, parentId, isRoot, _links } = category
-  const { ok, fail } = useMyToast()
-  const {
-    errorText,
-    isLoading: isSubmitting,
-    patch,
-    post,
-  } = useAxios(category?._links?.self.href)
 
   const selectOptions = rootCategories?.map((item) => ({
     label: item.name,
@@ -78,7 +68,6 @@ const ModalForm = ({
     watch,
     setValue,
     handleSubmit,
-    reset: resetForm,
     formState: { errors, isDirty },
   } = useForm({
     mode: 'onBlur',
@@ -96,81 +85,12 @@ const ModalForm = ({
   })
 
   const updateHandler = (data: FormValue) => {
-    console.debug('form value', data)
-
-    const successAction = (updatedData?: Category) => {
-      console.log('isSubmitting', isSubmitting, Date.now())
-      clearCurrent()
-      ok({
-        title: 'Category saved.',
-        message: 'Category has been saved to the server',
-      }).fire()
-      return updatedData ? updatedData : data
-    }
-
-    if (!isDirty) {
-      return successAction()
-    }
-
-    const transformRequest = (data: FormValue) => {
-      const parent = data.parent?.value?._links?.self.href
-      return { ...data, parent }
-    }
-
-    const options = { timeout: 3000, throwOnError: false }
-    let submitHandler: () => Promise<any>
-    if (!id) {
-      submitHandler = async () => {
-        const response = await post(transformRequest(data), {
-          options,
-          config: {
-            url: config.api.categories.url,
-          },
-        })
-        if (response?.status) {
-          return successAction(response.data)
-        }
-        throw Error('Fail to create new category')
-      }
-    } else {
-      submitHandler = async () => {
-        const response = await patch(transformRequest(data), { options })
-        if (response?.status) {
-          return successAction(response.data)
-        }
-        throw Error('Failing on save category')
-      }
-    }
-
-    const mutateFn = () => {
-      const updateItemsFn = (saved: Category, currentData: any) => {
-        if (!saved?.id) return currentData
-        const items = currentData._embedded.categories
-        const idx = items.findIndex((item: Category) => item.id === saved.id)
-        if (idx >= 0) items[idx] = saved
-        else items.unshift(saved)
-        return { ...currentData, _embedded: { categories: [...items] } }
-      }
-      mutate(
-        submitHandler()
-          .then(() => {
-            globalMutate(config.api.categories.root)
-          })
-          .catch((error) => {
-            fail({ title: error.code, message: error.message }).fire()
-            console.error(error)
-          }),
-        {
-          revalidate: false,
-          populateCache: (updated: Category, categories: any) => {
-            return updateItemsFn(updated, categories)
-          },
-          rollbackOnError: true,
-          throwOnError: false,
-        }
-      )
-    }
-    mutateFn()
+    updateCategory({
+      data,
+      current: category,
+      clearCurrent,
+      isFormDirty: isDirty,
+    })
   }
 
   const saveBtn = (
@@ -259,8 +179,3 @@ const ModalForm = ({
   )
 }
 export default ModalForm
-// onChange: (event) => {
-// console.log(getValues())
-// const checked = event.target?.checked
-// if (checked) setValue('parent', undefined)
-// },

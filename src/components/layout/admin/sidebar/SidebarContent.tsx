@@ -25,29 +25,9 @@ const Items: Array<ItemProps> = [
     href: '/admin/orders',
     subItems: [
       {
-        name: 'Chờ xác nhận',
+        name: 'Tạo mới đơn hàng',
         icon: AiOutlineBorderVerticle,
-        href: '/admin/orders/unaccept',
-      },
-      {
-        name: 'Đang chuẩn bị',
-        icon: AiOutlineBorderVerticle,
-        href: '/admin/orders/',
-      },
-      {
-        name: 'Đang giao hàng',
-        icon: AiOutlineBorderVerticle,
-        href: '/admin/orders/',
-      },
-      {
-        name: 'Đã huỷ',
-        icon: AiOutlineBorderVerticle,
-        href: '/admin/orders/',
-      },
-      {
-        name: 'Đã hoàn thành',
-        icon: AiOutlineBorderVerticle,
-        href: '/admin/orders/',
+        href: '/admin/orders/new',
       },
     ],
   },
