@@ -12,6 +12,10 @@ const Overview: NextPageWithLayout = () => {
       >
         <Flex justifyContent="flex-start">
           <Flex
+          display={{
+            base: 'none',
+            md: 'inline-flex'
+          }}
             ml={'60px'}
             justifyContent="flex-start"
             flexDirection="column"
@@ -19,10 +23,11 @@ const Overview: NextPageWithLayout = () => {
           >
             <Image
               borderRadius={'5px'}
-              height="60px"
-              width="60px"
+              boxSize={10}             
+               height="60px"
+              width="60px" 
               mr={'15px'}
-              objectFit={'cover'}
+              objectFit={'contain'}
               src="https://static.nike.com/a/images/t_PDP_1728_v1/ca113e5f-2165-476a-8dcf-ce7a0d85356c/air-jordan-1-mid-se-shoes-CQ6f9G.png"
             />
           </Flex>

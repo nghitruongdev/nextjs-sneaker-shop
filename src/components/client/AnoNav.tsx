@@ -99,6 +99,10 @@ export default function AnoNav() {
               width={'45px'}
               fallbackSrc="/logo.png"
               cursor={'pointer'}
+              // bg={'white'}
+              // color={'white'}
+              // _hover={''}
+              _hover={'blackAlpha'}
             />
           </NextLink>
         </Flex>
@@ -187,13 +191,15 @@ export default function AnoNav() {
               </Text>
             </Box>
           </NextLink>
-          <IconButton
-            aria-label="icon"
-            icon={<AiOutlineHeart />}
-            size="lg"
-            borderRadius={30}
-            variant="ghost"
-          />
+          <NextLink href="/client/favorites">
+            <IconButton
+              aria-label="icon"
+              icon={<AiOutlineHeart />}
+              size="lg"
+              borderRadius={30}
+              variant="ghost"
+            />
+          </NextLink>
         </Grid>
       </Flex>
     </Box>

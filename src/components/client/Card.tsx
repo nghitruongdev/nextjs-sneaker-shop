@@ -35,7 +35,7 @@ const Card = (props:any) => {
         <Box
           h={'300px'}
         >
-          <Icon
+          {/* <Icon
             boxSize={25}
             // ternary operator
             color={isFavourite ? 'red' : undefined}
@@ -44,7 +44,7 @@ const Card = (props:any) => {
             left={'280px'}
             as={isFavourite ? BsHeartFill : BsHeart}
             onClick={() => setIsFavorite(!isFavourite)}
-          />
+          /> */}
           <Img
             src={
               'https://th.bing.com/th/id/OIP.iBytPPicRuYBb6bWewISPAHaHa?pid=ImgDet&rs=1'
