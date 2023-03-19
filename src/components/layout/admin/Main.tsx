@@ -6,13 +6,20 @@ interface MainProps {
   children: ReactNode
   header: ReactElement
   footer: ReactElement
+  isSidebarExpanded?: boolean
 }
-const Main = ({ header, footer, children, ...props }: MainProps) => {
+const Main = ({
+  header,
+  footer,
+  isSidebarExpanded = true,
+  children,
+  ...props
+}: MainProps) => {
   /* Main box including header + main content */
 
   return (
     <Box
-      ml={{ base: 0, md: 60 }}
+      ml={{ base: 0, md: isSidebarExpanded ? 60 : 14 }}
       transition=".3s ease"
     >
       {header}

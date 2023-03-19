@@ -8,62 +8,14 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import { RiFlashlightFill } from 'react-icons/ri'
-import { SidebarItemProps as ItemProps, SidebarItemProps } from './SidebarItem'
 import { AiOutlineBorderVerticle, AiOutlineHome } from 'react-icons/ai'
 import { FiHome, FiCompass, FiStar, FiSettings } from 'react-icons/fi'
 import SidebarList from './SidebarList'
 
-const Items: Array<ItemProps> = [
-  {
-    name: 'Home',
-    icon: FiHome,
-    href: '/admin',
-  },
-  {
-    name: 'Đơn hàng',
-    icon: AiOutlineBorderVerticle,
-    href: '/admin/orders',
-    subItems: [
-      {
-        name: 'Chờ xác nhận',
-        icon: AiOutlineBorderVerticle,
-        href: '/admin/orders/unaccept',
-      },
-      {
-        name: 'Đang chuẩn bị',
-        icon: AiOutlineBorderVerticle,
-        href: '/admin/orders/',
-      },
-      {
-        name: 'Đang giao hàng',
-        icon: AiOutlineBorderVerticle,
-        href: '/admin/orders/',
-      },
-      {
-        name: 'Đã huỷ',
-        icon: AiOutlineBorderVerticle,
-        href: '/admin/orders/',
-      },
-      {
-        name: 'Đã hoàn thành',
-        icon: AiOutlineBorderVerticle,
-        href: '/admin/orders/',
-      },
-    ],
-  },
-  { name: 'Users', icon: FiCompass, href: '/admin/users' },
-  { name: 'Categories', icon: FiCompass, href: '/admin/categories' },
-  { name: 'Products', icon: FiStar, href: '/admin/products' },
-  { name: 'New Product', icon: FiStar, href: '/admin/products/new' },
-  {
-    name: 'Product Variants',
-    icon: FiStar,
-    href: '/admin/products/variants',
-  },
-  { name: 'Settings', icon: FiSettings, href: '/admin' },
-]
-
-const SidebarContent = ({ ...props }: BoxProps) => {
+const SidebarContent = ({
+  isExpanded,
+  ...props
+}: { isExpanded?: boolean } & BoxProps) => {
   return (
     <Box
       as="nav"
@@ -79,7 +31,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
       bg={useColorModeValue('white', 'gray.800')}
       borderColor={useColorModeValue('inherit', 'gray.700')}
       borderRightWidth="1px"
-      w={{ base: 'full', sm: 60 }}
+      w={{ base: 'full', sm: isExpanded ? 60 : '14' }}
       {...props}
     >
       {/* Brand */}
@@ -102,7 +54,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
       </Flex>
 
       {/* Main Items */}
-      <SidebarList items={Items} />
+      <SidebarList isExpanded={isExpanded} />
     </Box>
   )
 }

@@ -1,20 +1,28 @@
-import { Box, Drawer, DrawerContent, DrawerOverlay } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  Drawer,
+  DrawerContent,
+  DrawerOverlay,
+} from '@chakra-ui/react'
 import SidebarContent from './SidebarContent'
 
 interface SidebarProps {
   isOpen: boolean
+  isExpanded: boolean
   onClose: () => void
 }
 
-const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
+const Sidebar = ({ isOpen, onClose, isExpanded }: SidebarProps) => {
   return (
     <>
       {/* Sidebar when fullscreen */}
       <SidebarContent
         display={{
           base: 'none',
-          md: 'unset',
+          md: isOpen ? 'none' : 'unset',
         }}
+        isExpanded={isExpanded}
       />
 
       {/* Sidebar when below mid screen */}

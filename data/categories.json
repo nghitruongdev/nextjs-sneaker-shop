@@ -1,0 +1,449 @@
+{
+  "_embedded": {
+    "categories": [
+      {
+        "id": 1,
+        "name": "Jewelry, Kids & Shoes",
+        "isRoot": true,
+        "parentId": null,
+        "description": null,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/categories/1"
+          },
+          "category": {
+            "href": "http://localhost:8080/api/categories/1"
+          },
+          "parent": {
+            "href": "http://localhost:8080/api/categories/1/parent"
+          },
+          "subCategories": {
+            "href": "http://localhost:8080/api/categories/1/subCategories"
+          }
+        }
+      },
+      {
+        "id": 2,
+        "name": "Music & Outdoors",
+        "isRoot": true,
+        "parentId": null,
+        "description": null,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/categories/2"
+          },
+          "category": {
+            "href": "http://localhost:8080/api/categories/2"
+          },
+          "parent": {
+            "href": "http://localhost:8080/api/categories/2/parent"
+          },
+          "subCategories": {
+            "href": "http://localhost:8080/api/categories/2/subCategories"
+          }
+        }
+      },
+      {
+        "id": 3,
+        "name": "Beauty",
+        "isRoot": true,
+        "parentId": null,
+        "description": null,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/categories/3"
+          },
+          "category": {
+            "href": "http://localhost:8080/api/categories/3"
+          },
+          "parent": {
+            "href": "http://localhost:8080/api/categories/3/parent"
+          },
+          "subCategories": {
+            "href": "http://localhost:8080/api/categories/3/subCategories"
+          }
+        }
+      },
+      {
+        "id": 4,
+        "name": "Automotive",
+        "isRoot": true,
+        "parentId": null,
+        "description": null,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/categories/4"
+          },
+          "category": {
+            "href": "http://localhost:8080/api/categories/4"
+          },
+          "parent": {
+            "href": "http://localhost:8080/api/categories/4/parent"
+          },
+          "subCategories": {
+            "href": "http://localhost:8080/api/categories/4/subCategories"
+          }
+        }
+      },
+      {
+        "id": 5,
+        "name": "Beauty & Home",
+        "isRoot": true,
+        "parentId": null,
+        "description": null,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/categories/5"
+          },
+          "category": {
+            "href": "http://localhost:8080/api/categories/5"
+          },
+          "parent": {
+            "href": "http://localhost:8080/api/categories/5/parent"
+          },
+          "subCategories": {
+            "href": "http://localhost:8080/api/categories/5/subCategories"
+          }
+        }
+      },
+      {
+        "id": 6,
+        "name": "Automotive, Health & Outdoors",
+        "isRoot": null,
+        "parentId": 1,
+        "description": null,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/categories/6"
+          },
+          "category": {
+            "href": "http://localhost:8080/api/categories/6"
+          },
+          "parent": {
+            "href": "http://localhost:8080/api/categories/6/parent"
+          },
+          "subCategories": {
+            "href": "http://localhost:8080/api/categories/6/subCategories"
+          }
+        }
+      },
+      {
+        "id": 7,
+        "name": "Tools",
+        "isRoot": null,
+        "parentId": 3,
+        "description": null,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/categories/7"
+          },
+          "category": {
+            "href": "http://localhost:8080/api/categories/7"
+          },
+          "parent": {
+            "href": "http://localhost:8080/api/categories/7/parent"
+          },
+          "subCategories": {
+            "href": "http://localhost:8080/api/categories/7/subCategories"
+          }
+        }
+      },
+      {
+        "id": 8,
+        "name": "Clothing, Games & Garden",
+        "isRoot": null,
+        "parentId": 2,
+        "description": null,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/categories/8"
+          },
+          "category": {
+            "href": "http://localhost:8080/api/categories/8"
+          },
+          "parent": {
+            "href": "http://localhost:8080/api/categories/8/parent"
+          },
+          "subCategories": {
+            "href": "http://localhost:8080/api/categories/8/subCategories"
+          }
+        }
+      },
+      {
+        "id": 9,
+        "name": "Toys",
+        "isRoot": null,
+        "parentId": null,
+        "description": null,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/categories/9"
+          },
+          "category": {
+            "href": "http://localhost:8080/api/categories/9"
+          },
+          "parent": {
+            "href": "http://localhost:8080/api/categories/9/parent"
+          },
+          "subCategories": {
+            "href": "http://localhost:8080/api/categories/9/subCategories"
+          }
+        }
+      },
+      {
+        "id": 10,
+        "name": "Jewelry, Outdoors & Tools",
+        "isRoot": null,
+        "parentId": 3,
+        "description": null,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/categories/10"
+          },
+          "category": {
+            "href": "http://localhost:8080/api/categories/10"
+          },
+          "parent": {
+            "href": "http://localhost:8080/api/categories/10/parent"
+          },
+          "subCategories": {
+            "href": "http://localhost:8080/api/categories/10/subCategories"
+          }
+        }
+      },
+      {
+        "id": 11,
+        "name": "Music",
+        "isRoot": null,
+        "parentId": 4,
+        "description": null,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/categories/11"
+          },
+          "category": {
+            "href": "http://localhost:8080/api/categories/11"
+          },
+          "parent": {
+            "href": "http://localhost:8080/api/categories/11/parent"
+          },
+          "subCategories": {
+            "href": "http://localhost:8080/api/categories/11/subCategories"
+          }
+        }
+      },
+      {
+        "id": 12,
+        "name": "Electronics, Health & Home",
+        "isRoot": null,
+        "parentId": 4,
+        "description": null,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/categories/12"
+          },
+          "category": {
+            "href": "http://localhost:8080/api/categories/12"
+          },
+          "parent": {
+            "href": "http://localhost:8080/api/categories/12/parent"
+          },
+          "subCategories": {
+            "href": "http://localhost:8080/api/categories/12/subCategories"
+          }
+        }
+      },
+      {
+        "id": 13,
+        "name": "Computers & Garden",
+        "isRoot": null,
+        "parentId": 5,
+        "description": null,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/categories/13"
+          },
+          "category": {
+            "href": "http://localhost:8080/api/categories/13"
+          },
+          "parent": {
+            "href": "http://localhost:8080/api/categories/13/parent"
+          },
+          "subCategories": {
+            "href": "http://localhost:8080/api/categories/13/subCategories"
+          }
+        }
+      },
+      {
+        "id": 14,
+        "name": "Health & Sports",
+        "isRoot": null,
+        "parentId": 4,
+        "description": null,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/categories/14"
+          },
+          "category": {
+            "href": "http://localhost:8080/api/categories/14"
+          },
+          "parent": {
+            "href": "http://localhost:8080/api/categories/14/parent"
+          },
+          "subCategories": {
+            "href": "http://localhost:8080/api/categories/14/subCategories"
+          }
+        }
+      },
+      {
+        "id": 15,
+        "name": "Outdoors",
+        "isRoot": null,
+        "parentId": 3,
+        "description": null,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/categories/15"
+          },
+          "category": {
+            "href": "http://localhost:8080/api/categories/15"
+          },
+          "parent": {
+            "href": "http://localhost:8080/api/categories/15/parent"
+          },
+          "subCategories": {
+            "href": "http://localhost:8080/api/categories/15/subCategories"
+          }
+        }
+      },
+      {
+        "id": 16,
+        "name": "Garden",
+        "isRoot": null,
+        "parentId": 1,
+        "description": null,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/categories/16"
+          },
+          "category": {
+            "href": "http://localhost:8080/api/categories/16"
+          },
+          "parent": {
+            "href": "http://localhost:8080/api/categories/16/parent"
+          },
+          "subCategories": {
+            "href": "http://localhost:8080/api/categories/16/subCategories"
+          }
+        }
+      },
+      {
+        "id": 17,
+        "name": "Kids & Outdoors",
+        "isRoot": null,
+        "parentId": 2,
+        "description": null,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/categories/17"
+          },
+          "category": {
+            "href": "http://localhost:8080/api/categories/17"
+          },
+          "parent": {
+            "href": "http://localhost:8080/api/categories/17/parent"
+          },
+          "subCategories": {
+            "href": "http://localhost:8080/api/categories/17/subCategories"
+          }
+        }
+      },
+      {
+        "id": 18,
+        "name": "Computers",
+        "isRoot": null,
+        "parentId": 5,
+        "description": null,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/categories/18"
+          },
+          "category": {
+            "href": "http://localhost:8080/api/categories/18"
+          },
+          "parent": {
+            "href": "http://localhost:8080/api/categories/18/parent"
+          },
+          "subCategories": {
+            "href": "http://localhost:8080/api/categories/18/subCategories"
+          }
+        }
+      },
+      {
+        "id": 19,
+        "name": "Toys",
+        "isRoot": null,
+        "parentId": 5,
+        "description": null,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/categories/19"
+          },
+          "category": {
+            "href": "http://localhost:8080/api/categories/19"
+          },
+          "parent": {
+            "href": "http://localhost:8080/api/categories/19/parent"
+          },
+          "subCategories": {
+            "href": "http://localhost:8080/api/categories/19/subCategories"
+          }
+        }
+      },
+      {
+        "id": 20,
+        "name": "Industrial, Movies & Outdoors",
+        "isRoot": null,
+        "parentId": 1,
+        "description": null,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/categories/20"
+          },
+          "category": {
+            "href": "http://localhost:8080/api/categories/20"
+          },
+          "parent": {
+            "href": "http://localhost:8080/api/categories/20/parent"
+          },
+          "subCategories": {
+            "href": "http://localhost:8080/api/categories/20/subCategories"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "first": {
+      "href": "http://localhost:8080/api/categories?page=0&size=20"
+    },
+    "self": {
+      "href": "http://localhost:8080/api/categories"
+    },
+    "next": {
+      "href": "http://localhost:8080/api/categories?page=1&size=20"
+    },
+    "last": {
+      "href": "http://localhost:8080/api/categories?page=1&size=20"
+    },
+    "profile": {
+      "href": "http://localhost:8080/api/profile/categories"
+    }
+  },
+  "page": {
+    "size": 20,
+    "totalElements": 25,
+    "totalPages": 2,
+    "number": 0
+  }
+}

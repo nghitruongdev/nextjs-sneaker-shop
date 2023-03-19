@@ -23,8 +23,8 @@ import {
 } from '@chakra-ui/react'
 import { getAdminLayout } from '../../../components/layout/admin/AdminLayout'
 import { AddIcon, ChevronDownIcon } from '@chakra-ui/icons'
-import NewSelectItem from '@/components/NewSelectItem'
-import OptionItem from '@/components/OptionItem'
+import NewSelectItem from '@/components/common/NewSelectItem'
+import OptionItem from '@/components/common/OptionItem'
 import { BsFillCloudUploadFill, BsUpload } from 'react-icons/bs'
 import { FaUpload } from 'react-icons/fa'
 import { FiUpload, FiUploadCloud } from 'react-icons/fi'
@@ -35,8 +35,16 @@ const NewProductPage: NextPageWithLayout = () => {
   return (
     <>
       {/* Upload image */}
-      <SimpleGrid columns={2} spacingX={1} spacingY={1} bg={'white'}>
-        <VStack p={4} spacing={10}>
+      <SimpleGrid
+        columns={2}
+        spacingX={1}
+        spacingY={1}
+        bg={'white'}
+      >
+        <VStack
+          p={4}
+          spacing={10}
+        >
           {/* Product name */}
           <FormControl>
             <FormLabel>Product Name</FormLabel>
@@ -107,7 +115,10 @@ const NewProductPage: NextPageWithLayout = () => {
               <Heading size="md">Product Images</Heading>
             </CardHeader>
 
-            <CardBody h={200} className="grid grid-cols-2 space-x-5">
+            <CardBody
+              h={200}
+              className="grid grid-cols-2 space-x-5"
+            >
               {/* <BsUpload /> */}
               {/* <FaUpload /> */}
               {/* <FiUpload /> */}
@@ -150,7 +161,10 @@ const NewProductPage: NextPageWithLayout = () => {
             </CardHeader>
 
             <CardBody>
-              <Stack divider={<StackDivider />} spacing="4">
+              <Stack
+                divider={<StackDivider />}
+                spacing="4"
+              >
                 <OptionItem />
                 <OptionItem />
               </Stack>
