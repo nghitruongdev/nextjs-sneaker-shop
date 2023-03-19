@@ -1,44 +1,32 @@
 import { NextPageWithLayout } from '@/pages/_app'
 import { getAdminLayout } from '../../../components/layout/admin/AdminLayout'
-import OrderTable, { StatusCell } from '@/components/admin/order/OrderTable'
+import OrderTable from '@/components/admin/order/OrderTable'
 import config from 'config'
-import { memo, useMemo, useState } from 'react'
+import { useState } from 'react'
 import {
   Box,
-  Button,
   Card,
   CardBody,
-  CardHeader,
-  Flex,
-  Heading,
   HStack,
   Icon,
-  SimpleGrid,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
-  Td,
   Text,
-  Tr,
 } from '@chakra-ui/react'
 import { AiFillAccountBook } from 'react-icons/ai'
 import Order from '@/domain/Order'
 import useSWR from 'swr'
 import { getFetcher } from '../../../hooks/useFetcher'
-import { createColumnHelper } from '@tanstack/react-table'
-import { OrderItem } from '@/domain/OrderItem'
-import NewTable from '@/components/NewTable'
 import React from 'react'
-import UserOrderHistory from '@/components/admin/order/UserOrderHistory'
-import { Goblin_One } from '@next/font/google'
-import OrderModificationHistory from '../../../components/admin/order/OrderModificationHistory'
+import OrderInfoPanel from '@/components/admin/order/OrderInfoPanel'
 
+const fetcher = getFetcher()
 const OrderPage: NextPageWithLayout = () => {
   const [tabIndex, setTabIndex] = useState(0)
   const [current, setCurrent] = useState<Order | null>(null)
-  const fetcher = getFetcher()
 
   const { data: statuses, isLoading } = useSWR(
     config.api.orders.status,
@@ -50,9 +38,6 @@ const OrderPage: NextPageWithLayout = () => {
     setTabIndex(1)
   }
 
-  const handleTabsChange = (index: any) => {
-    setTabIndex(index)
-  }
   console.debug('Order page rerendered')
 
   if (isLoading) return <p>Loading...</p>
@@ -64,7 +49,7 @@ const OrderPage: NextPageWithLayout = () => {
         isLazy
         isTruncated
         index={tabIndex}
-        onChange={handleTabsChange}
+        onChange={setTabIndex}
       >
         <TabList>
           <Tab>
@@ -95,7 +80,7 @@ const OrderPage: NextPageWithLayout = () => {
           />
           {current && (
             <TabPanel>
-              <ViewOrderPanel
+              <OrderInfoPanel
                 currentOrder={current}
                 statuses={statuses}
                 viewOrder={showOrderInfo}
@@ -187,7 +172,6 @@ const OverviewPanel = ({
   )
 }
 
-const fetcher = getFetcher()
 const OverviewStatus = ({
   status,
   manualCount,
@@ -213,150 +197,5 @@ const OverviewStatus = ({
         </Box>
       )}
     </>
-  )
-}
-
-const ViewOrderPanel = ({
-  currentOrder,
-  statuses,
-  viewOrder,
-}: {
-  currentOrder: Order
-  statuses: string[]
-  viewOrder: (current: Order) => void
-}) => {
-  const { id, subTotal: subTotals, status, _links } = currentOrder
-  return (
-    <Box>
-      <Card mb={5}>
-        <CardHeader bg={'red'}>
-          <Heading>Chi tiết đơn hàng</Heading>
-        </CardHeader>
-        <CardBody>
-          <Text>
-            OrderID:{' '}
-            <Text
-              as="span"
-              fontWeight="bold"
-            >
-              {id}
-            </Text>
-          </Text>
-
-          <Text>
-            Tổng tiền: <Text as="span">{subTotals || 0}</Text>
-          </Text>
-
-          <Text>
-            Trạng thái: <Text as="span">{status}</Text>
-          </Text>
-
-          <Text>
-            Ngày tạo:{' '}
-            <Text as="span">
-              {new Date(Date.now()).toLocaleString('en-US')}
-            </Text>
-          </Text>
-
-          <Text>
-            Cập nhật lần cuối:{' '}
-            <Text as="span">
-              {new Date(Date.now()).toLocaleString('en-US')}
-            </Text>
-          </Text>
-          {/* //todo: thêm note cho đơn hàng bỏ trạng thái active */}
-          <OrderItemTable order={currentOrder} />
-        </CardBody>
-      </Card>
-      <SimpleGrid
-        spacing={5}
-        columns={2}
-        h="50vh"
-        mb={5}
-      >
-        <Card
-          minH="250px"
-          p={5}
-        >
-          <CardHeader> Lịch sử cập nhật đơn hàng</CardHeader>
-          <CardBody>
-            <OrderModificationHistory
-              modificationsLink={_links?.modifications.href}
-            />
-          </CardBody>
-        </Card>
-        <Card
-          p={5}
-          borderWidth={1}
-          borderColor={'gray.50'}
-          overflowY="scroll"
-        >
-          <CardHeader>Lịch sử đặt hàng</CardHeader>
-          <CardBody overflowY={'scroll'}>
-            <UserOrderHistory
-              userId={currentOrder?.user?.id}
-              viewOrder={viewOrder}
-            />
-          </CardBody>
-        </Card>
-      </SimpleGrid>
-    </Box>
-  )
-}
-
-const util = createColumnHelper<OrderItem>()
-const OrderItemTable = ({ order }: { order: Order }) => {
-  const { data, isLoading, error } = useSWR(order?._links?.items.href, fetcher)
-  // const { data, isLoading } = useSWR(config.api.orders.search.byUser)
-  const items = data?._embedded.orderItems
-  console.log('data', items)
-  console.log('Order Item rerenderedx')
-
-  const columns = useMemo(() => {
-    return [
-      util.accessor((row) => row.id, {
-        header: 'ID',
-        cell: (info) => info.getValue(),
-      }),
-      util.accessor((row) => row.variant.id, {
-        header: 'Mã sản phẩm',
-      }),
-      util.accessor((row) => row.quantity, {
-        header: 'Số lượng',
-      }),
-      util.accessor((row) => row.price, {
-        header: 'Giá tiền',
-      }),
-      util.accessor((row) => row.discount, {
-        header: 'Giảm giá',
-      }),
-      util.accessor((row) => row.price * row.quantity, {
-        header: 'Thành tiền',
-      }),
-    ]
-  }, [])
-  if (isLoading) return <p>Loading....</p>
-  if (error) return <p>{JSON.stringify(error)}</p>
-
-  if (items?.length === 0) return <p>Đơn hàng không có sản phẩm</p>
-  return (
-    <NewTable
-      columns={columns}
-      data={items}
-      additionalRows={
-        <Tr
-          bg="blue.800"
-          color="white"
-        >
-          <Td
-            colSpan={columns.length - 1}
-            fontWeight="bold"
-          >
-            Tổng tiền
-          </Td>
-          <Td>{order.subTotal}</Td>
-        </Tr>
-      }
-    />
   )
 }
