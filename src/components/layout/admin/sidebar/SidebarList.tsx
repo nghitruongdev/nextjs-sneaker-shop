@@ -1,18 +1,19 @@
 import { Accordion, AccordionProps } from '@chakra-ui/react'
 import SidebarItem, { SidebarItemProps } from './SidebarItem'
 import { useEffect, useState } from 'react'
-import Items from './Items'
 
 const SidebarList = ({
+  items,
   isParentActive,
   isExpanded,
   ...rest
 }: {
+  items: Array<SidebarItemProps>
   isParentActive?: boolean
   isExpanded?: boolean
 } & AccordionProps) => {
   const [currentName, setCurrentName] = useState('')
-  const items = Items
+
   useEffect(() => {
     !isParentActive && setCurrentName('')
   }, [isParentActive])
