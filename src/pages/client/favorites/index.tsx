@@ -1,14 +1,12 @@
 import { ReactElement } from "react";
-import ClientLayout from "../../components/layout/ClientLayout";
-import { NextPageWithLayout } from "../_app";
-import Hero from '../../components/client/Hero';
+import ClientLayout from "../../../components/layout/ClientLayout";
+import { NextPageWithLayout } from "../../_app";
+import FavCard from '../favorites/components/FavCard';
 
 const ClientPage: NextPageWithLayout = () => {
   return (
-    <>
-      <Hero />
-    </>
-  )
+    <FavCard/>
+  );
 }
 
 ClientPage.getLayout = (page: ReactElement) => {
