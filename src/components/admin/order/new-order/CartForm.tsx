@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react'
 import { useReducer, useEffect, useState, useMemo } from 'react'
 import useSWR from 'swr'
-import { OptionValue, ProductOption } from '@/domain/ProductOption'
+import { OptionValue, ProductOption } from '../../../../domain/ProductOption'
 import { ProductVariant } from '@/domain/ProductVariant'
 import { ActionMeta, SingleValue } from 'react-select'
 import {

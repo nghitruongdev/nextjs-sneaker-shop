@@ -4,15 +4,16 @@ import { useEffect, useState } from 'react'
 import Items from './Items'
 
 const SidebarList = ({
+  items,
   isParentActive,
   isExpanded,
   ...rest
 }: {
   isParentActive?: boolean
   isExpanded?: boolean
+  items: Array<SidebarItemProps>
 } & AccordionProps) => {
   const [currentName, setCurrentName] = useState('')
-  const items = Items
   useEffect(() => {
     !isParentActive && setCurrentName('')
   }, [isParentActive])
