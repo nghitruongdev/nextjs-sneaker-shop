@@ -1,4 +1,4 @@
-import NewOrderForm from '@/components/admin/order/NewOrderForm'
+import NewOrderForm from '@/components/admin/order/new-order/NewOrderForm'
 import { NextPageWithLayout } from '../../_app'
 import { getAdminLayout } from '../../../components/layout/admin/AdminLayout'
 

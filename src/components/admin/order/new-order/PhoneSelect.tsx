@@ -12,7 +12,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import ReactSelect, { AriaOnFocus, components } from 'react-select'
 import useSWR from 'swr'
-import { getFetcher } from '../../../hooks/useFetcher'
+import { getFetcher } from '../../../../hooks/useFetcher'
 
 type Option = {
   label: string
