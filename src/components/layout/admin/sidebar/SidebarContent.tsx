@@ -8,7 +8,6 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import { RiFlashlightFill } from 'react-icons/ri'
-import { SidebarItemProps as ItemProps, SidebarItemProps } from './SidebarItem'
 import { AiOutlineBorderVerticle, AiOutlineHome } from 'react-icons/ai'
 import { FiHome, FiCompass, FiStar, FiSettings } from 'react-icons/fi'
 import SidebarList from './SidebarList'
@@ -58,7 +57,7 @@ const SidebarContent = ({
 
       {/* Main Items */}
       <SidebarList
-        items={Items}
+        items={items}
         isExpanded={isExpanded}
       />
     </Box>
