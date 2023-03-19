@@ -112,10 +112,7 @@ const SidebarItem = ({
                 p: '0px',
               })}
             >
-              <SidebarList
-                items={subItems}
-                isParentActive={active}
-              />
+              <SidebarList isParentActive={active} />
             </AccordionPanel>
           )}
         </>
