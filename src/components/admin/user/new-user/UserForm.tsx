@@ -1,5 +1,7 @@
-import useShippingAddress from '@/hooks/useShippingAddress'
+import { User } from '@/domain/User'
+import useAddressForm from '@/hooks/useAddress'
 import useUserForm from '@/hooks/useUserForm'
+import { UserFormValue } from '../../../../hooks/useUserForm'
 import {
   Avatar,
   Box,
@@ -10,55 +12,51 @@ import {
   SimpleGrid,
   Textarea,
 } from '@chakra-ui/react'
+import { Address } from '@/domain/Address'
+type Props = {
+  current?: User
+  getUserInput: (name: keyof UserFormValue) => JSX.Element
+  getAddressInput: (name: keyof Address) => JSX.Element
+  saveUser: () => void
+}
 
-const NewUserForm = () => {
-  const { register, user, inputs, errors, handleSubmit } = useUserForm()
+const UserForm = ({
+  current,
+  getUserInput,
+  getAddressInput,
+  saveUser,
+}: Props) => {
+  const submitForm = (event: any) => {}
 
-  const submitForm = (event: any) => {
-    console.log('info', user)
-  }
+  const resetHandler = () => {}
+
   return (
     <SimpleGrid columns={3}>
       <Avatar name="hello" />
       <Box aria-colspan={2}>
         <FormControl isRequired>
           <FormLabel>Họ</FormLabel>
-          <Input
-            type="text"
-            {...register('lastName')}
-          />
+          {getUserInput('lastName')}
         </FormControl>
 
         <FormControl isRequired>
           <FormLabel>Tên</FormLabel>
-          <Input
-            type="text"
-            {...register('firstName')}
-          />
+          {getUserInput('firstName')}
         </FormControl>
 
         <FormControl isRequired>
           <FormLabel>Username</FormLabel>
-          <Input
-            type="text"
-            {...register('login')}
-          />
+          {getUserInput('login')}
         </FormControl>
 
         <FormControl isRequired>
           <FormLabel>Địa chỉ email</FormLabel>
-          <Input
-            type="email"
-            {...register('email')}
-          />
+          {getUserInput('email')}
         </FormControl>
 
         <FormControl isRequired>
           <FormLabel>Số điện thoại</FormLabel>
-          <Input
-            type="tel"
-            {...register('phone')}
-          />
+          {getUserInput('phone')}
         </FormControl>
 
         <FormControl>
@@ -68,39 +66,36 @@ const NewUserForm = () => {
 
         <FormControl>
           <FormLabel>Ngày sinh</FormLabel>
-          <Input
-            type="date"
-            {...register('birthdate')}
-          />
+          {getUserInput('birthdate')}
         </FormControl>
 
         <FormControl>
           <FormLabel>Ghi chú</FormLabel>
-          <Textarea {...register('note')} />
+          {getUserInput('note')}
         </FormControl>
         <FormControl as="legend">
           <FormLabel as="fieldset">Địa chỉ</FormLabel>
           <FormControl>
             <FormLabel>Số nhà</FormLabel>
-            {inputs.streetInput}
+            {getAddressInput('street')}
           </FormControl>
           <FormControl>
             <FormLabel>Phường/ xã</FormLabel>
-            {inputs.wardSelect}
+            {getAddressInput('ward')}
           </FormControl>
           <FormControl>
             <FormLabel>Quận/Huyện</FormLabel>
-            {inputs.districtSelect}
+            {getAddressInput('district')}
           </FormControl>
           <FormControl>
             <FormLabel>Tỉnh/ thành phố</FormLabel>
-            {inputs.provinceSelect}
+            {getAddressInput('province')}
           </FormControl>
         </FormControl>
 
-        <Button onClick={submitForm}>Thêm</Button>
+        <Button onClick={saveUser}>Thêm</Button>
       </Box>
     </SimpleGrid>
   )
 }
-export default NewUserForm
+export default UserForm

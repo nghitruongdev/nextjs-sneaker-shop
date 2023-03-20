@@ -39,6 +39,9 @@ const config = {
         },
       },
     },
+    users: {
+      url: '/users',
+    },
   },
 }
 

@@ -5,6 +5,7 @@ import { Tr, Td } from '@chakra-ui/react'
 import { createColumnHelper } from '@tanstack/react-table'
 import { useMemo } from 'react'
 import { getFetcher } from '../../../hooks/useFetcher'
+import useSWR from 'swr'
 
 const util = createColumnHelper<OrderItem>()
 const fetcher = getFetcher()
@@ -12,8 +13,6 @@ const OrderItemTable = ({ order }: { order: Order }) => {
   const { data, isLoading, error } = useSWR(order?._links?.items.href, fetcher)
   // const { data, isLoading } = useSWR(config.api.orders.search.byUser)
   const items = data?._embedded.orderItems
-  console.log('data', items)
-  console.log('Order Item rerenderedx')
 
   const columns = useMemo(() => {
     return [
@@ -64,9 +63,3 @@ const OrderItemTable = ({ order }: { order: Order }) => {
   )
 }
 export default OrderItemTable
-function useSWR(
-  href: any,
-  fetcher: any
-): { data: any; isLoading: any; error: any } {
-  throw new Error('Function not implemented.')
-}

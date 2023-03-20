@@ -1,45 +1,84 @@
+import { Address } from '@/domain/Address'
 import { User } from '@/domain/User'
-import { useForm } from 'react-hook-form'
-import useShippingAddress from './useShippingAddress'
+import { Input, Textarea } from '@chakra-ui/react'
+import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form'
 
-const defaultUser: User = {
+export type UserFormValue = {
+  id: number
+  login: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  birthdate: Date | null
+  note: string
+}
+
+const defaultUser: UserFormValue = {
   id: 0,
   login: '',
   firstName: '',
   lastName: '',
-  fullName: '',
   email: '',
   phone: '',
   birthdate: null,
   note: '',
-  imageUrl: '',
-  address: null,
 }
+
 const useUserForm = () => {
-  const {
-    getValues,
-    setValue,
-    formState: errors,
-    register,
-    control,
-    watch,
-    handleSubmit,
-  } = useForm({
+  const { register, ...form } = useForm({
     defaultValues: defaultUser,
   })
-  const { getAddress, inputs } = useShippingAddress()
 
-  const getUser = () => {
-    return { ...getValues(), address: getAddress() }
+  const inputs = {
+    id: <></>,
+    lastName: (
+      <Input
+        type="text"
+        {...register('lastName')}
+      />
+    ),
+    firstName: (
+      <Input
+        type="text"
+        {...register('firstName')}
+      />
+    ),
+    login: (
+      <Input
+        type="text"
+        {...register('login')}
+      />
+    ),
+    email: (
+      <Input
+        type="email"
+        {...register('email')}
+      />
+    ),
+    phone: (
+      <Input
+        type="tel"
+        {...register('phone')}
+      />
+    ),
+    birthdate: (
+      <Input
+        type="date"
+        {...register('birthdate')}
+      />
+    ),
+    note: <Textarea {...register('note')} />,
   }
+
+  const getInput = (name: keyof UserFormValue) => {
+    return inputs[name]
+  }
+
   return {
-    inputs: { ...inputs },
-    user: getUser(),
-    setValue,
-    errors,
-    register,
-    watch,
-    handleSubmit,
+    getInput,
+    form,
   }
 }
+
 export default useUserForm

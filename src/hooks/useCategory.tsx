@@ -31,6 +31,7 @@ const useCategory = ({
   const refreshRoot = () => {
     globalMutate(config.api.categories.root)
   }
+
   const handleError = useCallback(
     (err: any) => {
       fail({ title: err.code, message: err.message }).fire()
@@ -156,6 +157,7 @@ const useCategory = ({
     },
     [ok, remove, swr, handleError]
   )
+
   return {
     ...swr,
     isSubmitting,
