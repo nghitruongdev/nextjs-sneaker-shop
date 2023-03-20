@@ -27,6 +27,7 @@ import ProductSelect, { Option } from './ProductSelect'
 import Product from '@/domain/Product'
 import OrderQuantitySelect from './OrderQuantitySelect'
 import CartList from './CartList'
+import Items from '@/components/layout/admin/sidebar/Items'
 
 const dispatchActionFactory = (dispatch: (value: ReducerAction) => void) => {
   const updateSelectedOptionValues = (value: OptionValue) => {
@@ -56,6 +57,12 @@ const dispatchActionFactory = (dispatch: (value: ReducerAction) => void) => {
   }
 }
 
+type CartItem = {
+  variant: ProductVariant
+  product: Product
+  quantity: number
+}
+
 const fetcher = getFetcher()
 
 const CartForm = () => {
@@ -63,10 +70,37 @@ const CartForm = () => {
     productReducer,
     inititalState
   )
-  const [product, setProduct] = useState<Product | null>()
+  const [product, setProduct] = useState<Product | null>(null)
   const [variant, setVariant] = useState<ProductVariant | null>(null)
   const [quantity, setQuantity] = useState<number>(1)
+  const [cartItems, setCartItems] = useState<CartItem[]>([])
 
+  // add to cart
+  const handleAddItemToCart = () => {
+    if (!variant || !product || !quantity) {
+      return ;
+    }
+    // tim vi tri co item.variant hien tai
+    // const idx = cartItems.filter((item) => variant.id === item.variant.id)
+      const newItem: CartItem = {
+        variant,
+        product,
+        quantity,
+      }
+      setCartItems((oldItems) => {
+        const filterItems = oldItems.filter((item) => variant.id != item.variant.id)
+        filterItems.unshift(newItem);
+        return [...filterItems];
+      })
+
+    // setProduct(null);
+    // setVariant(null);
+    // setQuantity(1);
+  }
+  console.log('Cart', cartItems);
+  // const arr = ['Bob', 'John', 'Alice', 'Annie', 'Wick', 'Charlie'];
+  // const fil = arr.filter((item) => item ) // chia lay phan du // la khong phai 0;
+  // console.log("abc", fil);
   const {
     updateSelectedOptionValues,
     removeSelectedOption,
@@ -155,6 +189,7 @@ const CartForm = () => {
               isDisabled: true,
               colorScheme: 'blackAlpha',
             })}
+            onClick={handleAddItemToCart}
           >
             Thêm vào giỏ
           </Button>
@@ -199,7 +234,9 @@ const CartForm = () => {
           alignItems="center"
         >
           Giỏ hàng <Button mt={5}>Đặt hàng</Button>
+          <Flex></Flex>
         </Heading>
+
         <CartList />
       </Box>
     </Box>
