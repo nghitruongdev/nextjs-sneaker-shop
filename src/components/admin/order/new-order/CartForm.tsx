@@ -5,11 +5,15 @@ import {
   FormLabel,
   Select,
   Button,
+  Image,
   Flex,
   Box,
   Heading,
+  Text,
   SimpleGrid,
   Stack,
+  VStack,
+  StackDivider,
 } from '@chakra-ui/react'
 import { useReducer, useEffect, useState, useMemo } from 'react'
 import useSWR from 'swr'
@@ -28,6 +32,7 @@ import Product from '@/domain/Product'
 import OrderQuantitySelect from './OrderQuantitySelect'
 import CartList from './CartList'
 import Items from '@/components/layout/admin/sidebar/Items'
+import CartItem, { CartItemType } from './CartItem'
 
 const dispatchActionFactory = (dispatch: (value: ReducerAction) => void) => {
   const updateSelectedOptionValues = (value: OptionValue) => {
@@ -57,11 +62,7 @@ const dispatchActionFactory = (dispatch: (value: ReducerAction) => void) => {
   }
 }
 
-type CartItem = {
-  variant: ProductVariant
-  product: Product
-  quantity: number
-}
+
 
 const fetcher = getFetcher()
 
@@ -73,34 +74,41 @@ const CartForm = () => {
   const [product, setProduct] = useState<Product | null>(null)
   const [variant, setVariant] = useState<ProductVariant | null>(null)
   const [quantity, setQuantity] = useState<number>(1)
-  const [cartItems, setCartItems] = useState<CartItem[]>([])
+  const [cartItems, setCartItems] = useState<CartItemType[]>([])
 
+
+  // remove from cart
+  // const handleRemoveFromCart = (idx : CartItemType) => {
+  //     const found = cartItems.findIndex((item) => item.variant.id === idx.variant.id)
+  //     setCartItems((oldCartItem) => {
+  //       oldCartItem.splice(found, 1);
+  //       return [...oldCartItem];
+  //     });
+  // }
+  const handleRemoveFromCart = (variantID: number) => {
+    setCartItems((oldCartItem) => {
+      const filterItems = oldCartItem.filter((item) => variantID !== item.variant.id);
+      return [...filterItems];
+    });
+  }
   // add to cart
   const handleAddItemToCart = () => {
     if (!variant || !product || !quantity) {
-      return ;
+      return;
     }
-    // tim vi tri co item.variant hien tai
-    // const idx = cartItems.filter((item) => variant.id === item.variant.id)
-      const newItem: CartItem = {
-        variant,
-        product,
-        quantity,
-      }
-      setCartItems((oldItems) => {
-        const filterItems = oldItems.filter((item) => variant.id != item.variant.id)
-        filterItems.unshift(newItem);
-        return [...filterItems];
-      })
-
-    // setProduct(null);
-    // setVariant(null);
-    // setQuantity(1);
+    const newItem: CartItemType = {
+      variant,
+      product,
+      quantity,
+    }
+    setCartItems((oldItems) => {
+      const filterItems = oldItems.filter((item) => variant.id != item.variant.id)
+      filterItems.unshift(newItem);
+      return [...filterItems];
+    })
   }
   console.log('Cart', cartItems);
-  // const arr = ['Bob', 'John', 'Alice', 'Annie', 'Wick', 'Charlie'];
-  // const fil = arr.filter((item) => item ) // chia lay phan du // la khong phai 0;
-  // console.log("abc", fil);
+
   const {
     updateSelectedOptionValues,
     removeSelectedOption,
@@ -150,13 +158,13 @@ const CartForm = () => {
           md: 'wrap',
           lg: 'nowrap',
         }}
-        // bg={{
-        //   base: 'aqua',
-        //   sm: 'yellow',
-        //   md: 'red',
-        //   lg: 'blue',
-        //   xl: ' green',
-        // }}
+      // bg={{
+      //   base: 'aqua',
+      //   sm: 'yellow',
+      //   md: 'red',
+      //   lg: 'blue',
+      //   xl: ' green',
+      // }}
       >
         <FormControl
           isRequired
@@ -218,27 +226,40 @@ const CartForm = () => {
         ))}
 
       {/*Giỏ hàng  */}
-      <Box
+      <Flex
+        direction={'column'}
         mt={5}
         borderWidth={'1px'}
         borderColor="gray.300"
         p={5}
         rounded={5}
         maxH="500px"
-        overflow="hidden"
-        overflowY="scroll"
       >
         <Heading
           display="flex"
           justifyContent="space-between"
           alignItems="center"
+          mb={6}
         >
           Giỏ hàng <Button mt={5}>Đặt hàng</Button>
-          <Flex></Flex>
-        </Heading>
 
+        </Heading>
+        <VStack align={'stretch'} spacing={4} overflow="hidden"
+          overflowY="scroll" divider={<StackDivider borderColor={'gray.200'} />}>
+          {
+            cartItems.map((item) => {
+              return (
+                <Box key={item.variant.id}>
+                  <Flex>
+                    <CartItem item={item} handleRemoveFromCart={handleRemoveFromCart.bind(this, item.variant.id)} />
+                  </Flex>
+                </Box>
+              )
+            })
+          }
+        </VStack>
         <CartList />
-      </Box>
+      </Flex>
     </Box>
   )
 }
