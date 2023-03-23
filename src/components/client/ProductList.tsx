@@ -29,7 +29,7 @@ import axios from 'axios'
 
 //   ]
 
-import { Box, Flex, Stack, Grid } from '@chakra-ui/react'
+import { Box, Flex, Stack, Grid, HStack } from '@chakra-ui/react'
 import { connect } from 'react-redux';
 import { addToCart } from '@/redux/Cart/cart-actions';
 const List = () => {
@@ -59,16 +59,17 @@ const List = () => {
 
   return (
     <Box>
-      <Grid
-        w={'full'}
-        gridGap={2}
-        gridTemplateColumns="repeat( auto-fit, minmax(300px, 1fr) )"
-      >
-        {products.map((product: any) => (
-          <Card key={product.id} {...product}/>
-         ))}
+      <HStack wrap={'wrap'}>
+        {products.map((product: any) => {
+          return (
+            <Box key={product.id}>
+              <Card {...product}/>
+
+            </Box>
+          )
+        })}
+         </HStack>
         {/* {arr} */}
-      </Grid>
     </Box>
   )
 }

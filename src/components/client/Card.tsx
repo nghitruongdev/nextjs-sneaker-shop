@@ -24,12 +24,13 @@ const Card = (props:any) => {
   return (
     <Center py={5}>
       <Box
-        w="3xl"
+        w="lg"
         rounded={'sm'}
         my={3}
         mx={[0, 5]}
         overflow={'hidden'}
         bg="white"
+        
         // pos={'relative'}
       >
         <Box
