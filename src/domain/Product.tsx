@@ -3,7 +3,7 @@ interface Product {
   name: string
   shortDesc?: string
   fullDesc?: string
-  minPrice?: number
+  minPrice: number
   images?: string[]
   publishDate?: Date
   status: string
