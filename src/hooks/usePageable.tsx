@@ -14,8 +14,10 @@ const usePageable = ({ key, config = {} }: Props) => {
 
   const [size, setSize] = useState<number>(defaultSize)
   const [pageIndex, setPageIndex] = useState(defaultPageIndex)
-
-  const keyUrl = `${key}?sort=${sort},${sortDir}&page=${pageIndex}&size=${size}`
+  key.includes('?')
+  const keyUrl = `${key}${
+    key.includes('?') ? '&' : '?'
+  }sort=${sort},${sortDir}&page=${pageIndex}&size=${size}`
 
   const changePageHandler = (total: number, index: number) => {
     if (index) return

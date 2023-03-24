@@ -14,6 +14,7 @@ import {
   TableBodyProps,
   TableContainerProps,
   Td,
+  TableRowProps,
 } from '@chakra-ui/react'
 import {
   ColumnDef,
@@ -21,6 +22,7 @@ import {
   getCoreRowModel,
   Header,
   HeaderGroup,
+  Row,
   useReactTable,
 } from '@tanstack/react-table'
 import React, { ReactNode } from 'react'
@@ -39,6 +41,7 @@ type TableProps = {
     containerProps?: TableContainerProps
     tableProps?: TableProps
     bodyProps?: TableBodyProps
+    rowProps?: (row?: Row<any>) => TableRowProps | undefined
     config?: any
   }
 }
@@ -52,14 +55,15 @@ const NewTable = ({
   page,
   caption,
   setSize,
-  config: { containerProps, tableProps, bodyProps, config } = {},
+  config: { containerProps, tableProps, bodyProps, rowProps, config } = {},
 }: Props) => {
   console.debug('Data table rendered')
-  const { getHeaderGroups, getFooterGroups, getRowModel } = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  })
+  const { getHeaderGroups, getFooterGroups, getRowModel, getRow } =
+    useReactTable({
+      data,
+      columns,
+      getCoreRowModel: getCoreRowModel(),
+    })
 
   const setSizeHandler = (event: any) => {
     const size = +event.target.value
@@ -99,7 +103,10 @@ const NewTable = ({
         {/* Body */}
         <Tbody {...bodyProps}>
           {getRowModel().rows.map((row) => (
-            <Tr key={row.id}>
+            <Tr
+              key={row.id}
+              {...rowProps?.(row)}
+            >
               {row.getVisibleCells().map((cell) => (
                 <Td key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}

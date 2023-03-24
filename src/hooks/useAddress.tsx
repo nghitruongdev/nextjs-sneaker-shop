@@ -1,23 +1,45 @@
 import { Address } from '@/domain/Address'
 import { Input } from '@chakra-ui/react'
-import { Controller, useForm } from 'react-hook-form'
+import { useEffect } from 'react'
+import { Controller, useForm, UseFormReset } from 'react-hook-form'
 import ReactSelect from 'react-select'
 
-const defaultAddress: Address = {
-  id: 0,
-  street: '',
-  ward: '',
-  district: '',
-  province: '',
+export type AddressForm = {
+  id: number
+  street: string
+  ward: Option | null
+  district: Option | null
+  province: Option | null
 }
-type AddressKey = keyof Address
 type Option = { label: string; value: any }
-const useAddressForm = () => {
-  const { control, ...form } = useForm({
-    defaultValues: defaultAddress,
-  })
+const toOptions = (...items: any[]): Option[] =>
+  items.map((item) => ({
+    label: item,
+    value: item,
+  }))
 
-  const controller = (name: AddressKey, options: any) => (
+const resetForm = (reset: UseFormReset<AddressForm>, data?: Address | null) => {
+  if (data) {
+    const { id, street, ward, district, province } = data
+    reset({
+      id,
+      street,
+      ward: (ward && toOptions(ward)[0]) || null,
+      district: (district && toOptions(district)[0]) || null,
+      province: (province && toOptions(province)[0]) || null,
+    })
+  }
+}
+const useAddressForm = ({ address }: { address?: Address | null }) => {
+  const { control, register, reset, ...form } = useForm<AddressForm>({})
+
+  useEffect(() => {
+    if (address) {
+      resetForm(reset, address)
+    }
+  }, [address, reset])
+
+  const controller = (name: keyof Address, options: any) => (
     <Controller
       control={control}
       name={name}
@@ -29,33 +51,41 @@ const useAddressForm = () => {
       )}
     />
   )
-  const toOptions = (items: any[]): Option[] =>
-    items.map((item) => ({
-      label: item,
-      value: item,
-    }))
 
   const inputs = {
-    id: <></>,
-    street: <Input type="text" />,
+    id: (
+      <input
+        type={'hidden'}
+        {...register('id')}
+      />
+    ),
+    street: (
+      <Input
+        type="text"
+        {...register('street')}
+      />
+    ),
     ward: controller(
       'ward',
-      toOptions(['Cam An Nam', 'Cam An Bắc', 'Cam Phúc Đông'])
+      toOptions(...['Cam An Nam', 'Cam An Bắc', 'Cam Phúc Đông'])
     ),
     district: controller(
       'district',
-      toOptions(['Cam Ranh', 'Cam Lâm', 'Quận 1', 'Quận 3'])
+      toOptions(...['Cam Ranh', 'Cam Lâm', 'Quận 1', 'Quận 3'])
     ),
     province: controller(
       'province',
-      toOptions(['Khánh Hoà', 'Phú Quốc', 'Thành phố Sài Gòn', 'Ninh Hoà'])
+      toOptions(...['Khánh Hoà', 'Phú Quốc', 'Thành phố Sài Gòn', 'Ninh Hoà'])
     ),
   }
 
-  const getInput = (name: AddressKey) => inputs[name]
+  const getInput = (name: keyof Address) => inputs[name]
   return {
-    form,
     getInput,
+    form: {
+      ...form,
+      resetAddressForm: resetForm.bind(null, reset),
+    },
   }
 }
 export default useAddressForm

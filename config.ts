@@ -1,3 +1,4 @@
+const firebaseBucket = `nextjs-sneaker-shop.appspot.com`
 const config = {
   apiPath: process.env.NEXT_PUBLIC_API_PATH,
   api: {
@@ -41,6 +42,27 @@ const config = {
     },
     users: {
       url: '/users',
+      search: {
+        existsBy: {
+          phone: (phone: string) =>
+            `/users/search/exists-by-phone?phone=${phone}`,
+          email: (email: string) =>
+            `/users/search/exists-by-email?email=${email}`,
+          login: (login: string) =>
+            `/users/search/exists-by-login?login=${login}`,
+        },
+        byDeletedDate: (includeDeleted: boolean) =>
+          `/users/search/findAllByDeletedDate?includeDeleted=${includeDeleted}`,
+      },
+    },
+    image: {
+      url: (name?: string) => {
+        if (!name) return ''
+
+        return `https://firebasestorage.googleapis.com/v0/b/${firebaseBucket}
+/o/${name.replace('/', '%2F')}?alt=media&metadata=true
+`
+      },
     },
   },
 }

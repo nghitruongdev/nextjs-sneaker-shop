@@ -1,38 +1,46 @@
 import UserForm from '@/components/admin/user/new-user/UserForm'
 import { getAdminLayout } from '@/components/layout/admin/AdminLayout'
 import { User } from '@/domain/User'
-import { getFetcher } from '@/hooks/useFetcher'
 import { NextPageWithLayout } from '@/pages/_app'
-import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react'
-import { useState } from 'react'
+import {
+  Box,
+  Button,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+} from '@chakra-ui/react'
 import UserTable from '@/components/admin/user/UserTable'
-import config from 'config'
 import useUser from '@/hooks/useUser'
+import { useForm } from 'react-hook-form'
+import useAxios from '@/hooks/useAxios'
 
 const UserIndexPage: NextPageWithLayout = () => {
   console.debug('User page rerendered')
-  const [tabIndex, setTabIndex] = useState(0)
+
+  const { swr, form, page, tab, toggleShowDeleted, isShowDeleted } = useUser({})
 
   const {
-    swr,
     getUserInput,
     getAddressInput,
-    current,
-    setCurrent,
-    page,
     saveUser,
-  } = useUser({ key: config.api.users.url })
+    isSubmitting,
+    deleteUser,
+    isDeleting,
+    errors,
+    currentUser,
+    showUser,
+    watchUser,
+    resetForm,
+  } = form
   const { pageIndex, setSize, changePageHandler } = page
 
-  const showUserInfo = (user: User) => {
-    setCurrent(user)
-    setTabIndex(1)
-  }
   return (
     <Box>
       <Tabs
-        index={tabIndex}
-        onChange={setTabIndex}
+        index={tab.index}
+        onChange={tab.onChange}
       >
         <TabList>
           <Tab>Tất cả người dùng</Tab>
@@ -41,8 +49,10 @@ const UserIndexPage: NextPageWithLayout = () => {
         <TabPanels>
           <TabPanel>
             <UserTable
+              isShowDeleted={isShowDeleted}
+              toggleShowDeleted={toggleShowDeleted}
               swr={swr}
-              viewDetails={showUserInfo}
+              viewDetails={showUser}
               indexPage={pageIndex}
               setSize={setSize}
               onChangePage={changePageHandler}
@@ -50,9 +60,16 @@ const UserIndexPage: NextPageWithLayout = () => {
           </TabPanel>
           <TabPanel>
             <UserForm
+              current={currentUser}
+              watch={watchUser}
               saveUser={saveUser}
+              deleteUser={deleteUser}
               getUserInput={getUserInput}
               getAddressInput={getAddressInput}
+              isSubmitting={isSubmitting}
+              isDeleting={isDeleting || false}
+              errors={errors}
+              resetForm={resetForm}
             />
           </TabPanel>
         </TabPanels>
@@ -63,3 +80,15 @@ const UserIndexPage: NextPageWithLayout = () => {
 
 UserIndexPage.getLayout = getAdminLayout
 export default UserIndexPage
+
+// <>
+{
+  /* <input
+        type="file"
+        {...register('imageFile')}
+      />
+      <Button onClick={handleSubmit(handleClick)}>Submit</Button>F */
+}
+{
+  /* </> */
+}

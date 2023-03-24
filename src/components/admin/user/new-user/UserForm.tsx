@@ -1,62 +1,168 @@
 import { User } from '@/domain/User'
-import useAddressForm from '@/hooks/useAddress'
-import useUserForm from '@/hooks/useUserForm'
-import { UserFormValue } from '../../../../hooks/useUserForm'
+import { UserFormValue } from '@/hooks/useUserForm'
 import {
   Avatar,
+  AvatarBadge,
   Box,
   Button,
+  DrawerOverlay,
   FormControl,
+  FormErrorIcon,
+  FormErrorMessage,
+  FormHelperText,
   FormLabel,
   Input,
+  ModalOverlay,
   SimpleGrid,
+  Text,
   Textarea,
 } from '@chakra-ui/react'
 import { Address } from '@/domain/Address'
+import { FieldError, FieldErrors, UseFormWatch } from 'react-hook-form'
+import config from 'config'
+import { useState } from 'react'
 type Props = {
-  current?: User
+  current: User | undefined
   getUserInput: (name: keyof UserFormValue) => JSX.Element
   getAddressInput: (name: keyof Address) => JSX.Element
   saveUser: () => void
+  deleteUser: () => void
+  isSubmitting: boolean
+  isDeleting: boolean
+  errors: (name: keyof Address | keyof UserFormValue) => any
+  resetForm: () => void
+  watch: UseFormWatch<UserFormValue>
 }
-
 const UserForm = ({
   current,
   getUserInput,
   getAddressInput,
   saveUser,
+  deleteUser,
+  isSubmitting,
+  isDeleting,
+  errors,
+  watch,
+  resetForm,
 }: Props) => {
-  const submitForm = (event: any) => {}
+  const currentImg = config.api.image.url(current?.imageUrl)
+  const [img, setImg] = useState<any>(currentImg)
+  const isDeleted = current?.deletedDate || false
 
-  const resetHandler = () => {}
+  const fileList = watch('imageFile')
+  if (fileList && fileList.length && fileList?.[0]) {
+    const file = fileList[0]
+    const reader = new FileReader()
+    console.log('user form rerendered')
+    reader.onload = () => {
+      setImg(reader.result)
+      console.log('done reading')
+    }
+
+    reader.readAsDataURL(file)
+  }
+
+  const resetFormWithAvatar = () => {
+    resetForm()
+    setImg(currentImg)
+  }
 
   return (
-    <SimpleGrid columns={3}>
-      <Avatar name="hello" />
+    <SimpleGrid
+      columns={{
+        base: 1,
+        md: 3,
+      }}
+      pos="relative"
+    >
+      {isDeleted && <Overlay />}
+      <Box
+        display="flex"
+        justifyContent="center"
+      >
+        <Avatar
+          name={current?.firstName}
+          src={img}
+          role="group"
+          size={{
+            base: '2xl',
+          }}
+          {...(!img && {
+            bgGradient: 'radial(green.400, green.100)',
+          })}
+        >
+          <AvatarBadge
+            // borderColor="to"
+            // border="5px"
+            _groupHover={{
+              cursor: 'pointer',
+              borderColor: 'papayawhip',
+            }}
+            bg="tomato"
+            boxSize={'1.5em'}
+          >
+            <FormLabel
+              htmlFor="imageFile"
+              boxSize="full"
+              cursor="pointer"
+            ></FormLabel>
+          </AvatarBadge>
+        </Avatar>
+      </Box>
+
       <Box aria-colspan={2}>
-        <FormControl isRequired>
+        {!isDeleted && (
+          <Button onClick={resetFormWithAvatar}>Reset Form</Button>
+        )}
+        <FormControl
+          isRequired
+          isInvalid={errors('lastName')}
+        >
           <FormLabel>Họ</FormLabel>
           {getUserInput('lastName')}
+          <FormErrorMessage>{errors('lastName')?.message}</FormErrorMessage>
         </FormControl>
 
-        <FormControl isRequired>
+        <FormControl
+          isRequired
+          isInvalid={errors('firstName')}
+        >
           <FormLabel>Tên</FormLabel>
           {getUserInput('firstName')}
+          <FormErrorMessage>{errors('firstName')?.message}</FormErrorMessage>
         </FormControl>
 
-        <FormControl isRequired>
+        <FormControl
+          isRequired
+          isInvalid={errors('login')}
+        >
           <FormLabel>Username</FormLabel>
           {getUserInput('login')}
+          <FormHelperText hidden={errors('login')?.message}>
+            Nhập từ 5-15 kí tự
+          </FormHelperText>
+          <FormErrorMessage>{errors('login')?.message}</FormErrorMessage>
         </FormControl>
 
-        <FormControl isRequired>
+        <FormControl
+          isRequired
+          isInvalid={errors('email')}
+        >
           <FormLabel>Địa chỉ email</FormLabel>
           {getUserInput('email')}
+          <FormErrorMessage>{errors('email')?.message}</FormErrorMessage>
         </FormControl>
 
-        <FormControl isRequired>
+        <FormControl
+          isRequired
+          isInvalid={errors('phone')}
+        >
           <FormLabel>Số điện thoại</FormLabel>
           {getUserInput('phone')}
+          <FormHelperText hidden={errors('phone')?.message}>
+            Số điện thoại gồm 10 chữ số
+          </FormHelperText>
+          <FormErrorMessage>{errors('phone')?.message}</FormErrorMessage>
         </FormControl>
 
         <FormControl>
@@ -64,9 +170,22 @@ const UserForm = ({
           <Input type="checkbox" />
         </FormControl>
 
-        <FormControl>
+        <FormControl
+          isRequired
+          isInvalid={errors('gender')}
+        >
+          <FormLabel>Giới tính</FormLabel>
+          {getUserInput('gender')}
+          <FormErrorMessage>{errors('gender')?.message}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl
+          isRequired
+          isInvalid={errors('birthdate')}
+        >
           <FormLabel>Ngày sinh</FormLabel>
           {getUserInput('birthdate')}
+          <FormErrorMessage>{errors('birthdate')?.message}</FormErrorMessage>
         </FormControl>
 
         <FormControl>
@@ -92,10 +211,49 @@ const UserForm = ({
             {getAddressInput('province')}
           </FormControl>
         </FormControl>
-
-        <Button onClick={saveUser}>Thêm</Button>
+        <FormControl hidden>{getUserInput('imageFile')}</FormControl>
+        {current?.deletedDate && (
+          <Text
+            colorScheme="red"
+            color="red"
+            align="center"
+          >
+            {`Người dùng đã bị xoá khỏi hệ thống vào lúc ${new Date(
+              current.deletedDate
+            ).toLocaleString('vi-VN')}`}
+          </Text>
+        )}
+        {!isDeleted && (
+          <>
+            <Button
+              onClick={saveUser}
+              isLoading={isSubmitting}
+              loadingText="Đang xử lý..."
+            >
+              {current ? 'Cập nhật' : 'Thêm'}
+            </Button>
+            <Button
+              onClick={deleteUser}
+              isLoading={isDeleting && !isSubmitting}
+              loadingText="Đang xử lý..."
+            >
+              Xoá
+            </Button>
+          </>
+        )}
       </Box>
     </SimpleGrid>
+  )
+}
+const Overlay = () => {
+  return (
+    <Box
+      pos="absolute"
+      top="0"
+      left="0"
+      boxSize="full"
+      zIndex="100"
+    />
   )
 }
 export default UserForm
