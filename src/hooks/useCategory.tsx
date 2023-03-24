@@ -31,6 +31,7 @@ const useCategory = ({
   const refreshRoot = () => {
     globalMutate(config.api.categories.root)
   }
+
   const handleError = useCallback(
     (err: any) => {
       fail({ title: err.code, message: err.message }).fire()
@@ -96,7 +97,7 @@ const useCategory = ({
     }
 
     const mutateFn = () => {
-      const updateItemsFn = (saved: Category, currentData: any) => {
+      const updateItemsCached = (saved: Category, currentData: any) => {
         if (!saved?.id) return currentData
         const items = currentData._embedded.categories
         const idx = items.findIndex((item: Category) => item.id === saved.id)
@@ -104,10 +105,11 @@ const useCategory = ({
         else items.unshift(saved)
         return { ...currentData, _embedded: { categories: [...items] } }
       }
+      //submit form to server => revalidate root categories => catch err
       swr.mutate(submitHandler().then(refreshRoot).catch(handleError), {
         revalidate: false,
         populateCache: (updated: Category, categories: any) => {
-          return updateItemsFn(updated, categories)
+          return updateItemsCached(updated, categories)
         },
         rollbackOnError: true,
         throwOnError: false,
@@ -156,6 +158,7 @@ const useCategory = ({
     },
     [ok, remove, swr, handleError]
   )
+
   return {
     ...swr,
     isSubmitting,

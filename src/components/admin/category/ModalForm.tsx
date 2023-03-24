@@ -10,13 +10,14 @@ import {
   HStack,
   FormLabel,
   Switch,
+  VStack,
 } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
 import { RiPencilFill } from 'react-icons/ri'
 import ReactSelect from 'react-select'
-import { VStack } from '@chakra-ui/react'
 import SaveButton from '../../common/CloseButton'
 import { UpdateProps } from '@/hooks/useCategory'
+
 type Props = {
   category: Category
   isOpen: boolean
@@ -34,6 +35,7 @@ export type FormValue = {
   description?: string
   isRoot?: boolean
 }
+
 let count = 0
 const ModalForm = ({
   isOpen,
@@ -45,7 +47,7 @@ const ModalForm = ({
   clearCurrent,
 }: Props) => {
   console.debug('Modal form rendered', count++)
-  const { id, name, description, parentId, isRoot, _links } = category
+  const { parentId, _links, ...categoryProps } = category
 
   const selectOptions = rootCategories?.map((item) => ({
     label: item.name,
@@ -57,12 +59,10 @@ const ModalForm = ({
   )
 
   const defaultFormValue: FormValue = {
-    id: id,
-    name: name,
-    description: description,
-    isRoot: isRoot,
+    ...categoryProps,
     parent: parentOption,
   }
+
   const {
     register,
     watch,
@@ -165,7 +165,7 @@ const ModalForm = ({
           </FormLabel>
           <Switch
             id="is-root-category"
-            isDisabled={isRoot || isSubmitting}
+            isDisabled={category?.isRoot || isSubmitting}
             {...register('isRoot')}
           />
         </FormControl>

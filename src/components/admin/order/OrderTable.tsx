@@ -1,7 +1,11 @@
 import Order from '@/domain/Order'
 import { Button } from '@chakra-ui/react'
-import { useMemo } from 'react'
-import { createColumnHelper, CellContext } from '@tanstack/react-table'
+import { useMemo, useCallback } from 'react'
+import {
+  createColumnHelper,
+  CellContext,
+  ColumnDefTemplate,
+} from '@tanstack/react-table'
 import NewTable from '@/components/NewTable'
 import useOrder from '@/hooks/useOrder'
 import Select from 'react-select'
@@ -33,6 +37,19 @@ const OrderTable = ({
   const items = data?._embedded.orders
 
   const columns = useMemo(() => {
+    const renderStatusCell = (props: CellContext<Order, unknown>) => (
+      <StatusCell
+        info={props}
+        statuses={statuses}
+      />
+    )
+    const renderViewButton = (props: CellContext<Order, unknown>) => (
+      <ViewOrderButton
+        info={props}
+        viewOrder={viewOrder}
+      />
+    )
+
     return [
       util.accessor((row) => row.id, {
         header: 'Order ID',
@@ -52,22 +69,11 @@ const OrderTable = ({
       }),
       util.accessor((row) => row.status, {
         header: 'Order Status',
-        cell: (info) => (
-          <StatusCell
-            info={info}
-            statuses={statuses}
-          />
-        ),
+        cell: renderStatusCell,
       }),
       util.display({
         header: 'Action',
-        cell: (info) => {
-          return (
-            <Button onClick={viewOrder.bind(this, info.row.original)}>
-              View more
-            </Button>
-          )
-        },
+        cell: renderViewButton,
       }),
     ]
   }, [statuses, viewOrder])
@@ -124,5 +130,15 @@ export const StatusCell = ({
     </>
   )
 }
+
+const ViewOrderButton = ({
+  info,
+  viewOrder,
+}: {
+  info: any
+  viewOrder: (order: Order) => void
+}) => (
+  <Button onClick={viewOrder.bind(this, info.row.original)}>View more</Button>
+)
 
 export default OrderTable

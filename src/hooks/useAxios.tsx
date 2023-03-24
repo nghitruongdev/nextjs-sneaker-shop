@@ -5,8 +5,7 @@ type State = {
   isLoading?: boolean
   errorText?: string
 }
-
-type Options = {
+export type AxiosOptions = {
   retryCount?: number
   retryDelay?: number
   timeout?: number
@@ -17,7 +16,7 @@ type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 type MethodProps = {
   requestUrl?: string
   data?: any
-  options?: Options
+  options?: AxiosOptions
   config?: AxiosRequestConfig<any>
 }
 const useAxios = (url?: string) => {
@@ -40,8 +39,8 @@ const useAxios = (url?: string) => {
     return makeRequest({ method: 'PATCH', requestUrl, data, options, config })
   }
 
-  const remove = ({ requestUrl, config }: MethodProps = {}) =>
-    makeRequest({ method: 'DELETE', requestUrl, config })
+  const remove = ({ requestUrl, options, config }: MethodProps = {}) =>
+    makeRequest({ method: 'DELETE', requestUrl, options, config })
 
   const makeRequest = async ({
     method,
@@ -53,19 +52,19 @@ const useAxios = (url?: string) => {
     method: HttpMethod
     requestUrl?: string
     data?: any
-    options?: Options
+    options?: AxiosOptions
     config?: AxiosRequestConfig
   }) => {
     const { timeout } = options
     setState((prevState) => ({ ...prevState, isLoading: true }))
     try {
       if (timeout) await sleep(timeout)
-      console.log('config', config)
       const response = await axios.request({
         baseURL: ApiConfig.apiPath,
         method: method,
         data: data,
         url: requestUrl ? requestUrl : url,
+        headers: { ...config.headers },
         ...config,
       })
 

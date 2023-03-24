@@ -7,7 +7,6 @@ import {
   FormHelperText,
   FormErrorMessage,
   Select,
-  Text,
   Icon,
   Flex,
   Card,
@@ -17,19 +16,12 @@ import {
   Stack,
   StackDivider,
   Button,
-  Box,
-  HStack,
   VStack,
 } from '@chakra-ui/react'
 import { getAdminLayout } from '../../../components/layout/admin/AdminLayout'
-import { AddIcon, ChevronDownIcon } from '@chakra-ui/icons'
 import NewSelectItem from '@/components/common/NewSelectItem'
 import OptionItem from '@/components/common/OptionItem'
-import { BsFillCloudUploadFill, BsUpload } from 'react-icons/bs'
-import { FaUpload } from 'react-icons/fa'
-import { FiUpload, FiUploadCloud } from 'react-icons/fi'
-import { RiUpload2Line, RiUploadCloudLine } from 'react-icons/ri'
-import { AiOutlineUpload } from 'react-icons/ai'
+import { FiUploadCloud } from 'react-icons/fi'
 
 const NewProductPage: NextPageWithLayout = () => {
   return (
@@ -89,25 +81,28 @@ const NewProductPage: NextPageWithLayout = () => {
           </div>
 
           {/* Product collection */}
-          <FormControl>
-            <FormLabel>Collection</FormLabel>
-            <Select placeholder="Select Collection">
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-            </Select>
-            <NewSelectItem name="New Collection" />
-          </FormControl>
 
-          <FormControl display={'inline-block'}>
-            <FormLabel>Discount</FormLabel>
-            <Select placeholder="Select Category">
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-            </Select>
-            <NewSelectItem name="New Discount" />
+          <Flex>
+            <FormControl>
+              <FormLabel>Collection</FormLabel>
+              <Select placeholder="Select Collection">
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+              </Select>
+              <NewSelectItem name="New Collection" />
+            </FormControl>
           </FormControl>
+            <FormControl display={'inline-block'}>
+              <FormLabel>Discount</FormLabel>
+              <Select placeholder="Select Category">
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+              </Select>
+              <NewSelectItem name="New Discount" />
+            </FormControl>
+          </Flex>
         </VStack>
         <div>
           <Card mb="10">
@@ -132,7 +127,7 @@ const NewProductPage: NextPageWithLayout = () => {
                 as={FiUploadCloud}
               />
               <div className="flex flex-col">
-                <div className="flex flex-wrap flex-grow items-center justify-center mx-auto">
+                {/* <div className="flex flex-wrap flex-grow items-center justify-center mx-auto">
                   {Array(9)
                     .fill('')
                     .map((value, idx) => (
@@ -141,7 +136,7 @@ const NewProductPage: NextPageWithLayout = () => {
                         className="bg-gray-100 border-2 mr-2 mt-1 w-16 h-16"
                       ></span>
                     ))}
-                </div>
+                </div> */}
                 <Button fontSize="xs">Add more images</Button>
               </div>
 
