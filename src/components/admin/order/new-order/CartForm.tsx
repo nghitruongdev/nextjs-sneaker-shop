@@ -62,8 +62,6 @@ const dispatchActionFactory = (dispatch: (value: ReducerAction) => void) => {
   }
 }
 
-
-
 const fetcher = getFetcher()
 
 const CartForm = () => {
@@ -76,7 +74,6 @@ const CartForm = () => {
   const [quantity, setQuantity] = useState<number>(1)
   const [cartItems, setCartItems] = useState<CartItemType[]>([])
 
-
   // remove from cart
   // const handleRemoveFromCart = (idx : CartItemType) => {
   //     const found = cartItems.findIndex((item) => item.variant.id === idx.variant.id)
@@ -87,14 +84,16 @@ const CartForm = () => {
   // }
   const handleRemoveFromCart = (variantID: number) => {
     setCartItems((oldCartItem) => {
-      const filterItems = oldCartItem.filter((item) => variantID !== item.variant.id);
-      return [...filterItems];
-    });
+      const filterItems = oldCartItem.filter(
+        (item) => variantID !== item.variant.id
+      )
+      return [...filterItems]
+    })
   }
   // add to cart
   const handleAddItemToCart = () => {
     if (!variant || !product || !quantity) {
-      return;
+      return
     }
     const newItem: CartItemType = {
       variant,
@@ -102,12 +101,14 @@ const CartForm = () => {
       quantity,
     }
     setCartItems((oldItems) => {
-      const filterItems = oldItems.filter((item) => variant.id != item.variant.id)
-      filterItems.unshift(newItem);
-      return [...filterItems];
+      const filterItems = oldItems.filter(
+        (item) => variant.id != item.variant.id
+      )
+      filterItems.unshift(newItem)
+      return [...filterItems]
     })
   }
-  console.log('Cart', cartItems);
+  console.log('Cart', cartItems)
 
   const {
     updateSelectedOptionValues,
@@ -122,7 +123,7 @@ const CartForm = () => {
     selectedValues,
   })
 
-  // * update variant
+  // * update variant when user select all options
   useEffect(() => {
     if (selectedValues.length === options?.length) {
       const isSelectedValue = (value: OptionValue) => {
@@ -158,13 +159,13 @@ const CartForm = () => {
           md: 'wrap',
           lg: 'nowrap',
         }}
-      // bg={{
-      //   base: 'aqua',
-      //   sm: 'yellow',
-      //   md: 'red',
-      //   lg: 'blue',
-      //   xl: ' green',
-      // }}
+        // bg={{
+        //   base: 'aqua',
+        //   sm: 'yellow',
+        //   md: 'red',
+        //   lg: 'blue',
+        //   xl: ' green',
+        // }}
       >
         <FormControl
           isRequired
@@ -203,6 +204,7 @@ const CartForm = () => {
           </Button>
         </Stack>
       </HStack>
+
       {options &&
         options.map((option: ProductOption) => (
           <Box
@@ -242,21 +244,29 @@ const CartForm = () => {
           mb={6}
         >
           Giỏ hàng <Button mt={5}>Đặt hàng</Button>
-
         </Heading>
-        <VStack align={'stretch'} spacing={4} overflow="hidden"
-          overflowY="scroll" divider={<StackDivider borderColor={'gray.200'} />}>
-          {
-            cartItems.map((item) => {
-              return (
-                <Box key={item.variant.id}>
-                  <Flex>
-                    <CartItem item={item} handleRemoveFromCart={handleRemoveFromCart.bind(this, item.variant.id)} />
-                  </Flex>
-                </Box>
-              )
-            })
-          }
+        <VStack
+          align={'stretch'}
+          spacing={4}
+          overflow="hidden"
+          overflowY="scroll"
+          divider={<StackDivider borderColor={'gray.200'} />}
+        >
+          {cartItems.map((item) => {
+            return (
+              <Box key={item.variant.id}>
+                <Flex>
+                  <CartItem
+                    item={item}
+                    handleRemoveFromCart={handleRemoveFromCart.bind(
+                      this,
+                      item.variant.id
+                    )}
+                  />
+                </Flex>
+              </Box>
+            )
+          })}
         </VStack>
         <CartList />
       </Flex>

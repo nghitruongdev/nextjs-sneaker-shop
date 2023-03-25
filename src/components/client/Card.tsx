@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import {
   Box,
   Heading,
@@ -11,47 +10,55 @@ import {
   Button,
   Icon,
 } from '@chakra-ui/react'
-
+import { connect, useDispatch } from 'react-redux'
 import { BsArrowUpRight, BsHeartFill, BsHeart } from 'react-icons/bs'
 import { GrCart } from 'react-icons/gr'
+import { addToCart } from '../../redux/Cart/cart-actions'
+import { useEffect, useState } from 'react'
+import { Dispatch } from 'redux'
+import { ADD_TO_CART } from '@/redux/Cart/cart-types'
+import NextLink from 'next/link'
+// import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
-interface Product {
-  id: number;
-  price: number;
-  name: string;
-  categories: string;
-}
+// export type CardType = {
+//   id: string
+//   name: string
+//   minPrice: number
+//   images: string[]
+//   categories: string[]
+// }
 
+// type Props = {
+//   item: CardType
+//   // addToCart: (id: string) => void
+// }
 
-
-
-export default function Card(props: any) {
+const Card = ({ item }: any) => {
   const [isFavourite, setIsFavorite] = useState(false)
+  const dispatch = useDispatch()
 
   return (
-    <Center py={5}>
       <Box
-        w="3xl"
+        w="lg"
         rounded={'sm'}
         my={3}
         mx={[0, 5]}
         overflow={'hidden'}
         bg="white"
+
         // pos={'relative'}
       >
-        <Box h={'300px'}
-        //  pos={'absolute'}
-         >
-          <Icon 
-          boxSize={25} 
-          // ternary operator
-          color={isFavourite ? "red" : undefined}
-          pos={'relative'} 
-          top={'43px'} 
-          left={'290px'}  
-          as={isFavourite ? BsHeartFill : BsHeart} 
-          onClick={() => setIsFavorite(!isFavourite)}
-          />
+        <Box h={'300px'}>
+          {/* <Icon
+            boxSize={25}
+            // ternary operator
+            color={isFavourite ? 'red' : undefined}
+            pos={'relative'}
+            top={'43px'}
+            left={'280px'}
+            as={isFavourite ? BsHeartFill : BsHeart}
+            onClick={() => setIsFavorite(!isFavourite)}
+          /> */}
           <Img
             src={
               'https://th.bing.com/th/id/OIP.iBytPPicRuYBb6bWewISPAHaHa?pid=ImgDet&rs=1'
@@ -63,7 +70,10 @@ export default function Card(props: any) {
             alt={'Blog Image'}
           />
         </Box>
-        <Flex justifyContent="flex-start" flexDirection="column">
+        <Flex
+          justifyContent="flex-start"
+          flexDirection="column"
+        >
           <Flex
             fontFamily={'sans-serif'}
             justifyContent="flex-start"
@@ -71,16 +81,24 @@ export default function Card(props: any) {
             mt={10}
             ml={3}
           >
-            <Text>{props.name}</Text>
-            <Text color={'gray.500'}>{props.categories}</Text>
-            <Flex m={0} p={0}>
-              <Button variant="ghost" size="sm"  p={0}>
-                ${props.price}
+            <Text>{item.name}</Text>
+            <Text color={'gray.500'}>{item.id}</Text>
+            <Flex
+              m={0}
+              p={0}
+            >
+              <Button
+                variant="ghost"
+                size="sm"
+                p={0}
+                // onClick={() => addToCart(item.id)}
+              >
+                ${item.minPrice}
               </Button>
             </Flex>
           </Flex>
         </Flex>
       </Box>
-    </Center>
   )
 }
+export default Card
