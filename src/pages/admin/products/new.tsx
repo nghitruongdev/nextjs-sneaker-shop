@@ -92,7 +92,6 @@ const NewProductPage: NextPageWithLayout = () => {
               </Select>
               <NewSelectItem name="New Collection" />
             </FormControl>
-          </FormControl>
             <FormControl display={'inline-block'}>
               <FormLabel>Discount</FormLabel>
               <Select placeholder="Select Category">

@@ -19,17 +19,15 @@ const toOptions = (...items: any[]): Option[] =>
   }))
 
 const resetForm = (reset: UseFormReset<AddressForm>, data?: Address | null) => {
-  if (data) {
-    const { id, street, ward, district, province } = data
-    reset({
-      id,
-      street,
-      ward: (ward && toOptions(ward)[0]) || null,
-      district: (district && toOptions(district)[0]) || null,
-      province: (province && toOptions(province)[0]) || null,
-    })
-  }
+  reset({
+    id: data?.id,
+    street: data?.street,
+    ward: (data?.ward && toOptions(data.ward)[0]) || null,
+    district: (data?.district && toOptions(data.district)[0]) || null,
+    province: (data?.province && toOptions(data?.province)[0]) || null,
+  })
 }
+
 const useAddressForm = ({ address }: { address?: Address | null }) => {
   const { control, register, reset, ...form } = useForm<AddressForm>({})
 

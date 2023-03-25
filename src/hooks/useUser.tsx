@@ -183,6 +183,7 @@ const useUser = ({}: Props) => {
     resetUserForm(current)
     resetAddressForm(current?.address)
   }
+
   const deleteUser = () => {
     const removeHandler = async () => {
       console.log('current?._links.self.href', current?._links.self.href)
@@ -211,6 +212,7 @@ const useUser = ({}: Props) => {
   const getErrors = (name: keyof Address | keyof UserFormValue) => {
     return errors[name]
   }
+
   return {
     swr,
     page,
@@ -235,4 +237,5 @@ const useUser = ({}: Props) => {
     isShowDeleted,
   }
 }
+
 export default useUser
