@@ -1,20 +1,9 @@
-import { Address } from '@/domain/Address'
 import { User } from '@/domain/User'
-import {
-  Input,
-  InputGroup,
-  InputRightAddon,
-  Textarea,
-  Spinner,
-  Box,
-  Select,
-} from '@chakra-ui/react'
+import { Input, Textarea, Box, Select } from '@chakra-ui/react'
 import config from 'config'
-import { useState, ChangeEventHandler, ChangeEvent, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import {
   ErrorOption,
-  SubmitErrorHandler,
-  SubmitHandler,
   useForm,
   UseFormReset,
   ValidateResult,
@@ -22,6 +11,7 @@ import {
 import useAxios from './useAxios'
 import useMyToast from '@/hooks/useMyToast'
 import { Gender, toGender } from '@/domain/Gender'
+import FormSpinner from '@/components/FormSpinner'
 
 export type UserFormValue = {
   id: number | undefined
@@ -339,20 +329,4 @@ const useUserForm = ({ current }: { current?: User }) => {
   }
 }
 
-const FormSpinner = ({ isShow }: { isShow: boolean }) => {
-  return (
-    <>
-      {isShow && (
-        <Spinner
-          pos="absolute"
-          right="0"
-          m="2"
-          speed="0.7s"
-          thickness="2px"
-          color="blue.700"
-        />
-      )}
-    </>
-  )
-}
 export default useUserForm

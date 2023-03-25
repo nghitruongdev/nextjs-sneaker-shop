@@ -1,4 +1,13 @@
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
+
+export type Pageable = {
+  keyUrl: string
+  size: number
+  pageIndex: number
+  setSize: Dispatch<SetStateAction<number>>
+  setPageIndex: Dispatch<SetStateAction<number>>
+  changePageHandler: (total: number, index: number) => void
+}
 
 type Props = {
   key: string
@@ -9,6 +18,7 @@ type Props = {
     sortDir?: string
   }
 }
+
 const usePageable = ({ key, config = {} }: Props) => {
   const { defaultPageIndex = 0, defaultSize = 5, sort, sortDir } = config
 

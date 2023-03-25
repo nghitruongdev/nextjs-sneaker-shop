@@ -5,22 +5,19 @@ import {
   AvatarBadge,
   Box,
   Button,
-  DrawerOverlay,
   FormControl,
-  FormErrorIcon,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
   Input,
-  ModalOverlay,
   SimpleGrid,
   Text,
-  Textarea,
 } from '@chakra-ui/react'
 import { Address } from '@/domain/Address'
-import { FieldError, FieldErrors, UseFormWatch } from 'react-hook-form'
+import { UseFormWatch } from 'react-hook-form'
 import config from 'config'
 import { useState } from 'react'
+import TransparentOverlay from '@/components/TransparentOverlay'
 type Props = {
   current: User | undefined
   getUserInput: (name: keyof UserFormValue) => JSX.Element
@@ -75,7 +72,7 @@ const UserForm = ({
       }}
       pos="relative"
     >
-      {isDeleted && <Overlay />}
+      {isDeleted && <TransparentOverlay />}
       <Box
         display="flex"
         justifyContent="center"
@@ -245,15 +242,5 @@ const UserForm = ({
     </SimpleGrid>
   )
 }
-const Overlay = () => {
-  return (
-    <Box
-      pos="absolute"
-      top="0"
-      left="0"
-      boxSize="full"
-      zIndex="100"
-    />
-  )
-}
+
 export default UserForm

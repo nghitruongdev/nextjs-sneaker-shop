@@ -9,15 +9,11 @@ import useAddressForm, { AddressForm } from './useAddress'
 import { User } from '@/domain/User'
 import usePageable from '@/hooks/usePageable'
 import config from 'config'
-import { useForm } from 'react-hook-form'
 import axios, { AxiosRequestConfig, toFormData } from 'axios'
-import { userInfo } from 'os'
-type Props = {
-  key?: string
-}
+
 const fetcher = getFetcher()
 
-const useUser = ({}: Props) => {
+const useUser = () => {
   const [tabIndex, setTabIndex] = useState(0)
   const [current, setCurrent] = useState<User>()
   const [isShowDeleted, setIsShowDeleted] = useState<boolean>(false)
@@ -25,8 +21,8 @@ const useUser = ({}: Props) => {
   const { get, post, patch, remove, isLoading } = useAxios()
   const { ok, fail } = useMyToast()
   const key = config.api.users.search.byDeletedDate(isShowDeleted)
-  const { keyUrl, ...page } = usePageable({ key })
-  const swr = useSWR(keyUrl, fetcher)
+  const page = usePageable({ key })
+  const swr = useSWR(page.keyUrl, fetcher)
 
   const { getInput: getUserInput, form: userForm } = useUserForm({ current })
   const { getInput: getAddressInput, form: addressForm } = useAddressForm({

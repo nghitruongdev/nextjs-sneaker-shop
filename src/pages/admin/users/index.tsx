@@ -1,6 +1,5 @@
 import UserForm from '@/components/admin/user/new-user/UserForm'
 import { getAdminLayout } from '@/components/layout/admin/AdminLayout'
-import { User } from '@/domain/User'
 import { NextPageWithLayout } from '@/pages/_app'
 import {
   Box,
@@ -13,13 +12,11 @@ import {
 } from '@chakra-ui/react'
 import UserTable from '@/components/admin/user/UserTable'
 import useUser from '@/hooks/useUser'
-import { useForm } from 'react-hook-form'
-import useAxios from '@/hooks/useAxios'
 
 const UserIndexPage: NextPageWithLayout = () => {
   console.debug('User page rerendered')
 
-  const { swr, form, page, tab, toggleShowDeleted, isShowDeleted } = useUser({})
+  const { swr, form, page, tab, toggleShowDeleted, isShowDeleted } = useUser()
 
   const {
     getUserInput,
@@ -34,7 +31,6 @@ const UserIndexPage: NextPageWithLayout = () => {
     watchUser,
     resetForm,
   } = form
-  const { pageIndex, setSize, changePageHandler } = page
 
   return (
     <Box>
@@ -49,13 +45,11 @@ const UserIndexPage: NextPageWithLayout = () => {
         <TabPanels>
           <TabPanel>
             <UserTable
+              swr={swr}
+              page={page}
+              viewDetails={showUser}
               isShowDeleted={isShowDeleted}
               toggleShowDeleted={toggleShowDeleted}
-              swr={swr}
-              viewDetails={showUser}
-              indexPage={pageIndex}
-              setSize={setSize}
-              onChangePage={changePageHandler}
             />
           </TabPanel>
           <TabPanel>
@@ -80,15 +74,3 @@ const UserIndexPage: NextPageWithLayout = () => {
 
 UserIndexPage.getLayout = getAdminLayout
 export default UserIndexPage
-
-// <>
-{
-  /* <input
-        type="file"
-        {...register('imageFile')}
-      />
-      <Button onClick={handleSubmit(handleClick)}>Submit</Button>F */
-}
-{
-  /* </> */
-}

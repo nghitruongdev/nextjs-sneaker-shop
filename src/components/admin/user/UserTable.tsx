@@ -1,15 +1,14 @@
 import NewTable from '@/components/NewTable'
 import { User } from '@/domain/User'
+import { Pageable } from '@/hooks/usePageable'
 import { Button, Checkbox, Menu, TableRowProps } from '@chakra-ui/react'
 import { CellContext, createColumnHelper, Row } from '@tanstack/react-table'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { SWRResponse } from 'swr'
 type Props = {
   swr: SWRResponse
   viewDetails: (current: any) => void
-  indexPage: number
-  setSize: (size: number) => void
-  onChangePage: (total: number, index: number) => void
+  page: Pageable
   toggleShowDeleted: () => void
   isShowDeleted: boolean
 }
@@ -18,9 +17,8 @@ const util = createColumnHelper<User>()
 const UserTable = ({
   swr,
   viewDetails,
-  indexPage,
+  page,
   isShowDeleted,
-  setSize,
   toggleShowDeleted,
 }: Props) => {
   const { isLoading, error, data } = swr
@@ -92,7 +90,7 @@ const UserTable = ({
       <NewTable
         columns={columns}
         data={items}
-        setSize={setSize}
+        setSize={page.setSize}
         config={{
           rowProps: getRowProps,
         }}

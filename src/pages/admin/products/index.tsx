@@ -1,30 +1,33 @@
-import AdminLayout from '@/components/layout/admin/AdminLayout'
 import { NextPageWithLayout } from '@/pages/_app'
-import { ReactElement } from 'react'
-import { getAdminLayout } from '../../../components/layout/admin/AdminLayout'
-import useSWR from 'swr'
-import ProductTable from '../../../components/admin/product/ProductTable'
-import useFetcher from '@/hooks/useFetcher'
-import config from 'config'
+import { getAdminLayout } from '@/components/layout/admin/AdminLayout'
+import ProductTable from '@/components/admin/product/ProductTable'
+import { Tabs, TabList, Tab, TabPanels, TabPanel, Box } from '@chakra-ui/react'
+import useProduct from '@/hooks/useProduct'
+import ProductForm from '@/components/admin/product/ProductForm'
 
 const ProductPage: NextPageWithLayout = () => {
-  const transformArray = (data: any) =>
-    data?._embedded?.products.map((item: any) => item)
-
-  const { data, isLoading, error } = useFetcher(config.api.products, {
-    transform: transformArray,
-  })
-
-  if (isLoading) return <>Loading...</>
-  if (error) return <>{JSON.stringify(error)}</>
-
+  const { tab, tableProps, formProps } = useProduct()
   return (
-    <>
-      {/* //todo: you will have a table */}
-      <ProductTable items={data} />
-
-      {/* //todo: Update row, Delete Row */}
-    </>
+    <Box>
+      <Tabs
+        index={tab.index}
+        onChange={tab.setIndex}
+      >
+        <TabList>
+          <Tab>Tất cả sản phẩm</Tab>
+          <Tab>Thêm mới sản phẩm</Tab>
+          <Tab>Phiên bản sản phẩm</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <ProductTable {...tableProps} />
+          </TabPanel>
+          <TabPanel>
+            <ProductForm {...formProps} />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </Box>
   )
 }
 
