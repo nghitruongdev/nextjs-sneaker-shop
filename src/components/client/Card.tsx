@@ -17,12 +17,27 @@ import { addToCart } from '../../redux/Cart/cart-actions'
 import { useEffect, useState } from 'react'
 import { Dispatch } from 'redux'
 import { ADD_TO_CART } from '@/redux/Cart/cart-types'
+import NextLink from 'next/link'
+// import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
-const Card = (props:any) => {
+// export type CardType = {
+//   id: string
+//   name: string
+//   minPrice: number
+//   images: string[]
+//   categories: string[]
+// }
+
+// type Props = {
+//   item: CardType
+//   // addToCart: (id: string) => void
+// }
+
+const Card = ({ item }: any) => {
   const [isFavourite, setIsFavorite] = useState(false)
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+
   return (
-    <Center py={5}>
       <Box
         w="lg"
         rounded={'sm'}
@@ -30,12 +45,10 @@ const Card = (props:any) => {
         mx={[0, 5]}
         overflow={'hidden'}
         bg="white"
-        
+
         // pos={'relative'}
       >
-        <Box
-          h={'300px'}
-        >
+        <Box h={'300px'}>
           {/* <Icon
             boxSize={25}
             // ternary operator
@@ -68,8 +81,8 @@ const Card = (props:any) => {
             mt={10}
             ml={3}
           >
-            <Text>{props.name}</Text>
-            <Text color={'gray.500'}>{props.categories}</Text>
+            <Text>{item.name}</Text>
+            <Text color={'gray.500'}>{item.id}</Text>
             <Flex
               m={0}
               p={0}
@@ -78,23 +91,14 @@ const Card = (props:any) => {
                 variant="ghost"
                 size="sm"
                 p={0}
-                onClick={() => addToCart(props.id)}
+                // onClick={() => addToCart(item.id)}
               >
-                ${props.price}
+                ${item.minPrice}
               </Button>
             </Flex>
           </Flex>
         </Flex>
       </Box>
-    </Center>
   )
 }
-
-// const mapDispatchtoProps = (dispatch: any) => {
-//   return {
-//     addToCart: (id: any) => dispatch(addToCart(id)),
-//   }
-// }
-
-// export default connect(null, mapDispatchtoProps)(Card)
-export default Card;
+export default Card
