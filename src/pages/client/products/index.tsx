@@ -8,7 +8,7 @@ const ProductPage: NextPageWithLayout = () => {
     <>
       {/* <section>This is product page</section> */}
       <Filter/>
-      <ProductList/>
+      <ProductList />
     </>
   )
 }

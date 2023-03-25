@@ -30,9 +30,10 @@ const AddToCart: React.FC<Props> = ({item}) => {
     }, []);
 
 
-    const addToCart = async (item: Item) => {
+    const addToCart = async ({item: {id}} : Props) => {
         try {
-            const response = await post({requestUrl: '/carts', data: item});
+            const getCartId = await get()
+            const response = await post({requestUrl: `/carts/7e018582-7937-48c7-8c49-34e8ae717a15/items`, data: item});
             setCart(response?.data);
         } catch (error) {
             console.log(error);
@@ -57,9 +58,8 @@ const AddToCart: React.FC<Props> = ({item}) => {
         }
     }
     return (
-        <Card>
-
-        </Card>
+        <>
+        </>
     );
 }
 export default AddToCart;
