@@ -3,21 +3,16 @@ import {
   HStack,
   FormControl,
   FormLabel,
-  Select,
   Button,
-  Image,
   Flex,
   Box,
   Heading,
-  Text,
-  SimpleGrid,
   Stack,
   VStack,
   StackDivider,
 } from '@chakra-ui/react'
 import { useReducer, useEffect, useState, useMemo } from 'react'
 import useSWR from 'swr'
-import { OptionValue, ProductOption } from '../../../../domain/ProductOption'
 import { ProductVariant } from '@/domain/ProductVariant'
 import { ActionMeta, SingleValue } from 'react-select'
 import {
@@ -31,11 +26,12 @@ import ProductSelect, { Option } from './ProductSelect'
 import Product from '@/domain/Product'
 import OrderQuantitySelect from './OrderQuantitySelect'
 import CartList from './CartList'
-import Items from '@/components/layout/admin/sidebar/Items'
 import CartItem, { CartItemType } from './CartItem'
+import config from 'config'
+import { OptionType, ProductOption } from '@/domain/ProductOption'
 
 const dispatchActionFactory = (dispatch: (value: ReducerAction) => void) => {
-  const updateSelectedOptionValues = (value: OptionValue) => {
+  const updateSelectedOption = (value: ProductOption) => {
     dispatch({
       type: ActionType.UPDATE_SELECTED_OPTION,
       payload: {
@@ -43,22 +39,22 @@ const dispatchActionFactory = (dispatch: (value: ReducerAction) => void) => {
       },
     })
   }
-  const removeSelectedOption = (option: ProductOption) => {
+  const removeOptionType = (type: OptionType) => {
     dispatch({
-      type: ActionType.REMOVE_SELECTED_OPTION,
-      payload: { option },
+      type: ActionType.REMOVE_OPTION_TYPE,
+      payload: { type },
     })
   }
-  const clearSelectedOptionValues = () => {
+  const clearSelectedOptions = () => {
     dispatch({
       type: ActionType.CLEAR_SELECTED_OPTION,
       payload: {},
     })
   }
   return {
-    updateSelectedOptionValues,
-    removeSelectedOption,
-    clearSelectedOptionValues,
+    updateSelectedOption,
+    removeOptionType,
+    clearSelectedOptions,
   }
 }
 
@@ -108,37 +104,33 @@ const CartForm = () => {
       return [...filterItems]
     })
   }
-  console.log('Cart', cartItems)
+  const { updateSelectedOption, removeOptionType, clearSelectedOptions } =
+    dispatchActionFactory(dispatch)
 
-  const {
-    updateSelectedOptionValues,
-    removeSelectedOption,
-    clearSelectedOptionValues,
-  } = dispatchActionFactory(dispatch)
+  const { variants, options, types } = useData({ product })
 
-  const { variants, options } = useData({ product })
-
-  const { getFilteredValues } = useFilterOptionValues({
+  const { getFilteredOptions: getFilteredValues } = useFilterOptionValues({
     variants,
     selectedValues,
   })
-
   // * update variant when user select all options
   useEffect(() => {
-    if (selectedValues.length === options?.length) {
-      const isSelectedValue = (value: OptionValue) => {
+    if (!!!types || !!!types.length) return
+
+    if (selectedValues.length === types.length) {
+      const isSelectedOption = (value: ProductOption) => {
         return selectedValues.some((v) => v.id === value.id)
       }
-      const isAllValueSelected = (variant: ProductVariant) => {
-        return variant.optionValues.every(isSelectedValue)
+      const hasAllOptionSelected = (variant: ProductVariant) => {
+        return variant.options.every(isSelectedOption)
       }
 
-      const selectedVariant = variants?.find(isAllValueSelected)
+      const selectedVariant = variants?.find(hasAllOptionSelected)
       setVariant(selectedVariant ? selectedVariant : null)
       return
     }
     if (variant) setVariant(null)
-  }, [product, options, selectedValues, variants, variant])
+  }, [product, types, selectedValues, variants, variant])
 
   const handleSelectProductChange = (
     option: SingleValue<Option>,
@@ -146,7 +138,7 @@ const CartForm = () => {
   ) => {
     setProduct(option?.value)
     if (meta.action === 'clear' && selectedValues.length) {
-      clearSelectedOptionValues()
+      clearSelectedOptions()
     }
   }
 
@@ -205,27 +197,30 @@ const CartForm = () => {
         </Stack>
       </HStack>
 
-      {options &&
-        options.map((option: ProductOption) => (
-          <Box
-            key={option.type.name}
-            borderColor={'gray.300'}
-            borderWidth="1px"
-            p={3}
-            rounded={5}
-            mt={5}
-          >
-            <FormControl>
-              <FormLabel>{option.type.name}</FormLabel>
-              <ProductOptionGroup
-                removeSelectedOption={removeSelectedOption.bind(this, option)}
-                option={option}
-                filteredValues={getFilteredValues(option)}
-                updateSelectedOptionValue={updateSelectedOptionValues}
-              />
-            </FormControl>
-          </Box>
-        ))}
+      {types &&
+        types.map(
+          (type) =>
+            type && (
+              <Box
+                key={type.name}
+                borderColor={'gray.300'}
+                borderWidth="1px"
+                p={3}
+                rounded={5}
+                mt={5}
+              >
+                <FormControl>
+                  <FormLabel>{type.name}</FormLabel>
+                  <ProductOptionGroup
+                    removeSelectedOptionType={removeOptionType.bind(null, type)}
+                    type={type}
+                    filteredOptions={getFilteredValues(type)}
+                    updateSelectedOption={updateSelectedOption}
+                  />
+                </FormControl>
+              </Box>
+            )
+        )}
 
       {/*Giỏ hàng  */}
       <Flex
@@ -275,20 +270,50 @@ const CartForm = () => {
 }
 
 const useData = ({ product }: { product: Product | null | undefined }) => {
-  const { data: variantsData } = useSWR(product?._links?.variants.href, fetcher)
-  const { data: optionsData } = useSWR(product?._links?.options.href, fetcher)
-
-  const options: ProductOption[] | undefined = useMemo(() => {
-    return optionsData?._embedded.productOptions
-  }, [optionsData])
+  const cleanUrl = (url?: string) => (url ? url.replace(/\{.*?\}/g, '') : '')
+  const { data: variantsData } = useSWR(
+    cleanUrl(product?._links?.variants.href),
+    fetcher
+  )
+  const { data: optionsData } = useSWR(
+    cleanUrl(
+      `${product?._links?.options.href}?projection=${config.api.products.options.projection.withType} `
+    ),
+    fetcher
+  )
 
   const variants: ProductVariant[] | undefined = useMemo(
     () => variantsData?._embedded.productVariants,
     [variantsData]
   )
+
+  const options: ProductOption[] = useMemo(
+    () => optionsData?._embedded?.productOptions,
+    [optionsData]
+  )
+
+  const types = useMemo(() => {
+    if (!!!options) return
+    let types: OptionType[] = []
+
+    options?.forEach((option) => {
+      if (!!!option.type) return
+
+      const isTheSameTypeOfOption = (type: OptionType) =>
+        option.type?.id === type.id
+      const type = types.find(isTheSameTypeOfOption)
+      if (type) {
+        type.values?.push(option)
+      } else {
+        types.push({ ...option?.type, values: [option] })
+      }
+    })
+    return types
+  }, [options])
   return {
     variants,
     options,
+    types,
   }
 }
 
@@ -297,52 +322,62 @@ const useFilterOptionValues = ({
   selectedValues,
 }: {
   variants?: ProductVariant[]
-  selectedValues?: OptionValue[]
+  selectedValues?: ProductOption[]
 }) => {
   // * filter variant option values
-  const filteredVariantOptionValues: OptionValue[] = useMemo(() => {
-    let filteredValues: OptionValue[] | undefined = []
-    let filteredVariants = variants
-    let excludedValues: OptionValue[] = []
+  const filteredVariantOptions: ProductOption[] = useMemo(() => {
+    let filteredValues: ProductOption[] = []
+    let filteredVariants: ProductVariant[] = []
+    let excludedValues: ProductOption[] = []
 
-    const isValueSelected = (item: OptionValue) => {
+    const isValueSelected = (item: ProductOption) => {
       return selectedValues?.some((value) => item.id === value.id)
     }
+    //* when variants data available
+    if (!!variants && !!variants.length) {
+      //* only get variants which are enabled and have available quantity > 0
+      const isValidVariant = (variant: ProductVariant) =>
+        variant.enabled || variant.availableQuantity > 0
+      filteredVariants = variants.filter(isValidVariant)
 
-    filteredVariants = filteredVariants?.filter((variant) => variant.enabled)
-
-    if (selectedValues?.length && variants) {
-      excludedValues = variants
-        .filter(
-          (variant) =>
-            !variant.enabled && variant.optionValues.some(isValueSelected)
-        )
-        .flatMap((variant) => variant.optionValues)
-        .filter((item) => !isValueSelected(item))
+      //*
+      if (selectedValues?.length) {
+        excludedValues = variants
+          .filter(
+            (variant) =>
+              //* if filter only invalidVariants, every options will get disabled even though it exists in other valid variants
+              //* so we need to check if a option is selected first and it may lead to an invalid variant => exclude other property that may lead to invaild
+              variant.options.some(isValueSelected) && !isValidVariant(variant)
+          )
+          .flatMap((variant) => variant.options)
+          .filter((item) => !isValueSelected(item)) //* only excluded not selected values
+      }
     }
 
     filteredValues = [
       ...filteredValues,
-      ...(filteredVariants?.flatMap((v) => v.optionValues) || []),
+      ...(filteredVariants?.flatMap((v) => v.options) || []),
     ].filter(
       (value) => !excludedValues.some((exValue) => exValue.id === value.id)
     )
     return filteredValues
   }, [variants, selectedValues])
 
-  const getFilteredValues = (option: ProductOption): OptionValue[] => {
-    let values: OptionValue[] = []
-    if (option.values && variants) {
-      // console.log('filteredVariantOptionValues', filteredVariantOptionValues)
+  //? filter for each type
+  const getFilteredOptions = (type: OptionType): ProductOption[] => {
+    let options: ProductOption[] = []
+    if (type.values && variants) {
+      const isInFilteredVariantOption = (option: ProductOption) =>
+        filteredVariantOptions.some(
+          (variantOption) => option.id === variantOption.id
+        )
       // *filter to get value of this options that are available in variants
-      values = option.values.filter((value) =>
-        filteredVariantOptionValues.find((filtered) => value.id === filtered.id)
-      )
+      options = type.values.filter(isInFilteredVariantOption)
     }
-    return values
+    return options
   }
   return {
-    getFilteredValues,
+    getFilteredOptions,
   }
 }
 export default CartForm

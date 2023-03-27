@@ -71,22 +71,14 @@ const useUserForm = ({ current }: { current?: User }) => {
   const { get } = useAxios()
   const { fail } = useMyToast()
 
-  const {
-    getValues,
-    setValue,
-    setError,
-    clearErrors,
-    trigger,
-    reset,
-    formState: { errors },
-  } = form
+  const { trigger, reset } = form
 
   useEffect(() => {
     if (current) resetForm(reset, current)
   }, [current, reset])
 
   const patterns = {
-    phone: /^[0-9]{10}$/,
+    phone: /^\d{10}$/,
     email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
     login: /^[\w\d]{5,15}$/,
   }

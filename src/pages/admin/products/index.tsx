@@ -4,9 +4,15 @@ import ProductTable from '@/components/admin/product/ProductTable'
 import { Tabs, TabList, Tab, TabPanels, TabPanel, Box } from '@chakra-ui/react'
 import useProduct from '@/hooks/useProduct'
 import ProductForm from '@/components/admin/product/ProductForm'
-
+import SelectPopout, { Option } from '../../../components/SelectPopout'
+import { useForm } from 'react-hook-form'
+import { useState } from 'react'
+type FormValue = {
+  name: string
+}
 const ProductPage: NextPageWithLayout = () => {
   const { tab, tableProps, formProps } = useProduct()
+
   return (
     <Box>
       <Tabs
@@ -20,11 +26,10 @@ const ProductPage: NextPageWithLayout = () => {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <ProductTable {...tableProps} />
-          </TabPanel>
-          <TabPanel>
+            {/* <ProductTable {...tableProps} /> */}
             <ProductForm {...formProps} />
           </TabPanel>
+          <TabPanel></TabPanel>
         </TabPanels>
       </Tabs>
     </Box>

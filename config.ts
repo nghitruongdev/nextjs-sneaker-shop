@@ -9,6 +9,30 @@ const config = {
           return `/products/search/findByNameLike?name=${name}`
         },
       },
+      brands: {
+        url: '/brands',
+        search: {
+          findAllWithoutPage: `/brands/search/getAllWithoutPage`,
+        },
+      },
+      options: {
+        type: {
+          url: '/optionTypes',
+          search: {
+            findAllWithoutPage: `/optionTypes/search/getAllWithoutPage`,
+          },
+        },
+        projection: {
+          withType: 'withType',
+        },
+      },
+      discounts: {
+        url: '/discounts',
+        search: {
+          findAllByEndTimeAfter: (date: Date | undefined) =>
+            `/discounts/search/findAllByEndTimeAfter?date=${date?.toISOString()}`,
+        },
+      },
     },
     orders: {
       url: '/orders',

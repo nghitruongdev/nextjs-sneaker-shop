@@ -1,9 +1,9 @@
-import { OptionValue } from '@/domain/ProductOption'
+import { OptionType, ProductOption } from '@/domain/ProductOption'
 
 enum ActionType {
   // SET_PRODUCT,
   UPDATE_SELECTED_OPTION,
-  REMOVE_SELECTED_OPTION,
+  REMOVE_OPTION_TYPE,
   CLEAR_SELECTED_OPTION,
 }
 interface ReducerAction {
@@ -15,7 +15,7 @@ interface ReducerState {
   // variantUrl: string | null
   // optionUrl: string | null
   // product: any
-  selectedValues: OptionValue[]
+  selectedValues: ProductOption[]
 }
 
 const inititalState: ReducerState = {
@@ -31,21 +31,11 @@ const productReducer = (
 ): ReducerState => {
   const { type, payload } = action
   switch (type) {
-    // case ActionType.SET_PRODUCT: {
-    // const _links = payload?._links
-    // return {
-    // ...state,
-    // product: payload,
-    // optionUrl: _links?.options?.href,
-    // variantUrl: _links?.variants?.href,
-    // }
-    // }
     case ActionType.UPDATE_SELECTED_OPTION: {
       const { value } = payload
       const { selectedValues: selectedValues } = state
       const idx = selectedValues.findIndex(
-        (selected) =>
-          selected._links.productOption.href === value._links.productOption.href
+        (selected) => selected.type?.id === value.type?.id
       )
       if (idx === -1) {
         selectedValues.push(value)
@@ -57,14 +47,13 @@ const productReducer = (
         selectedValues: [...selectedValues],
       }
     }
-    case ActionType.REMOVE_SELECTED_OPTION: {
-      const { option } = payload
+    case ActionType.REMOVE_OPTION_TYPE: {
+      const removedType = payload.type as OptionType
       const { selectedValues } = state
 
-      const isNotTheSameOption = (item: OptionValue) => {
-        return item._links.productOption.href !== option._links.self.href
-      }
-      const filtered = selectedValues.filter(isNotTheSameOption)
+      const isNotRemovedType = (value: ProductOption) =>
+        value.type?.id !== removedType.id
+      const filtered = selectedValues.filter(isNotRemovedType)
       return {
         ...state,
         selectedValues: [...filtered],
@@ -77,7 +66,6 @@ const productReducer = (
       }
     }
   }
-  return state
 }
 
 export { inititalState, productReducer, ActionType }

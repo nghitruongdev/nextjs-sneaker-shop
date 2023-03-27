@@ -1,5 +1,5 @@
 import LoadingIndicator from '@/components/LoadingIndicator'
-import { OptionValue, ProductOption } from '@/domain/ProductOption'
+import { ProductOption } from '@/domain/ProductOption'
 import useAxios from '@/hooks/useAxios'
 import { Text } from '@chakra-ui/react'
 import config from 'config'
@@ -59,6 +59,7 @@ const ProductSelect = ({ onSelectChange: onChange }: Props) => {
       loadingMessage={() => `Đang tìm sản phẩm ...`}
       noOptionsMessage={() => `Không tìm thấy sản phẩm`}
       isSearchable
+      defaultOptions
       isClearable
       components={{ LoadingIndicator }}
       onChange={onChange}

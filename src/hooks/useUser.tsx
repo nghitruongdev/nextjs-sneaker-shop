@@ -9,7 +9,7 @@ import useAddressForm, { AddressForm } from './useAddress'
 import { User } from '@/domain/User'
 import usePageable from '@/hooks/usePageable'
 import config from 'config'
-import axios, { AxiosRequestConfig, toFormData } from 'axios'
+import { AxiosRequestConfig } from 'axios'
 
 const fetcher = getFetcher()
 

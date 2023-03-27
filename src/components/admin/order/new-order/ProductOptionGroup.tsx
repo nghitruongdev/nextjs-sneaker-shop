@@ -1,51 +1,51 @@
-import { ProductOption, OptionValue } from '@/domain/ProductOption'
+import { ProductOption, OptionType } from '@/domain/ProductOption'
 import { useRadioGroup, HStack } from '@chakra-ui/react'
 import OptionValueCheckbox from './OptionValueCheckbox'
 
 // Step 2: Use the `useRadioGroup` hook to control a group of custom radios.
 const ProductOptionGroup = ({
-  option,
-  filteredValues,
-  updateSelectedOptionValue,
-  removeSelectedOption,
+  type,
+  filteredOptions,
+  updateSelectedOption,
+  removeSelectedOptionType,
 }: {
-  option: ProductOption | null
-  filteredValues: OptionValue[]
-  updateSelectedOptionValue: (optionValue: OptionValue) => void
-  removeSelectedOption: () => void
+  type: OptionType | null
+  filteredOptions: ProductOption[]
+  updateSelectedOption: (option: ProductOption) => void
+  removeSelectedOptionType: () => void
 }) => {
   const handleRadioChange = (next: string) => {
-    const selected = filteredValues.find(
+    const selected = filteredOptions.find(
       (filtered) => filtered.id + '' === next
     )
-    if (selected) updateSelectedOptionValue(selected)
+    if (selected) updateSelectedOption(selected)
   }
 
   const { getRootProps, getRadioProps, value, setValue } = useRadioGroup({
-    name: option?.type?.name,
+    name: type?.name,
     onChange: handleRadioChange,
   })
 
   const group = getRootProps({})
   return (
     <>
-      {option?.values && (
+      {type?.values && (
         <HStack {...group}>
-          {option.values.map((optionValue) => {
+          {type?.values.map((option) => {
             const radio = getRadioProps({
-              value: `${optionValue.id}`,
+              value: `${option.id}`,
               isDisabled:
-                filteredValues.findIndex(
-                  (filtered) => filtered.id === optionValue.id
+                filteredOptions.findIndex(
+                  (filtered) => filtered.id === option.id
                 ) === -1,
             })
             return (
               <OptionValueCheckbox
-                uncheck={() => (setValue(''), removeSelectedOption())}
-                key={optionValue.id}
+                uncheck={() => (setValue(''), removeSelectedOptionType())}
+                key={option.id}
                 {...radio}
               >
-                {optionValue.name}
+                {option.value}
               </OptionValueCheckbox>
             )
           })}

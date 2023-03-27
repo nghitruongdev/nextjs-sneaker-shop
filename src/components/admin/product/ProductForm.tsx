@@ -2,15 +2,27 @@ import {
   Avatar,
   AvatarBadge,
   Box,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
   FormControl,
+  FormErrorMessage,
+  FormHelperText,
   FormLabel,
+  Heading,
   SimpleGrid,
+  Stack,
+  StackDivider,
 } from '@chakra-ui/react'
 import { FieldErrors, UseFormWatch } from 'react-hook-form'
 import { useState } from 'react'
 import Product from '@/domain/Product'
 import { ProductFormValue, ProductInputs } from '@/hooks/useProductForm'
 import TransparentOverlay from '@/components/TransparentOverlay'
+import OptionItem from '@/components/common/OptionItem'
+import Select from 'react-select'
+import ReactSelect from 'react-select'
 
 export type ProductFormProps = {
   current: Product | undefined
@@ -35,6 +47,7 @@ const ProductForm = ({
   watch,
   resetForm,
 }: ProductFormProps) => {
+  console.log('user form rerendered')
   // const currentImg = config.api.image.url(current?.imageUrl)
   const currentImg = ''
   const [img, setImg] = useState<any>(currentImg)
@@ -43,12 +56,11 @@ const ProductForm = ({
   // const fileList = watch('imageFile')
   // if (fileList && fileList.length && fileList?.[0]) {
   //   const file = fileList[0]
-  const reader = new FileReader()
-  console.log('user form rerendered')
-  reader.onload = () => {
-    setImg(reader.result)
-    console.log('done reading')
-  }
+  // const reader = new FileReader()
+  // reader.onload = () => {
+  //   setImg(reader.result)
+  //   console.log('done reading')
+  // }
 
   // reader.readAsDataURL(file)
   // }
@@ -62,92 +74,94 @@ const ProductForm = ({
     <SimpleGrid
       columns={{
         base: 1,
-        md: 3,
+        // md: 3,
       }}
       pos="relative"
     >
       {isDeleted && <TransparentOverlay />}
-      <Box
-        display="flex"
-        justifyContent="center"
-      >
-        <Avatar
-          name={current?.name}
-          src={img}
-          role="group"
-          size={{
-            base: '2xl',
-          }}
-          {...(!img && {
-            bgGradient: 'radial(green.400, green.100)',
-          })}
-        >
-          <AvatarBadge
-            // borderColor="to"
-            // border="5px"
-            _groupHover={{
-              cursor: 'pointer',
-              borderColor: 'papayawhip',
-            }}
-            bg="tomato"
-            boxSize={'1.5em'}
-          >
-            <FormLabel
-              htmlFor="imageFile"
-              boxSize="full"
-              cursor="pointer"
-            ></FormLabel>
-          </AvatarBadge>
-        </Avatar>
-      </Box>
-
       <Box aria-colspan={2}>
-        {/* {!isDeleted && (
-          <Button onClick={resetFormWithAvatar}>Reset Form</Button>
-        )} */}
+        {!isDeleted && <Button onClick={resetForm}>Reset Form</Button>}
         <FormControl
           isRequired
-          // isInvalid={errors('lastName')}
+          isInvalid={!!errors.name}
         >
-          <FormLabel>Họ</FormLabel>
+          <FormLabel>Tên sản phẩm</FormLabel>
+          {inputs.name()}
+          <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl isInvalid={!!errors.shortDesc}>
+          <FormLabel>Mô tả</FormLabel>
+          {inputs.shortDesc()}
+          <FormErrorMessage>{errors.shortDesc?.message}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl isInvalid={!!errors.fullDesc}>
+          <FormLabel>Chi tiết</FormLabel>
+          {inputs.fullDesc()}
+          <FormErrorMessage>{errors.fullDesc?.message}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl isInvalid={!!errors.publishDate}>
+          <FormLabel>
+            Thời gian công bố
+            <FormHelperText
+              fontSize={'xs'}
+              transform="auto-gpu"
+              m="2"
+            >
+              * Sau thời gian công bố, sản phẩm sẽ không thể xoá hay cập nhật
+              tuỳ chọn.
+            </FormHelperText>
+          </FormLabel>
           {inputs.publishDate()}
-          {/* {getUserInput('lastName')} */}
-          {/* <FormErrorMessage>{errors('lastName')?.message}</FormErrorMessage> */}
+          <FormErrorMessage>{errors.publishDate?.message}</FormErrorMessage>
         </FormControl>
 
-        <FormControl
-          isRequired
-          // isInvalid={errors('firstName')}
-        >
-          <FormLabel>Tên</FormLabel>
-          {/* {getUserInput('firstName')} */}
-          {/* <FormErrorMessage>{errors('firstName')?.message}</FormErrorMessage> */}
+        <FormControl isInvalid={!!errors.fullDesc}>
+          <FormLabel>Tuỳ chọn</FormLabel>
+          {}
+          <FormErrorMessage>{errors.fullDesc?.message}</FormErrorMessage>
         </FormControl>
 
-        <FormControl
-          isRequired
-          // isInvalid={errors('login')}
-        >
-          <FormLabel>Username</FormLabel>
-          {/* {getUserInput('login')} */}
-          {/* <FormHelperText hidden={errors('login')?.message}>
-            Nhập từ 5-15 kí tự
-          </FormHelperText>
-          <FormErrorMessage>{errors('login')?.message}</FormErrorMessage> */}
+        <FormControl isInvalid={!!errors.discount}>
+          <FormLabel>Giảm giá</FormLabel>
+          {inputs.discount()}
+          <FormErrorMessage>{errors.discount?.message}</FormErrorMessage>
         </FormControl>
 
-        {/* <FormControl hidden>{getUserInput('imageFile')}</FormControl> */}
-        {/* {current?.deletedDate && (
-          <Text
-            colorScheme="red"
-            color="red"
-            align="center"
-          >
-            {`Người dùng đã bị xoá khỏi hệ thống vào lúc ${new Date(
-              current.deletedDate
-            ).toLocaleString('vi-VN')}`}
-          </Text>
-        )} */}
+        <FormControl isInvalid={!!errors.brand}>
+          <FormLabel>Thương hiệu</FormLabel>
+          {inputs.brand()}
+          <FormErrorMessage>{errors.brand?.message}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl isInvalid={!!errors.collection}>
+          <FormLabel>Bộ sưu tập</FormLabel>
+          {inputs.collection()}
+          <FormErrorMessage>{errors.collection?.message}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl isInvalid={!!errors.category}>
+          <FormLabel>Danh mục</FormLabel>
+          {inputs.category()}
+          <FormErrorMessage>{errors.category?.message}</FormErrorMessage>
+        </FormControl>
+
+        <Card>
+          <CardHeader>
+            <Heading size="md">Option sản phẩm</Heading>
+          </CardHeader>
+
+          <CardBody>
+            <FormControl isInvalid={!!errors.optionTypes}>
+              {/* <FormLabel>Tuỳ chọn sản phẩm</FormLabel> */}
+              {inputs.optionTypes()}
+              <FormErrorMessage>{errors.optionTypes?.message}</FormErrorMessage>
+            </FormControl>
+          </CardBody>
+        </Card>
+
         {/* {!isDeleted && (
           <>
             <Button

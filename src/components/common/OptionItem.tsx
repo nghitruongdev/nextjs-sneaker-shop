@@ -1,5 +1,6 @@
 import { Box, Heading, Input, Stack } from '@chakra-ui/react'
 import { VStack } from '@chakra-ui/react'
+import OptionValueItem from './OptionValueItem'
 
 const OptionItem = () => {
   return (
@@ -32,12 +33,12 @@ const OptionItem = () => {
           gap={3}
           direction="row"
         >
-          {/* <OptionValueItem name="EU-40" />
           <OptionValueItem name="EU-40" />
           <OptionValueItem name="EU-40" />
           <OptionValueItem name="EU-40" />
           <OptionValueItem name="EU-40" />
-          <OptionValueItem name="EU-40" /> */}
+          <OptionValueItem name="EU-40" />
+          <OptionValueItem name="EU-40" />
         </Stack>
       </VStack>
       {/* <Button>Add new</Button> */}
