@@ -10,7 +10,7 @@ const CategoryPage: NextPageWithLayout = () => {
 
   console.debug('Category page rerendered')
 
-  const keyUrl = `${config.api.categories.url}?sort=id,desc&page=${pageIndex}&size=${size}`
+  const keyUrl = `${config.api.products.categories.url}?sort=id,desc&page=${pageIndex}&size=${size}`
 
   const changePageHandler = (total: number, index: number) => {
     if (index) return

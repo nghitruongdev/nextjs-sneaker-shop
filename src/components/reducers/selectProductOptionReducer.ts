@@ -76,5 +76,6 @@ const optionReducer = (
   }
   return state
 }
+export type { ActionType }
 export { initialState }
 export default optionReducer

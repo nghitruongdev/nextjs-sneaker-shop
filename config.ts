@@ -15,6 +15,20 @@ const config = {
           findAllWithoutPage: `/brands/search/getAllWithoutPage`,
         },
       },
+      collections: {
+        url: '/collections',
+        search: {
+          findAllWithoutPage: `/collections/search/getAllWithoutPage`,
+        },
+      },
+      categories: {
+        url: '/categories',
+        root: '/categories/search/root',
+        search: {
+          notRoot: `/categories/search/notRoot`,
+          // findAllWithoutPage: `/optionTypes/search/getAllWithoutPage`,
+        },
+      },
       options: {
         type: {
           url: '/optionTypes',
@@ -52,10 +66,6 @@ const config = {
           return `/orders/search/findByPhone?phone=${phoneNum}`
         },
       },
-    },
-    categories: {
-      url: '/categories',
-      root: '/categories/search/root',
     },
     shippingAddress: {
       search: {

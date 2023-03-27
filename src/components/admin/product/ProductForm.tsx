@@ -1,6 +1,4 @@
 import {
-  Avatar,
-  AvatarBadge,
   Box,
   Button,
   Card,
@@ -12,17 +10,12 @@ import {
   FormLabel,
   Heading,
   SimpleGrid,
-  Stack,
-  StackDivider,
 } from '@chakra-ui/react'
 import { FieldErrors, UseFormWatch } from 'react-hook-form'
 import { useState } from 'react'
 import Product from '@/domain/Product'
 import { ProductFormValue, ProductInputs } from '@/hooks/useProductForm'
 import TransparentOverlay from '@/components/TransparentOverlay'
-import OptionItem from '@/components/common/OptionItem'
-import Select from 'react-select'
-import ReactSelect from 'react-select'
 
 export type ProductFormProps = {
   current: Product | undefined
@@ -74,7 +67,7 @@ const ProductForm = ({
     <SimpleGrid
       columns={{
         base: 1,
-        // md: 3,
+        md: 2,
       }}
       pos="relative"
     >
@@ -89,7 +82,7 @@ const ProductForm = ({
           {inputs.name()}
           <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
         </FormControl>
-
+        {inputs.name()}
         <FormControl isInvalid={!!errors.shortDesc}>
           <FormLabel>Mô tả</FormLabel>
           {inputs.shortDesc()}
@@ -142,10 +135,10 @@ const ProductForm = ({
           <FormErrorMessage>{errors.collection?.message}</FormErrorMessage>
         </FormControl>
 
-        <FormControl isInvalid={!!errors.category}>
+        <FormControl isInvalid={!!errors.categories}>
           <FormLabel>Danh mục</FormLabel>
-          {inputs.category()}
-          <FormErrorMessage>{errors.category?.message}</FormErrorMessage>
+          {inputs.categories()}
+          <FormErrorMessage>{errors.categories?.message}</FormErrorMessage>
         </FormControl>
 
         <Card>
@@ -161,7 +154,6 @@ const ProductForm = ({
             </FormControl>
           </CardBody>
         </Card>
-
         {/* {!isDeleted && (
           <>
             <Button
@@ -181,6 +173,7 @@ const ProductForm = ({
           </>
         )} */}
       </Box>
+      <Box>{inputs.imageFiles()}</Box>
     </SimpleGrid>
   )
 }

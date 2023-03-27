@@ -4,10 +4,13 @@ import {
   InputProps,
   Textarea,
   Text,
-  TextareaProps,
   Badge,
+  Avatar,
+  HStack,
+  Button,
+  Icon,
 } from '@chakra-ui/react'
-import { useEffect, useState, useReducer, useMemo } from 'react'
+import { useEffect, useReducer, useMemo } from 'react'
 import { Controller, useForm, UseFormReset } from 'react-hook-form'
 import useAxios from './useAxios'
 import useMyToast from '@/hooks/useMyToast'
@@ -22,9 +25,14 @@ import { ActionMeta } from 'react-select'
 import { Discount } from '@/domain/Discount'
 import { SelectOption } from '@/components/ReactSelectOption'
 import optionReducer, {
+  ActionType,
   initialState,
 } from '@/components/reducers/selectProductOptionReducer'
 import { Brand } from '@/domain/Brand'
+import Category from '@/domain/Category'
+import { Collection } from '../domain/Collection'
+import MyDropZone from '../components/MyDropZone'
+import { RiGalleryUploadLine } from 'react-icons/ri'
 
 export type ProductFormValue = {
   id: number | undefined
@@ -32,16 +40,16 @@ export type ProductFormValue = {
   shortDesc: string | undefined
   fullDesc: string | undefined
   minPrice: number | undefined
-  images: string[] | undefined
+  imageUrl: string[] | undefined
   publishDate: Date | undefined
   status: string | undefined
   attributes: any[] | undefined
   optionTypes: SelectOption[] | undefined
   collection: SelectOption | undefined
   brand: SelectOption | undefined
-  category: SelectOption | undefined
+  categories: SelectOption[] | undefined
   discount: SelectOption | undefined
-  productOptions: SelectOption[]
+  imageFiles: FileList
 }
 
 export type ProductInputs = {
@@ -70,7 +78,7 @@ const useProductForm = ({ current }: { current?: Product }) => {
 
   const { types, options } = state
 
-  const { optionTypes, discounts, brands } = useData()
+  const { optionTypes, discounts, brands, categories, collections } = useData()
 
   const form = useForm<ProductFormValue>({
     mode: 'onBlur',
@@ -153,7 +161,6 @@ const useProductForm = ({ current }: { current?: Product }) => {
         {...register('minPrice')}
       />
     ),
-    images: () => <>Images input</>,
     publishDate: () => (
       <Input
         type="datetime-local"
@@ -276,6 +283,27 @@ const useProductForm = ({ current }: { current?: Product }) => {
         }}
         props={{
           options: brands,
+          noOptionsMessage: 'Không có nhãn hàng.',
+          formatOptionLabel: (data, meta) => {
+            const { name, imgUrl } = data.value as Brand
+            return (
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Text noOfLines={2}>{name}</Text>
+
+                <Avatar
+                  ml="5"
+                  size="sm"
+                  variant="filled"
+                  name={name}
+                  src={imgUrl}
+                />
+              </Box>
+            )
+          },
         }}
       />
     ),
@@ -288,10 +316,12 @@ const useProductForm = ({ current }: { current?: Product }) => {
         stateLabel={{
           defaultEmpty: `Chọn  bộ sưu tập`,
         }}
-        props={{}}
+        props={{
+          options: collections,
+        }}
       />
     ),
-    category: () => (
+    categories: () => (
       <SelectPopout
         controller={{
           name: 'category',
@@ -300,10 +330,33 @@ const useProductForm = ({ current }: { current?: Product }) => {
         stateLabel={{
           defaultEmpty: `Chọn  danh mục hàng`,
         }}
-        props={{}}
+        props={{
+          options: categories,
+        }}
       />
     ),
     attributes: () => <>attributes input</>,
+    imageUrl: () => <>Images input</>,
+    imageFiles: () => (
+      <>
+        <MyDropZone />
+        <HStack>
+          <Box
+            boxSize="14"
+            bg="red"
+            rounded="5"
+          ></Box>
+          <Button boxSize="14">
+            <Icon
+              as={RiGalleryUploadLine}
+              fontSize="24px"
+              color="ButtonHighlight"
+              textColor="gray.500"
+            />
+          </Button>
+        </HStack>
+      </>
+    ),
   }
   return {
     inputs,
@@ -357,7 +410,33 @@ const useData = () => {
     [brandsData]
   )
 
-  return { optionTypes, discounts, brands }
+  const { data: categoriesData } = useSWR(
+    config.api.products.categories.search.notRoot,
+    fetcher
+  )
+
+  const categories = useMemo(
+    () =>
+      categoriesData?._embedded.categories.map((ct: Category) =>
+        toOption(ct.name, ct)
+      ),
+    [categoriesData]
+  )
+
+  const { data: collectionsData } = useSWR(
+    config.api.products.collections.search.findAllWithoutPage,
+    fetcher
+  )
+
+  const collections = useMemo(
+    () =>
+      collectionsData?._embedded.collections.map((cl: Collection) =>
+        toOption(cl.name, cl)
+      ),
+    [collectionsData]
+  )
+
+  return { optionTypes, discounts, brands, categories, collections }
 }
 
 export default useProductForm

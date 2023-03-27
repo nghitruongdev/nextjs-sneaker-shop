@@ -1,6 +1,5 @@
-export type Brand = {
+export type Collection = {
   id: number
-  imgUrl?: string
   name: string
   _links?: any
 }

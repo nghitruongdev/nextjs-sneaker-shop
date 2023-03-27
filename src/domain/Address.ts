@@ -4,4 +4,5 @@ export type Address = {
   ward: string
   district: string
   province: string
+  _links?: any
 }

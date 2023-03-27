@@ -1,15 +1,13 @@
 import Category from '@/domain/Category'
-import { Badge, Button, useDisclosure, useToast } from '@chakra-ui/react'
-import { useCallback, useMemo, useState } from 'react'
+import { Badge, Button, useDisclosure } from '@chakra-ui/react'
+import { useMemo, useState } from 'react'
 import { createColumnHelper, CellContext } from '@tanstack/react-table'
 import ModalForm from './ModalForm'
 import NewTable from '@/components/NewTable'
 import { DeleteButtonItem, EditButtonItem } from '../MenuItem'
 import Menu from '../Menu'
 import { getFetcher } from '@/hooks/useFetcher'
-import useSWR, { mutate as globalMutate } from 'swr'
-import useAxios from '@/hooks/useAxios'
-import useMyToast from '@/hooks/useMyToast'
+import useSWR from 'swr'
 import config from 'config'
 import useCategory from '@/hooks/useCategory'
 let count = 0
@@ -36,10 +34,14 @@ const CategoryTable = ({ setSize, keyUrl, onChangePage, ...props }: Props) => {
     keyUrl,
   })
 
-  const { data: rootData } = useSWR(config.api.categories.root, fetcher, {
-    refreshInterval: 60 * 1000,
-    revalidateIfStale: true,
-  })
+  const { data: rootData } = useSWR(
+    config.api.products.categories.root,
+    fetcher,
+    {
+      refreshInterval: 60 * 1000,
+      revalidateIfStale: true,
+    }
+  )
   const items = data?._embedded.categories
   const { isOpen, onOpen, onClose } = useDisclosure()
 
