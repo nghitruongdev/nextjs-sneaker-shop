@@ -6,7 +6,7 @@ import axios from 'axios'
 import useAxios from '@/hooks/useAxios';
 import { Box, Flex, Stack, Grid, HStack } from '@chakra-ui/react'
 import NextLink from 'next/link';
-import ProductOverview, {Product} from '../../components/client/Overview';
+// import ProductOverview, {Product} from '../../components/client/Overview';
 // type Item  = {
 //   id: string
 //   name: string

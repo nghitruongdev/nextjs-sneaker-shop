@@ -16,7 +16,6 @@ import {
 import { BsPhone } from 'react-icons/bs';
 import {FiMail} from 'react-icons/fi';
 import { CopyIcon } from '@chakra-ui/icons';
-
 import Contact from './components/ContactForm';
 const ContactPage: NextPageWithLayout = () => {
   return (

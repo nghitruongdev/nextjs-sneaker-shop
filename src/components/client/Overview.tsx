@@ -1,13 +1,38 @@
-import { Box, Flex, Image, Text, Grid, Input, Button } from '@chakra-ui/react'
+import { Box, Flex, Image, Text, Grid, Input, Button, FormControl, FormLabel } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import RadioButton from './RadioButton';
+import useSWR from 'swr';
+import { ProductOption } from '@/domain/ProductOption';
+import { ProductVariant } from '@/domain/ProductVariant';
+import Product from '@/domain/Product';
+import { getFetcher } from '@/hooks/useFetcher';
+import ProductOptionGroup from '../admin/order/new-order/ProductOptionGroup';
 
-export interface Product {
-    id: number;
-    name: string;
-    price: number;
-  }
+// const fetcher = getFetcher();
 
+//   const [product, setProduct] = useState<Product | null>(null)
+//   const [variant, setVariant] = useState<ProductVariant | null>(null)
+//   const [quantity, setQuantity] = useState<number>(1)
+
+//   const useData = ({ product }: { product: Product | null | undefined }) => {
+//     const { data: variantsData } = useSWR(product?._links?.variants.href, fetcher)
+//     const { data: optionsData } = useSWR(product?._links?.options.href, fetcher)
+  
+//     const options: ProductOption[] | undefined = useMemo(() => {
+//       return optionsData?._embedded.productOptions
+//     }, [optionsData])
+  
+//     const variants: ProductVariant[] | undefined = useMemo(
+//       () => variantsData?._embedded.productVariants,
+//       [variantsData]
+//     )
+//     return {
+//       variants,
+//       options,
+//     }
+//   }
+//   const { variants, options } = useData({ product })
 
 
 // TODO: Adjust the 404 page and make variant && product like from admin
@@ -119,8 +144,8 @@ const Overview = (props: any) => {
                     templateColumns="repeat(3, 1fr)"
                     gap={3}
                   >
-                    <Input
-                      isReadOnly
+                    {/* <Input
+                      type={'radio'}
                       cursor={'pointer'}
                       width={20}
                       focusBorderColor={'black.400'}
@@ -129,7 +154,29 @@ const Overview = (props: any) => {
                       _placeholder={{ opacity: 1, color: 'inherit' }}
                       display="block"
                       overflow="hidden"
-                    />
+                    /> */}
+                    {/* {options &&
+        options.map((option: ProductOption) => (
+          <Box
+            key={option.type.name}
+            borderColor={'gray.300'}
+            borderWidth="1px"
+            p={3}
+            rounded={5}
+            mt={5}
+          >
+            <FormControl>
+              <FormLabel>{option.type.name}</FormLabel>
+              <ProductOptionGroup
+                removeSelectedOption={removeSelectedOption.bind(this, option)}
+                option={option}
+                filteredValues={getFilteredValues(option)}
+                updateSelectedOptionValue={updateSelectedOptionValues}
+              />
+            </FormControl>
+          </Box>
+        ))} */}
+
                   </Grid>
                 </Flex>
               </Flex>
