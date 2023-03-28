@@ -96,5 +96,28 @@ const List = () => {
     </Box>
 
   )
+  return (
+      <Box>
+      <HStack wrap={'wrap'}>
+        {products.map((product: any) => {
+          return (
+            <Box key={product.id}>
+              <NextLink href={`/client/products/${product.id}`}>
+              <Card item={product} 
+                // addToCart={addToCart.bind(this, product)} 
+                />
+              </NextLink>
+                
+  
+            </Box>
+          )
+        })}
+      </HStack>
+      {/* <ProductOverview/> */}
+    </Box>
+
+  )
 }
+export default List
+
 export default List
