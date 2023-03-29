@@ -1,5 +1,13 @@
-import { Button, Divider, Flex, Grid, GridItem, Text } from '@chakra-ui/react'
-
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Grid,
+  GridItem,
+  Text,
+} from '@chakra-ui/react'
+import NextLink from 'next/link'
 const Summary = () => {
   return (
     <>
@@ -38,21 +46,26 @@ const Summary = () => {
         </Flex>
 
         <Divider mt={5} />
-        <Button
-          variant="solid"
-          size="lg"
-          mt={5}
-          fontSize={'14px'}
-          fontWeight={'400'}
-          bg={'black'}
-          colorScheme={'blackAlpha'}
-          borderRadius={'2xl'}
-        >
-          Checkout
-        </Button>
+        <Box w={'full'}>
+          <NextLink href="/client/checkout">
+            <Button
+              variant="solid"
+              w={'full'}
+              size="lg"
+              mt={5}
+              fontSize={'14px'}
+              fontWeight={'400'}
+              bg={'black'}
+              colorScheme={'blackAlpha'}
+              borderRadius={'2xl'}
+            >
+              Checkout
+            </Button>
+          </NextLink>
+        </Box>
       </Flex>
     </>
   )
 }
 
-export default Summary;
+export default Summary

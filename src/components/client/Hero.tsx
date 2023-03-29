@@ -22,7 +22,6 @@ export default function WithBackgroundImage() {
             alignContent={'center'}
        >
           <Flex
-        //   backgroundColor={'#eeeeee'}
           direction={'column'}
            justifyContent={'center'}
            alignItems={'center'}
@@ -31,14 +30,6 @@ export default function WithBackgroundImage() {
            >
             <Text fontSize={'14px'}>
                 Free delivery service
-            </Text>
-            <Text fontSize={'12px'}>
-                <p>
-                    Sale up to 40%
-                    <NextLink href={'/client/#'}>
-                        View Detail
-                    </NextLink>
-                </p>
             </Text>
         </Flex>
         </Flex>
